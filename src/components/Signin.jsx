@@ -12,7 +12,7 @@ export default class Signin extends Component {
           <button
             className="btn btn-primary btn-lg"
             id="signin-button"
-            onClick={() => handleSignIn.bind(this)}
+            onClick={handleSignIn}
             type="button"
           >
             Sign In with Blockstack
