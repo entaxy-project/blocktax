@@ -1,20 +1,15 @@
-import React, { Component, Link } from 'react';
-import Profile from './Profile.jsx';
-import Signin from './Signin.jsx';
+import React, {Component} from 'react';
 import {
   isSignInPending,
   isUserSignedIn,
   redirectToSignIn,
   handlePendingSignIn,
-  signUserOut,
+  signUserOut
 } from 'blockstack';
+import Profile from './profile.jsx';
+import Signin from './signin.jsx';
 
 export default class App extends Component {
-
-  constructor(props) {
-  	super(props);
-  }
-
   handleSignIn(e) {
     e.preventDefault();
     redirectToSignIn();
@@ -29,9 +24,9 @@ export default class App extends Component {
     return (
       <div className="site-wrapper">
         <div className="site-wrapper-inner">
-          { !isUserSignedIn() ?
-            <Signin handleSignIn={ this.handleSignIn } />
-            : <Profile handleSignOut={ this.handleSignOut } />
+          { isUserSignedIn() ?
+            <Profile handleSignOut={this.handleSignOut}/> :
+            <Signin handleSignIn={this.handleSignIn}/>
           }
         </div>
       </div>
@@ -40,7 +35,7 @@ export default class App extends Component {
 
   componentWillMount() {
     if (isSignInPending()) {
-      handlePendingSignIn().then((userData) => {
+      handlePendingSignIn().then(_ => {
         window.location = window.location.origin;
       });
     }

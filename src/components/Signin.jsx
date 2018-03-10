@@ -1,13 +1,9 @@
-import React, { Component } from 'react';
-import { isUserSignedIn } from 'blockstack';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 export default class Signin extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
-    const { handleSignIn } = this.props;
+    const {handleSignIn} = this.props;
 
     return (
       <div className="panel-landing" id="section-1">
@@ -16,7 +12,8 @@ export default class Signin extends Component {
           <button
             className="btn btn-primary btn-lg"
             id="signin-button"
-            onClick={ handleSignIn.bind(this) }
+            onClick={() => handleSignIn.bind(this)}
+            type="button"
           >
             Sign In with Blockstack
           </button>
@@ -25,3 +22,11 @@ export default class Signin extends Component {
     );
   }
 }
+
+Signin.propTypes = {
+  handleSignIn: PropTypes.func
+};
+
+Signin.defaultProps = {
+  handleSignIn: () => {}
+};
