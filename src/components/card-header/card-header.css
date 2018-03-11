@@ -1,0 +1,17 @@
+.CardHeader {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-offwhite);
+  border-bottom: 1px solid rgba(161, 161, 161, 0.25);
+  padding: 40px 50px;
+}
+
+.CardHeader__title {
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1;
+  margin: 0;
+}

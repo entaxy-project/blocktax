@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {toJS} from 'mobx';
 import {inject} from 'mobx-react';
-import Card from './card';
+import Card from 'components/card';
+import CardHeader from 'components/card-header';
+import Button from 'components/button';
 
 const amount = a => `${a.amount} ${a.currency}`;
 
@@ -12,6 +14,10 @@ const injector = stores => ({
 
 const TransactionList = ({events}) => (
   <Card>
+    <CardHeader
+      title="Transaction History"
+      controls={<Button onClick={() => {}} small disabled>Add Transaction</Button>}
+    />
     <table>
       <thead>
         <tr>
