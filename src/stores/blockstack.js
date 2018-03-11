@@ -9,7 +9,9 @@ export default class BlockstackStore {
 
   profile = null
 
-  constructor() {
+  constructor(router) {
+    this.router = router;
+
     if (isUserSignedIn()) {
       this.fetchUserData();
     }
@@ -17,12 +19,12 @@ export default class BlockstackStore {
 
   @computed
   get name() {
-    return this.profile.name() || 'Nameless Person';
+    return (this.profile && this.profile.name()) || 'Nameless Person';
   }
 
   @computed
   get avatar() {
-    return this.profile.avatarUrl() || avatarFallbackImage;
+    return (this.profile && this.profile.avatarUrl()) || avatarFallbackImage;
   }
 
   async signIn() {
@@ -31,8 +33,9 @@ export default class BlockstackStore {
     this.fetchUserData();
   }
 
-  signOut() {
-    signUserOut(`${process.env.BASE_URL}/`);
+  signOut = () => {
+    this.router.push('/');
+    signUserOut();
     extendObservable(this, {
       user: {}
     });

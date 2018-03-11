@@ -48,10 +48,7 @@ const Dashboard = ({history, signedInToCoinbase, signOutOfCoinbase, signOutOfBlo
       <button
         className="btn btn-primary btn-lg"
         id="signout-button"
-        onClick={() => {
-          signOutOfBlockstack();
-          history.push('/'); // @TODO Move this line to Blockstack store
-        }}
+        onClick={signOutOfBlockstack}
         type="button"
       >
         Logout
