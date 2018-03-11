@@ -31,6 +31,7 @@ module.exports = {
       'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
     }
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {test: /\.json$/, use: 'json-loader'},

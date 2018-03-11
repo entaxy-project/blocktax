@@ -41,7 +41,8 @@
     "bootstrap": "^3.3.7",
     "prop-types": "^15.6.1",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "react-router-dom": "^4.2.2"
   },
   "xo": {
     "extends": "xo-react",
@@ -51,7 +52,9 @@
       "import/no-unassigned-import": [
         "error",
         {
-          "allow": ["**/*.css"]
+          "allow": [
+            "**/*.css"
+          ]
         }
       ]
     }
