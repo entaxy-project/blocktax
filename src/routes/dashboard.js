@@ -2,28 +2,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {toJS} from 'mobx';
 import {inject} from 'mobx-react';
-import {signUserOut} from 'blockstack';
 import TransactionList from '../components/transaction-list';
 import TaxEventList from '../components/tax-event-list';
-import withPerson from '../utils/with-person';
-
-const avatarFallbackImage = 'https://s3.amazonaws.com/onename/avatar-placeholder.png';
 
 const injector = stores => ({
+  name: stores.blockstack.name,
+  avatar: stores.blockstack.avatar,
   events: toJS(stores.coinbase.taxEvents),
   fetchCoinbaseTransactions: stores.coinbase.fetchTransactions,
   signedInToCoinbase: stores.coinbase.signedIn,
   signOutOfCoinbase: stores.coinbase.signOut,
+  signOutOfBlockstack: stores.blockstack.signOut,
   signInWithCoinbase: stores.coinbase.signIn,
   transactions: toJS(stores.coinbase.transactions)
 });
 
-const Dashboard = ({person, history, signedInToCoinbase, signOutOfCoinbase, signInWithCoinbase, fetchCoinbaseTransactions, transactions, events}) => (
+const Dashboard = ({name, avatar, history, signedInToCoinbase, signOutOfCoinbase, signOutOfBlockstack, signInWithCoinbase, fetchCoinbaseTransactions, transactions, events}) => (
   <div className="panel-welcome" id="section-2">
     <div className="avatar-section">
-      <img src={person.avatarUrl() ? person.avatarUrl() : avatarFallbackImage} className="img-rounded avatar" id="avatar-image"/>
+      <img src={avatar} className="img-rounded avatar" id="avatar-image"/>
     </div>
-    <h1>Hello, <span id="heading-name">{ person.name() ? person.name() : 'Nameless Person' }</span>!</h1>
+    <h1>Hello, <span id="heading-name">{name}</span>!</h1>
     {signedInToCoinbase && (
       <button
         className="btn btn-primary btn-lg"
@@ -58,8 +57,8 @@ const Dashboard = ({person, history, signedInToCoinbase, signOutOfCoinbase, sign
       className="btn btn-primary btn-lg"
       id="signout-button"
       onClick={() => {
-        signUserOut();
-        history.push('/');
+        signOutOfBlockstack();
+        history.push('/'); // @TODO Move this line to Blockstack store
       }}
       type="button"
     >
@@ -79,14 +78,16 @@ const Dashboard = ({person, history, signedInToCoinbase, signOutOfCoinbase, sign
 );
 
 Dashboard.propTypes = {
+  avatar: PropTypes.string.isRequired,
   events: PropTypes.arrayOf(PropTypes.object).isRequired,
   fetchCoinbaseTransactions: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  person: PropTypes.object.isRequired,
+  name: PropTypes.string.isRequired,
   signedInToCoinbase: PropTypes.bool.isRequired,
   signOutOfCoinbase: PropTypes.func.isRequired,
+  signOutOfBlockstack: PropTypes.func.isRequired,
   signInWithCoinbase: PropTypes.func.isRequired,
   transactions: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
-export default withPerson(inject(injector)(Dashboard));
+export default inject(injector)(Dashboard);

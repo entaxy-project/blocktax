@@ -8,6 +8,7 @@ import AsyncProvider from './components/async-provider';
 import Landing from './routes/landing';
 import Dashboard from './routes/dashboard';
 import Auth from './routes/auth';
+import BlockstackStore from './stores/blockstack';
 import CoinbaseStore from './stores/coinbase';
 import './styles/style.css';
 
@@ -20,6 +21,7 @@ const signedInOnly = Screen => props => (
 );
 
 const stores = {
+  blockstack: new BlockstackStore(),
   coinbase: new CoinbaseStore()
 };
 
