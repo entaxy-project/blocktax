@@ -47,6 +47,7 @@
     "babel-polyfill": "^6.26.0",
     "blockstack": "^0.15.0",
     "classnames": "^2.2.5",
+    "date-fns": "^1.29.0",
     "history": "^4.7.2",
     "mobx": "^3.6.1",
     "mobx-persist": "^0.4.1",

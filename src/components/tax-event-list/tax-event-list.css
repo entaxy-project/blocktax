@@ -1,0 +1,97 @@
+.TaxEventList {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.TaxEventList__header {
+  height: 48px;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: right;
+  background: #fcfcfc;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.TaxEventList__header-cell {}
+
+  .TaxEventList__header-cell:first-child {
+    text-align: left;
+    padding-left: 70px;
+  }
+
+  .TaxEventList__header-cell:last-child {
+    text-align: right;
+    padding-right: 50px;
+  }
+
+.TaxEventList__row {
+  height: 96px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+  .TaxEventList__row:nth-child(odd) {
+    background: #fcfcfc;
+  }
+
+.TaxEventList__cell {
+  font-weight: bold;
+  font-size: 18px;
+  text-align: right;
+}
+
+  .TaxEventList__cell:first-child {
+    text-align: left;
+    padding-left: 70px;
+  }
+
+  .TaxEventList__cell:last-child {
+    padding-right: 50px;
+    text-align: right;
+  }
+
+.TaxEventList__date {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.TaxEventList__time {
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.TaxEventList__sub {
+  font-weight: normal;
+  font-size: 14px;
+  margin-top: 9px;
+}
+
+.TaxEventList__gain {
+  color: var(--color-green);
+}
+
+.TaxEventList__loss {
+  color: var(--color-red);
+}
+
+.TaxEventList__badge {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  background: #ededed;
+  text-align: center;
+  line-height: 18px;
+  font-weight: bold;
+  font-size: 12px;
+  border-radius: 50%;
+  position: relative;
+  top: -2px;
+  margin-left: 6px;
+}
+
+  .TaxEventList__badge--gain {
+    color: var(--color-green);
+  }
+
+  .TaxEventList__badge--loss {
+    color: var(--color-red);
+  }

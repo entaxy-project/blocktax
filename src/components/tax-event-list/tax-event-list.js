@@ -1,12 +1,30 @@
+/* eslint-disable camelcase */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import {toJS} from 'mobx';
 import {inject} from 'mobx-react';
+import format from 'date-fns/format';
+import cls from 'classnames';
 import Card from 'components/card';
 import CardHeader from 'components/card-header';
 import Button from 'components/button';
+import getLocale from 'utils/get-locale';
 
-const amount = a => `${a.amount} ${a.currency}`;
+import './tax-event-list.css';
+
+const locale = getLocale();
+const currencies = ['BTC', 'BCC', 'ETH', 'LTC'];
+const amount = a => {
+  if (currencies.includes(a.currency)) {
+    return `${a.amount.toFixed(4)} ${a.currency}`;
+  }
+
+  return a.amount.toLocaleString(locale, {
+    style: 'currency',
+    currency: a.currency
+  });
+};
 
 const injector = stores => ({
   events: toJS(stores.coinbase.taxEvents)
@@ -18,30 +36,64 @@ const TransactionList = ({events}) => (
       title="Transaction History"
       controls={<Button onClick={() => {}} small disabled>Add Transaction</Button>}
     />
-    <table>
+    <table className="TaxEventList">
       <thead>
-        <tr>
-          <th>Date</th>
-          <th>Amount</th>
-          <th>Proceeds</th>
-          <th>Cost</th>
-          <th>Gain/Loss</th>
+        <tr className="TaxEventList__header">
+          <th className="TaxEventList__header-cell">Date</th>
+          <th className="TaxEventList__header-cell">Amount</th>
+          <th className="TaxEventList__header-cell">Proceeds</th>
+          <th className="TaxEventList__header-cell">Cost</th>
+          <th className="TaxEventList__header-cell">Gain/Loss</th>
         </tr>
       </thead>
       <tbody>
         {events.map(e => (
-          <tr key={e.id}>
-            <td>{e.date}</td>
-            <td>{amount(e.amount)}</td>
-            <td>
+          <tr key={e.id} className="TaxEventList__row">
+            <td className="TaxEventList__cell">
+              <div className="TaxEventList__date">{format(e.date, 'MM/DD/YY')}</div>
+              <div className="TaxEventList__time">{format(e.date, 'h:mma')}</div>
+            </td>
+            <td className="TaxEventList__cell">
+              {amount(e.amount)}
+            </td>
+            <td className="TaxEventList__cell">
               {amount(e.proceeds.amount)}
-              <small>{e.proceeds.pricePer.amount} {e.proceeds.amount.currency} / {e.proceeds.pricePer.currency}</small>
+              <div className="TaxEventList__sub">
+                {amount({
+                  amount: e.proceeds.pricePer.amount,
+                  currency: e.proceeds.amount.currency
+                })}/{e.proceeds.pricePer.currency}
+              </div>
             </td>
-            <td>
+            <td className="TaxEventList__cell">
               {amount(e.cost.amount)}
-              <small>{e.cost.pricePer.amount} {e.cost.amount.currency} / {e.cost.pricePer.currency}</small>
+              <div className="TaxEventList__sub">
+                {amount({
+                  amount: e.cost.pricePer.amount,
+                  currency: e.cost.amount.currency
+                })}/{e.cost.pricePer.currency}
+              </div>
             </td>
-            <td>{amount(e.gain)}</td>
+            <td className="TaxEventList__cell">
+              <span
+                className={cls({
+                  TaxEventList__gain: e.gain.amount > 0,
+                  TaxEventList__loss: e.gain.amount < 0
+                })}
+              >
+                {e.gain < 0 && '('}
+                {amount(e.gain)}
+                {e.gain < 0 && ')'}
+              </span>
+              <span
+                className={cls('TaxEventList__badge', {
+                  'TaxEventList__badge--gain': e.gain.amount > 0,
+                  'TaxEventList__badge--loss': e.gain.amount < 0
+                })}
+              >
+                S
+              </span>
+            </td>
           </tr>
         ))}
       </tbody>
