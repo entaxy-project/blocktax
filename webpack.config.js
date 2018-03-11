@@ -20,12 +20,13 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 });
 
 const DefinePlugin = new webpack.DefinePlugin({
+  'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
   'process.env.COINBASE_API_ID': JSON.stringify(process.env.COINBASE_API_ID),
   'process.env.COINBASE_API_SECRET': JSON.stringify(process.env.COINBASE_API_SECRET)
 });
 
 module.exports = {
-  entry: './src/index.js',
+  entry: ['babel-polyfill', './src/index.js'],
   target: 'web',
   output: {
     path: path.resolve('public/build'),

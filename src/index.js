@@ -4,24 +4,32 @@ import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 import {isUserSignedIn} from 'blockstack';
 import 'bootstrap/dist/css/bootstrap.css';
 import Container from './components/container';
+import AsyncProvider from './components/async-provider';
 import Landing from './routes/landing';
 import Dashboard from './routes/dashboard';
+import Auth from './routes/auth';
+import Store from './stores';
 import './styles/style.css';
 
-const signedOutOnly = () => (
-  isUserSignedIn() ? <Redirect to="/dashboard"/> : <Landing/>
+const signedOutOnly = props => (
+  isUserSignedIn() ? <Redirect to="/dashboard"/> : <Landing {...props}/>
 );
 
-const signedInOnly = Screen => () => (
-  isUserSignedIn() ? <Screen/> : <Redirect to="/"/>
+const signedInOnly = Screen => props => (
+  isUserSignedIn() ? <Screen {...props}/> : <Redirect to="/"/>
 );
+
+const store = new Store();
 
 const App = () => (
   <BrowserRouter>
-    <Container>
-      <Route exact path="/" render={signedOutOnly}/>
-      <Route exact path="/dashboard" render={signedInOnly(Dashboard)}/>
-    </Container>
+    <AsyncProvider store={store}>
+      <Container>
+        <Route exact path="/" render={signedOutOnly}/>
+        <Route exact path="/dashboard" render={signedInOnly(Dashboard)}/>
+        <Route exact path="/auth" render={signedInOnly(Auth)}/>
+      </Container>
+    </AsyncProvider>
   </BrowserRouter>
 );
 
