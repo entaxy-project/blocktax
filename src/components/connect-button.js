@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './connect-button.css';
 
 const ConnectButton = ({title, image, onClick}) => (
   <button className="ConnectButton" type="button" onClick={onClick}>
     <div className="ConnectButton__image">
       <img src={image} alt=""/>
     </div>
-    <span className="ConnectButton__title">
+    <div className="ConnectButton__title">
       {title}
-    </span>
+    </div>
   </button>
 );
 

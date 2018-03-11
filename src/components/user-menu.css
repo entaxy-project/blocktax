@@ -16,6 +16,7 @@
   font-weight: bold;
   font-size: 16px;
   color: var(--color-white);
+  margin-right: 14px;
 }
 
 .UserMenu__caret {

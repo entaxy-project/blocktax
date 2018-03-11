@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
 import ConnectButton from './connect-button';
+import './connect-exchange.css';
 
 const injector = stores => ({
   signIn: stores.coinbase.signIn

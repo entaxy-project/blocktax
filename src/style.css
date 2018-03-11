@@ -2,8 +2,10 @@
   --color-white: #fff;
   --color-black: #000;
   --color-offblack: #2B2B2B;
+  --color-gray: #F7F7F7;
   --color-blue: #1B9CC4;
   --color-cyan: #1FC2B8;
+  --color-seablue: #1CA7C1;
   --font-roboto: 'Roboto', 'Helvetica Neue', 'Helvetica', sans-serif;
   --font-garden-grove: 'SW Garden Grove', 'Roboto', 'Helvetica Neue', 'Helvetica', sans-serif;
   --page-width: 1120px;

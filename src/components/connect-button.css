@@ -1,0 +1,34 @@
+.ConnectButton {
+  -webkit-appearance: none;
+  outline: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  width: 216px;
+  background: var(--color-gray);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.ConnectButton:not(:last-child) {
+  margin-right: 25px;
+}
+
+.ConnectButton__image {
+  height: 166px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.ConnectButton__title {
+  height: 40px;
+  line-height: 40px;
+  background: var(--color-seablue);
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  color: var(--color-white);
+}

@@ -1,0 +1,20 @@
+.ConnectExchange {
+  text-align: center;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.ConnectExchange__title {
+  font-weight: 600;
+  font-size: 32px;
+  color: var(--color-offblack);
+  margin-top: 0;
+  margin-bottom: 22px;
+}
+
+.ConnectExchange__body {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+  margin-bottom: 58px;
+}

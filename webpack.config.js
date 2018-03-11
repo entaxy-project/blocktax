@@ -49,7 +49,7 @@ module.exports = {
       {test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/},
       {
         test: /\.(eot|woff|woff2|ttf|svg|png|jpe?g|gif)(\?\S*)?$/,
-        loader: 'file-loader!url-loader'
+        loader: 'file-loader'
       },
       {test: /\.css$/, loader: 'style-loader!css-loader'}
     ]
