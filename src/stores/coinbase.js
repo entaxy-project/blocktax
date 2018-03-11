@@ -5,7 +5,7 @@ import {persist} from 'mobx-persist';
 import uuid from 'uuid/v4';
 import queryString from 'query-string';
 import flatten from 'arr-flatten';
-import createTransactionHistory from '../utils/create-transaction-history';
+import createTaxEvents from '../utils/create-tax-events';
 
 const redirectUri = `${process.env.BASE_URL}/auth`;
 
@@ -38,7 +38,7 @@ export default class CoinbaseStore {
 
   @computed
   get taxEvents() {
-    return createTransactionHistory(toJS(this.transactions));
+    return createTaxEvents(toJS(this.transactions));
   }
 
   @computed
