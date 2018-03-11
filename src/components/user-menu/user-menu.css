@@ -68,3 +68,7 @@
   .UserMenu__item:hover {
     color: var(--color-seablue);
   }
+
+  .UserMenu__item:not(:last-child) {
+    margin-bottom: 16px;
+  }

@@ -5,11 +5,13 @@ import './user-menu.css';
 
 const injector = stores => ({
   avatar: stores.blockstack.avatar,
+  coinbaseConnected: stores.coinbase.signedIn,
   name: stores.blockstack.name,
-  signOut: stores.blockstack.signOut
+  signOutOfBlockstack: stores.blockstack.signOut,
+  signOutOfCoinbase: stores.coinbase.signOut
 });
 
-const UserMenu = ({avatar, name, signOut}) => (
+const UserMenu = ({avatar, coinbaseConnected, name, signOutOfBlockstack, signOutOfCoinbase}) => (
   <div className="UserMenu">
     <div className="UserMenu__hover">
       <img className="UserMenu__avatar" src={avatar} alt=""/>
@@ -17,15 +19,20 @@ const UserMenu = ({avatar, name, signOut}) => (
       <img className="UserMenu__caret" src={require('images/caret-down.svg')} alt=""/>
     </div>
     <div className="UserMenu__dropdown">
-      <button className="UserMenu__item" type="button" onClick={signOut}>Log Out</button>
+      {coinbaseConnected && (
+        <button className="UserMenu__item" type="button" onClick={signOutOfCoinbase}>Disconnect Coinbase</button>
+      )}
+      <button className="UserMenu__item" type="button" onClick={signOutOfBlockstack}>Log Out</button>
     </div>
   </div>
 );
 
 UserMenu.propTypes = {
   avatar: PropTypes.string.isRequired,
+  coinbaseConnected: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
-  signOut: PropTypes.func.isRequired
+  signOutOfBlockstack: PropTypes.func.isRequired,
+  signOutOfCoinbase: PropTypes.func.isRequired
 };
 
 export default inject(injector)(UserMenu);

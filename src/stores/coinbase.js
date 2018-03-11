@@ -64,19 +64,14 @@ export default class CoinbaseStore {
   @action.bound
   async signOut() {
     const params = {
-      token: this.accessToken
+      token: this.accessToken,
+      access_token: this.accessToken
     };
-    const response = await fetch('https://api.coinbase.com/oauth/revoke', {
-      method: 'POST',
-      body: new URLSearchParams(queryString.stringify(params)),
-      headers: {
-        Authorization: `Bearer ${this.accessToken}`
-      }
+    await fetch('https://api.coinbase.com/oauth/revoke', {
+      method: 'post',
+      mode: 'no-cors',
+      body: new URLSearchParams(queryString.stringify(params))
     });
-
-    if (!response.ok) {
-      throw new Error('There was an error trying to revoke Coinbase access.');
-    }
 
     this.resetState();
 
