@@ -29,7 +29,8 @@ const exampleEvent = {
   gain: {
     amount: 8000,
     currency: 'USD'
-  }
+  },
+  shortTerm: true
 };
 
 /**
@@ -38,7 +39,7 @@ const exampleEvent = {
  * @param {Object[]} transactions - Transaction list.
  * @returns {TaxEvent[]} List of tax events.
  */
-export default () => {
+export default transactions => {
   return new Array(10).fill(null).map(() => Object.assign({id: uuid()}, exampleEvent));
 };
 
@@ -54,6 +55,7 @@ export default () => {
  * @prop {Amount} cost.amount - Crypto cost basis of sale.
  * @prop {Amount} cost.pricePer - Fiat value per coin at time of purchase.
  * @prop {Amount} gain - Fiat gain/loss from sale.
+ * @prop {Boolean} shortTerm - Short- or long-term gain.
  */
 
 /**
