@@ -1,0 +1,42 @@
+.Header {
+  background: linear-gradient(to bottom, var(--color-blue), var(--color-cyan));
+  padding-bottom: 284px;
+}
+
+.Header__top-bar {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 45px;
+  margin-bottom: 98px;
+}
+
+.Header__logo,
+.Header__user {
+  font-family: var(--font-garden-grove);
+  font-weight: bold;
+  color: var(--color-white);
+  font-size: 24px;
+  margin: 0;
+}
+
+.Header__user {
+  font-size: 16px;
+}
+
+.Header__title {
+  font-family: var(--font-garden-grove);
+  font-weight: 600;
+  color: var(--color-white);
+  font-size: 48px;
+  line-height: 1.4;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.Header__body {
+  color: var(--color-white);
+  font-size: 32px;
+  line-height: 1.4;
+}

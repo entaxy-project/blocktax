@@ -1,28 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {isSignInPending, handlePendingSignIn} from 'blockstack';
+import './container.css';
 
-export default class Container extends Component {
-  render() {
-    const {children} = this.props;
-
-    return (
-      <div className="site-wrapper">
-        <div className="site-wrapper-inner">
-          {children}
-        </div>
-      </div>
-    );
-  }
-
-  componentWillMount() {
-    if (isSignInPending()) {
-      handlePendingSignIn().then(_ => {
-        window.location = window.location.origin;
-      });
-    }
-  }
-}
+const Container = ({children}) => (
+  <div className="Container">
+    {children}
+  </div>
+);
 
 Container.propTypes = {
   children: PropTypes.node
@@ -31,3 +15,5 @@ Container.propTypes = {
 Container.defaultProps = {
   children: null
 };
+
+export default Container;

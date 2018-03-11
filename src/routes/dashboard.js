@@ -4,6 +4,9 @@ import {toJS} from 'mobx';
 import {inject} from 'mobx-react';
 import TransactionList from '../components/transaction-list';
 import TaxEventList from '../components/tax-event-list';
+import Header from '../components/header';
+import Body from '../components/body';
+import Card from '../components/card';
 
 const injector = stores => ({
   name: stores.blockstack.name,
@@ -19,61 +22,66 @@ const injector = stores => ({
 
 const Dashboard = ({name, avatar, history, signedInToCoinbase, signOutOfCoinbase, signOutOfBlockstack, signInWithCoinbase, fetchCoinbaseTransactions, transactions, events}) => (
   <div className="panel-welcome" id="section-2">
-    <div className="avatar-section">
-      <img src={avatar} className="img-rounded avatar" id="avatar-image"/>
-    </div>
-    <h1>Hello, <span id="heading-name">{name}</span>!</h1>
-    {signedInToCoinbase && (
-      <button
-        className="btn btn-primary btn-lg"
-        id="signout-button"
-        onClick={fetchCoinbaseTransactions}
-        type="button"
-      >
-        Get Coinbase Transactions
-      </button>
-    )}
-    {/* {signedInToCoinbase && (
-      <button
-        className="btn btn-primary btn-lg"
-        id="signout-button"
-        onClick={signOutOfCoinbase}
-        type="button"
-      >
-        Sign Out of Coinbase
-      </button>
-    )} */}
-    {!signedInToCoinbase && (
-      <button
-        className="btn btn-primary btn-lg"
-        id="signout-button"
-        onClick={signInWithCoinbase}
-        type="button"
-      >
-        Sign In with Coinbase
-      </button>
-    )}
-    <button
-      className="btn btn-primary btn-lg"
-      id="signout-button"
-      onClick={() => {
-        signOutOfBlockstack();
-        history.push('/'); // @TODO Move this line to Blockstack store
-      }}
-      type="button"
-    >
-      Logout
-    </button>
-    {transactions.length > 0 && (
-      <div>
-        <div>
-          <TransactionList transactions={transactions}/>
+    <Header/>
+    <Body>
+      <Card>
+        <div className="avatar-section">
+          <img src={avatar} className="img-rounded avatar" id="avatar-image"/>
         </div>
-        <div>
-          <TaxEventList events={events}/>
-        </div>
-      </div>
-    )}
+        <h1>Hello, <span id="heading-name">{name}</span>!</h1>
+        {signedInToCoinbase && (
+          <button
+            className="btn btn-primary btn-lg"
+            id="signout-button"
+            onClick={fetchCoinbaseTransactions}
+            type="button"
+          >
+            Get Coinbase Transactions
+          </button>
+        )}
+        {/* {signedInToCoinbase && (
+          <button
+            className="btn btn-primary btn-lg"
+            id="signout-button"
+            onClick={signOutOfCoinbase}
+            type="button"
+          >
+            Sign Out of Coinbase
+          </button>
+        )} */}
+        {!signedInToCoinbase && (
+          <button
+            className="btn btn-primary btn-lg"
+            id="signout-button"
+            onClick={signInWithCoinbase}
+            type="button"
+          >
+            Sign In with Coinbase
+          </button>
+        )}
+        <button
+          className="btn btn-primary btn-lg"
+          id="signout-button"
+          onClick={() => {
+            signOutOfBlockstack();
+            history.push('/'); // @TODO Move this line to Blockstack store
+          }}
+          type="button"
+        >
+          Logout
+        </button>
+        {transactions.length > 0 && (
+          <div>
+            <div>
+              <TransactionList transactions={transactions}/>
+            </div>
+            <div>
+              <TaxEventList events={events}/>
+            </div>
+          </div>
+        )}
+      </Card>
+    </Body>
   </div>
 );
 

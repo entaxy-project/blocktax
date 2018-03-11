@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 import {isUserSignedIn} from 'blockstack';
-import Container from './components/container';
+import AuthHandler from './components/auth-handler';
 import AsyncProvider from './components/async-provider';
 import Landing from './routes/landing';
 import Dashboard from './routes/dashboard';
@@ -27,11 +27,13 @@ const stores = {
 const App = () => (
   <BrowserRouter>
     <AsyncProvider stores={stores}>
-      <Container>
-        <Route exact path="/" render={signedOutOnly}/>
-        <Route exact path="/dashboard" render={signedInOnly(Dashboard)}/>
-        <Route exact path="/auth" render={signedInOnly(Auth)}/>
-      </Container>
+      <AuthHandler>
+        <div>
+          <Route exact path="/" render={signedOutOnly}/>
+          <Route exact path="/dashboard" render={signedInOnly(Dashboard)}/>
+          <Route exact path="/auth" render={signedInOnly(Auth)}/>
+        </div>
+      </AuthHandler>
     </AsyncProvider>
   </BrowserRouter>
 );
