@@ -39,7 +39,7 @@ const exampleEvent = {
  * @returns {TaxEvent[]} List of tax events.
  */
 export default () => {
-  return new Array(10).fill(Object.assign({id: uuid()}, exampleEvent));
+  return new Array(10).fill(null).map(() => Object.assign({id: uuid()}, exampleEvent));
 };
 
 /**

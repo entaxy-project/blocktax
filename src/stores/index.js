@@ -52,10 +52,42 @@ export default class CoinbaseStore {
       client_id: process.env.COINBASE_API_ID,
       redirect_uri: redirectUri,
       state: this.oauthState,
-      scope: ['wallet:accounts:read', 'wallet:transactions:read'].join(',')
+      scope: ['wallet:accounts:read', 'wallet:transactions:read'].join(','),
+      account: 'all'
     };
 
     window.location = `https://www.coinbase.com/oauth/authorize?${queryString.stringify(params)}`;
+  }
+
+  @action.bound
+  async signOut() {
+    const params = {
+      token: this.accessToken
+    };
+    const response = await fetch('https://api.coinbase.com/oauth/revoke', {
+      method: 'POST',
+      body: new URLSearchParams(queryString.stringify(params)),
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('There was an error trying to revoke Coinbase access.');
+    }
+
+    this.resetState();
+
+    // @TODO Replace
+    window.location = `${process.env.BASE_URL}/`;
+  }
+
+  resetState() {
+    this.accessToken = null;
+    this.refreshToken = null;
+    this.userId = null;
+    this.accounts.clear();
+    this.transactions.clear();
   }
 
   getAuthToken = async input => {
@@ -82,6 +114,7 @@ export default class CoinbaseStore {
 
       this.accessToken = json.access_token;
       this.refreshToken = json.refresh_token;
+      this.oauthState = null;
 
       await this.fetchUserId();
       await this.fetchTransactions();

@@ -13,11 +13,12 @@ const injector = stores => ({
   events: toJS(stores.store.taxEvents),
   fetchCoinbaseTransactions: stores.store.fetchTransactions,
   signedInToCoinbase: stores.store.signedIn,
+  signOutOfCoinbase: stores.store.signOut,
   signInWithCoinbase: stores.store.signIn,
   transactions: toJS(stores.store.transactions)
 });
 
-const Dashboard = ({person, history, signedInToCoinbase, signInWithCoinbase, fetchCoinbaseTransactions, transactions, events}) => (
+const Dashboard = ({person, history, signedInToCoinbase, signOutOfCoinbase, signInWithCoinbase, fetchCoinbaseTransactions, transactions, events}) => (
   <div className="panel-welcome" id="section-2">
     <div className="avatar-section">
       <img src={person.avatarUrl() ? person.avatarUrl() : avatarFallbackImage} className="img-rounded avatar" id="avatar-image"/>
@@ -33,6 +34,16 @@ const Dashboard = ({person, history, signedInToCoinbase, signInWithCoinbase, fet
         Get Coinbase Transactions
       </button>
     )}
+    {/* {signedInToCoinbase && (
+      <button
+        className="btn btn-primary btn-lg"
+        id="signout-button"
+        onClick={signOutOfCoinbase}
+        type="button"
+      >
+        Sign Out of Coinbase
+      </button>
+    )} */}
     {!signedInToCoinbase && (
       <button
         className="btn btn-primary btn-lg"
@@ -40,7 +51,7 @@ const Dashboard = ({person, history, signedInToCoinbase, signInWithCoinbase, fet
         onClick={signInWithCoinbase}
         type="button"
       >
-        Sign in with Coinbase
+        Sign In with Coinbase
       </button>
     )}
     <button
@@ -73,6 +84,7 @@ Dashboard.propTypes = {
   history: PropTypes.object.isRequired,
   person: PropTypes.object.isRequired,
   signedInToCoinbase: PropTypes.bool.isRequired,
+  signOutOfCoinbase: PropTypes.func.isRequired,
   signInWithCoinbase: PropTypes.func.isRequired,
   transactions: PropTypes.arrayOf(PropTypes.object).isRequired
 };
