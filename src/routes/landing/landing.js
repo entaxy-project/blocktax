@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
-import Button from '../components/button';
+import Button from 'components/button';
 import './landing.css';
 
 @inject(stores => ({

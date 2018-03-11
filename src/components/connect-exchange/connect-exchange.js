@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
-import ConnectButton from './connect-button';
+import ConnectButton from 'components/connect-button';
 import './connect-exchange.css';
 
 const injector = stores => ({
@@ -15,7 +15,7 @@ const ConnectExchange = ({signIn}) => (
     <div className="ConnectExchange__buttons">
       <ConnectButton
         title="Connect"
-        image={require('../images/coinbase-logo.svg')}
+        image={require('images/coinbase-logo.svg')}
         onClick={signIn}
       />
     </div>

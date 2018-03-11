@@ -54,5 +54,8 @@ module.exports = {
       {test: /\.css$/, loader: 'style-loader!css-loader'}
     ]
   },
-  plugins: [HtmlWebpackPluginConfig, ManifestAssetPlugin, IconAssetPlugin, DefinePlugin]
+  plugins: [HtmlWebpackPluginConfig, ManifestAssetPlugin, IconAssetPlugin, DefinePlugin],
+  resolve: {
+    modules: [path.resolve(__dirname, 'src'), 'node_modules']
+  }
 };

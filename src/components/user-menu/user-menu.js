@@ -14,7 +14,7 @@ const UserMenu = ({avatar, name}) => (
   <div className="UserMenu">
     <img className="UserMenu__avatar" src={avatar} alt=""/>
     <p className="UserMenu__name">{name}</p>
-    <img className="UserMenu__caret" src={require('../images/caret-down.svg')} alt=""/>
+    <img className="UserMenu__caret" src={require('images/caret-down.svg')} alt=""/>
   </div>
 );
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Container from './container';
+import Container from 'components/container';
 import './body.css';
 
 const Body = ({children}) => (

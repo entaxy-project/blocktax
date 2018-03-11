@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
-import Container from './container';
-import UserMenu from './user-menu';
+import Container from 'components/container';
+import UserMenu from 'components/user-menu';
 import './header.css';
 
 const injector = stores => ({
