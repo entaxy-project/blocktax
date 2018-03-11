@@ -9,6 +9,7 @@ import Dashboard from './routes/dashboard';
 import Auth from './routes/auth';
 import BlockstackStore from './stores/blockstack';
 import CoinbaseStore from './stores/coinbase';
+import './style.css';
 
 const signedOutOnly = props => (
   isUserSignedIn() ? <Redirect to="/dashboard"/> : <Landing {...props}/>

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
+import Button from '../components/button';
+import './landing.css';
 
 @inject(stores => ({
   signIn: stores.blockstack.signIn
@@ -14,18 +16,15 @@ export default class Landing extends Component {
     const {signIn} = this.props;
 
     return (
-      <div className="panel-landing" id="section-1">
-        <h1 className="landing-heading">Hello, Blockstack!</h1>
-        <p className="lead">
-          <button
-            className="btn btn-primary btn-lg"
-            id="signin-button"
-            onClick={signIn}
-            type="button"
-          >
-            Sign In with Blockstack
-          </button>
-        </p>
+      <div className="Landing">
+        <div className="Landing__content">
+          <div className="Landing__text">
+            <h1 className="Landing__title">Your Crypto Taxes Simple & Private</h1>
+            <p className="Landing__body">Generate a tax report for Coinbase transactions with the push of a button, decentralized so your data stays yours.</p>
+            <Button onClick={signIn}>Log In with Blockstack</Button>
+          </div>
+        </div>
+        <div className="Landing__illustration"/>
       </div>
     );
   }
