@@ -9,6 +9,7 @@ import Dashboard from './routes/dashboard';
 import Auth from './routes/auth';
 import BlockstackStore from './stores/blockstack';
 import CoinbaseStore from './stores/coinbase';
+import UIStore from './stores/ui';
 import './style.css';
 
 const signedOutOnly = props => (
@@ -19,14 +20,13 @@ const signedInOnly = Screen => props => (
   isUserSignedIn() ? <Screen {...props}/> : <Redirect to="/"/>
 );
 
-const stores = {
-  blockstack: new BlockstackStore(),
-  coinbase: new CoinbaseStore()
-};
+const blockstack = new BlockstackStore();
+const coinbase = new CoinbaseStore();
+const ui = new UIStore(blockstack, coinbase);
 
 const App = () => (
   <BrowserRouter>
-    <AsyncProvider stores={stores}>
+    <AsyncProvider stores={{blockstack, coinbase, ui}}>
       <AuthHandler>
         <div>
           <Route exact path="/" render={signedOutOnly}/>
