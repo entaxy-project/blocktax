@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 
-import {observable, computed, action} from 'mobx';
+import {observable, computed, action, toJS} from 'mobx';
 import {persist} from 'mobx-persist';
 import uuid from 'uuid/v4';
 import queryString from 'query-string';
 import flatten from 'arr-flatten';
+import createTransactionHistory from '../utils/create-transaction-history';
 
 const redirectUri = `${process.env.BASE_URL}/auth`;
 
@@ -32,6 +33,11 @@ export default class CoinbaseStore {
   @persist('list')
   @observable
   transactions = []
+
+  @computed
+  get taxEvents() {
+    return createTransactionHistory(toJS(this.transactions));
+  }
 
   @computed
   get signedIn() {
