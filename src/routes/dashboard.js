@@ -10,12 +10,12 @@ import withPerson from '../utils/with-person';
 const avatarFallbackImage = 'https://s3.amazonaws.com/onename/avatar-placeholder.png';
 
 const injector = stores => ({
-  events: toJS(stores.store.taxEvents),
-  fetchCoinbaseTransactions: stores.store.fetchTransactions,
-  signedInToCoinbase: stores.store.signedIn,
-  signOutOfCoinbase: stores.store.signOut,
-  signInWithCoinbase: stores.store.signIn,
-  transactions: toJS(stores.store.transactions)
+  events: toJS(stores.coinbase.taxEvents),
+  fetchCoinbaseTransactions: stores.coinbase.fetchTransactions,
+  signedInToCoinbase: stores.coinbase.signedIn,
+  signOutOfCoinbase: stores.coinbase.signOut,
+  signInWithCoinbase: stores.coinbase.signIn,
+  transactions: toJS(stores.coinbase.transactions)
 });
 
 const Dashboard = ({person, history, signedInToCoinbase, signOutOfCoinbase, signInWithCoinbase, fetchCoinbaseTransactions, transactions, events}) => (

@@ -8,7 +8,7 @@ const hydrate = create();
 export default class AsyncProvider extends Component {
   static propTypes = {
     children: PropTypes.node,
-    store: PropTypes.object.isRequired
+    stores: PropTypes.object.isRequired
   }
 
   static defaultProps = {
@@ -20,7 +20,15 @@ export default class AsyncProvider extends Component {
   }
 
   async componentDidMount() {
-    await hydrate('store', this.props.store);
+    const {stores} = this.props;
+
+    await Promise.all(Object.entries(stores).map(([id, store]) => {
+      if (store.constructor.persist) {
+        return hydrate(id, store);
+      }
+
+      return Promise.resolve();
+    }));
 
     this.setState({
       ready: true
@@ -28,14 +36,14 @@ export default class AsyncProvider extends Component {
   }
 
   render() {
-    const {children, store} = this.props;
+    const {children, stores} = this.props;
 
     if (!this.state.ready) {
       return null;
     }
 
     return (
-      <Provider store={store}>
+      <Provider {...stores}>
         {children}
       </Provider>
     );

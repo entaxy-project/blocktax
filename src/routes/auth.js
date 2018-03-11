@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
 
 @inject(stores => ({
-  getCoinbaseAuthToken: stores.store.getAuthToken,
-  signedInToCoinbase: stores.store.signedIn
+  getCoinbaseAuthToken: stores.coinbase.getAuthToken,
+  signedInToCoinbase: stores.coinbase.signedIn
 }))
 export default class Auth extends Component {
   static propTypes = {

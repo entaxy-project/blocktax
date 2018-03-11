@@ -8,7 +8,7 @@ import AsyncProvider from './components/async-provider';
 import Landing from './routes/landing';
 import Dashboard from './routes/dashboard';
 import Auth from './routes/auth';
-import Store from './stores';
+import CoinbaseStore from './stores/coinbase';
 import './styles/style.css';
 
 const signedOutOnly = props => (
@@ -19,11 +19,13 @@ const signedInOnly = Screen => props => (
   isUserSignedIn() ? <Screen {...props}/> : <Redirect to="/"/>
 );
 
-const store = new Store();
+const stores = {
+  coinbase: new CoinbaseStore()
+};
 
 const App = () => (
   <BrowserRouter>
-    <AsyncProvider store={store}>
+    <AsyncProvider stores={stores}>
       <Container>
         <Route exact path="/" render={signedOutOnly}/>
         <Route exact path="/dashboard" render={signedInOnly(Dashboard)}/>
