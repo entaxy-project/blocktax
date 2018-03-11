@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Redirect} from 'react-router-dom';
 import {isUserSignedIn} from 'blockstack';
-import 'bootstrap/dist/css/bootstrap.css';
 import Container from './components/container';
 import AsyncProvider from './components/async-provider';
 import Landing from './routes/landing';
@@ -10,7 +9,6 @@ import Dashboard from './routes/dashboard';
 import Auth from './routes/auth';
 import BlockstackStore from './stores/blockstack';
 import CoinbaseStore from './stores/coinbase';
-import './styles/style.css';
 
 const signedOutOnly = props => (
   isUserSignedIn() ? <Redirect to="/dashboard"/> : <Landing {...props}/>
