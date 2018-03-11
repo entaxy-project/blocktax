@@ -1,8 +1,13 @@
 .UserMenu {
-  cursor: pointer;
+  position: relative;
+}
+
+.UserMenu__hover {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 .UserMenu__avatar {
@@ -17,9 +22,49 @@
   font-size: 16px;
   color: var(--color-white);
   margin-right: 14px;
+  cursor: default;
 }
+
+  .UserMenu:hover .UserMenu__name {
+    color: var(--color-black);
+  }
 
 .UserMenu__caret {
   width: 24px;
   height: 11px;
 }
+
+  .UserMenu:hover .UserMenu__caret {
+    filter: invert(100%);
+  }
+
+.UserMenu__dropdown {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  background: var(--color-white);
+  padding: 70px 20px 20px;
+  pointer-events: none;
+  display: none;
+  box-shadow: 0 0 30px rgba(0, 0, 0.25);
+}
+
+  .UserMenu:hover .UserMenu__dropdown {
+    display: block;
+    pointer-events: auto;
+  }
+
+.UserMenu__item {
+  -webkit-appearance: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+  .UserMenu__item:hover {
+    color: var(--color-seablue);
+  }
