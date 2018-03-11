@@ -1,4 +1,8 @@
 const path = require('path');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // Copy manifest.json to the path: 'public/build'
 // this will allow for the authRequest to see the file at www.example.com/manifest.json
@@ -13,6 +17,11 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
   template: './src/index.html',
   filename: 'index.html',
   inject: 'body'
+});
+
+const DefinePlugin = new webpack.DefinePlugin({
+  'process.env.COINBASE_API_ID': JSON.stringify(process.env.COINBASE_API_ID),
+  'process.env.COINBASE_API_SECRET': JSON.stringify(process.env.COINBASE_API_SECRET)
 });
 
 module.exports = {
@@ -44,5 +53,5 @@ module.exports = {
       {test: /\.css$/, loader: 'style-loader!css-loader'}
     ]
   },
-  plugins: [HtmlWebpackPluginConfig, ManifestAssetPlugin, IconAssetPlugin]
+  plugins: [HtmlWebpackPluginConfig, ManifestAssetPlugin, IconAssetPlugin, DefinePlugin]
 };
