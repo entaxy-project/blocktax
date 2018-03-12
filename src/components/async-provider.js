@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Provider} from 'mobx-react';
 import {create} from 'mobx-persist';
+import {isSignInPending, handlePendingSignIn, isUserSignedIn} from 'blockstack';
 
 const hydrate = create();
 
@@ -15,32 +16,31 @@ export default class AsyncProvider extends Component {
     children: null
   }
 
-  state = {
-    ready: false
+  async componentDidMount() {
+    if (isSignInPending()) {
+      await handlePendingSignIn();
+      this.hydrate();
+    }
+
+    if (isUserSignedIn()) {
+      this.hydrate();
+    }
   }
 
-  async componentDidMount() {
+  hydrate() {
     const {stores} = this.props;
 
-    await Promise.all(Object.entries(stores).map(([id, store]) => {
+    Promise.all(Object.entries(stores).map(([id, store]) => {
       if (store.constructor.persist) {
         return hydrate(id, store);
       }
 
-      return Promise.resolve();
+      return null;
     }));
-
-    this.setState({
-      ready: true
-    });
   }
 
   render() {
     const {children, stores} = this.props;
-
-    if (!this.state.ready) {
-      return null;
-    }
 
     return (
       <Provider {...stores}>
