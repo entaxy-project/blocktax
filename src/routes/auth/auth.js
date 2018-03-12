@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
+import './auth.css';
 
 @inject(stores => ({
   coinbaseAuthState: stores.coinbase.oauthState,
@@ -32,7 +33,9 @@ export default class Auth extends Component {
 
   render() {
     return (
-      <div>Authenticating...</div>
+      <div className="Auth">
+        <h1 className="Auth__title">Authenticating...</h1>
+      </div>
     );
   }
 }
