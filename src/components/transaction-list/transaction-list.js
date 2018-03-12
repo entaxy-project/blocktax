@@ -9,6 +9,7 @@ import parseDate from 'date-fns/parse';
 import cls from 'classnames';
 import Card from 'components/card';
 import CardHeader from 'components/card-header';
+import Button from 'components/button';
 import getLocale from 'utils/get-locale';
 import './transaction-list.css';
 
@@ -32,12 +33,16 @@ const pricePer = (crypto, fiat) => {
 };
 
 const injector = stores => ({
+  fetchTransactions: stores.coinbase.fetchTransactions,
   transactions: toJS(stores.coinbase.buyAndSellTransactions)
 });
 
-const TransactionList = ({transactions}) => (
+const TransactionList = ({fetchTransactions, transactions}) => (
   <Card>
-    <CardHeader title="Transaction History"/>
+    <CardHeader
+      title="Transaction History"
+      controls={<Button small onClick={fetchTransactions}>Refresh</Button>}
+    />
     <table className="TransactionList">
       <thead>
         <tr className="TransactionList__header">
@@ -78,6 +83,7 @@ const TransactionList = ({transactions}) => (
 );
 
 TransactionList.propTypes = {
+  fetchTransactions: PropTypes.func.isRequired,
   transactions: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 

@@ -4,7 +4,6 @@ import {observable, computed, action, toJS} from 'mobx';
 import {persist} from 'mobx-persist';
 import uuid from 'uuid/v4';
 import queryString from 'query-string';
-import flatten from 'arr-flatten';
 import getTime from 'date-fns/get_time';
 import createTaxEvents from '../utils/create-tax-events';
 
@@ -45,11 +44,9 @@ export default class CoinbaseStore {
   @computed
   get buyAndSellTransactions() {
     const types = ['buy', 'sell'];
-    const transactions = this.transactions.filter(t => types.includes(t.type)).sort((a, b) => {
+    return this.transactions.filter(t => types.includes(t.type)).sort((a, b) => {
       return getTime(b.created_at) - getTime(a.created_at);
     });
-    console.log(toJS(transactions));
-    return transactions;
   }
 
   @computed
@@ -131,9 +128,10 @@ export default class CoinbaseStore {
     }
   }
 
-  async makeApiCall(path) {
+  async makeApiCall(path, params = null, returnResponse = false) {
     try {
-      const response = await fetch(`https://api.coinbase.com/v2/${path}`, {
+      const query = params ? `?${queryString.stringify(params)}` : '';
+      const response = await fetch(`https://api.coinbase.com/v2/${path}${query}`, {
         headers: {
           Authorization: `Bearer ${this.accessToken}`,
           'CB-VERSION': '2018-03-10'
@@ -144,8 +142,13 @@ export default class CoinbaseStore {
         throw new Error(response.status);
       }
 
+      if (returnResponse) {
+        return response;
+      }
+
       return response.json();
     } catch (err) {
+      console.log(err);
       throw new Error(`Could not fetch resource /${path} from Coinbase.`);
     }
   }
@@ -166,15 +169,25 @@ export default class CoinbaseStore {
 
   @action.bound
   async fetchTransactions() {
-    await this.fetchAccounts();
+    if (this.accounts.size === 0) {
+      await this.fetchAccounts();
+    }
 
-    const data = await Promise.all([...this.accounts].map(async ([id]) => {
-      const json = await this.makeApiCall(`accounts/${id}/transactions`);
+    this.transactions.clear();
 
-      return json.data;
+    await Promise.all([...this.accounts].map(async ([id]) => {
+      const query = async (url, params) => {
+        const response = await this.makeApiCall(url, params, true);
+        const json = await response.json();
+
+        json.data.forEach(t => this.transactions.push(t));
+
+        if (json.pagination.next_uri) {
+          return query(json.pagination.next_uri.replace(/^\/v2\//, ''), null);
+        }
+      };
+
+      await query(`accounts/${id}/transactions`, {limit: 50});
     }));
-    const transactions = flatten(data);
-
-    this.transactions.replace(transactions);
   }
 }
