@@ -54,7 +54,7 @@ export default class CoinbaseStore {
     return this.userId !== null;
   }
 
-  signIn = async () => {
+  signIn = () => {
     this.oauthState = uuid();
 
     const params = {
@@ -66,7 +66,9 @@ export default class CoinbaseStore {
       account: 'all'
     };
 
-    window.location = `https://www.coinbase.com/oauth/authorize?${queryString.stringify(params)}`;
+    setTimeout(() => {
+      window.location = `https://www.coinbase.com/oauth/authorize?${queryString.stringify(params)}`;
+    }, 1000);
   }
 
   @action.bound
