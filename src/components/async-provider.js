@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import {Provider} from 'mobx-react';
 import {create} from 'mobx-persist';
 import {isSignInPending, handlePendingSignIn, isUserSignedIn} from 'blockstack';
+import BlockstackDriver from 'utils/blockstack-localforage-driver';
 
-const hydrate = create();
+const hydrate = create({
+  storage: BlockstackDriver
+});
 
 export default class AsyncProvider extends Component {
   static propTypes = {

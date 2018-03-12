@@ -58,7 +58,8 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-router-dom": "^4.2.2",
-    "uuid": "^3.2.1"
+    "uuid": "^3.2.1",
+    "wait-then": "^0.1.2"
   },
   "xo": {
     "extends": "xo-react",
