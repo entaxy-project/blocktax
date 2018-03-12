@@ -91,7 +91,7 @@ const TransactionList = ({events}) => (
                   'TaxEventList__badge--loss': e.gain.amount < 0
                 })}
               >
-                S
+                {e.shortTerm ? 'S' : 'L'}
               </span>
             </td>
           </tr>
