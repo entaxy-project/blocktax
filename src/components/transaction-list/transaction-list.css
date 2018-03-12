@@ -80,3 +80,11 @@
 .TransactionList__loss {
   color: var(--color-red);
 }
+
+.TransactionList__pagination {
+  padding: 40px;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}

@@ -6,10 +6,10 @@ import {toJS} from 'mobx';
 import {inject} from 'mobx-react';
 import formatDate from 'date-fns/format';
 import parseDate from 'date-fns/parse';
-import cls from 'classnames';
 import Card from 'components/card';
 import CardHeader from 'components/card-header';
 import Button from 'components/button';
+import Pagination from 'components/pagination';
 import getLocale from 'utils/get-locale';
 import './transaction-list.css';
 
@@ -33,11 +33,14 @@ const pricePer = (crypto, fiat) => {
 };
 
 const injector = stores => ({
+  changePage: stores.ui.changeDashboardPage,
+  currentPage: stores.ui.dashboardPage,
   fetchTransactions: stores.coinbase.fetchTransactions,
-  transactions: toJS(stores.coinbase.buyAndSellTransactions)
+  pageCount: stores.ui.dashboardPageCount,
+  transactions: toJS(stores.ui.dashboardTransactions)
 });
 
-const TransactionList = ({fetchTransactions, transactions}) => (
+const TransactionList = ({changePage, currentPage, fetchTransactions, pageCount, transactions}) => (
   <Card>
     <CardHeader
       title="Transaction History"
@@ -79,11 +82,21 @@ const TransactionList = ({fetchTransactions, transactions}) => (
         ))}
       </tbody>
     </table>
+    <div className="TransactionList__pagination">
+      <Pagination
+        currentPage={currentPage}
+        pageCount={pageCount}
+        onChange={changePage}
+      />
+    </div>
   </Card>
 );
 
 TransactionList.propTypes = {
+  changePage: PropTypes.func.isRequired,
+  currentPage: PropTypes.number.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
+  pageCount: PropTypes.number.isRequired,
   transactions: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 

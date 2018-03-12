@@ -5,7 +5,6 @@ import {persist} from 'mobx-persist';
 import uuid from 'uuid/v4';
 import queryString from 'query-string';
 import getTime from 'date-fns/get_time';
-import wait from 'wait-then';
 import createTaxEvents from '../utils/create-tax-events';
 
 const redirectUri = `${process.env.BASE_URL}/auth`;

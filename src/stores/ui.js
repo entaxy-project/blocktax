@@ -1,10 +1,20 @@
-import {computed} from 'mobx';
+import {observable, computed, action} from 'mobx';
 import DashboardState from '../constants/dashboard-state';
 
 export default class UIStore {
   constructor(blockstack, coinbase) {
     this.blockstack = blockstack;
     this.coinbase = coinbase;
+  }
+
+  @observable
+  dashboardPage = 0
+
+  dashboardPageSize = 10
+
+  @computed
+  get dashboardPageCount() {
+    return Math.ceil(this.coinbase.buyAndSellTransactions.length / this.dashboardPageSize);
   }
 
   @computed
@@ -27,5 +37,18 @@ export default class UIStore {
       [DashboardState.TransactionsLoading]: 'Your data is being imported',
       [DashboardState.TransactionsReady]: 'Here\'s your complete transaction history'
     }[this.dashboardState];
+  }
+
+  @computed
+  get dashboardTransactions() {
+    const start = this.dashboardPage * this.dashboardPageSize;
+    const end = start + this.dashboardPageSize;
+
+    return this.coinbase.buyAndSellTransactions.slice(start, end);
+  }
+
+  @action.bound
+  changeDashboardPage(n) {
+    this.dashboardPage = n;
   }
 }
