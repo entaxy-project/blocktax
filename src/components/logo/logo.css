@@ -1,0 +1,11 @@
+.Logo {
+  font-family: var(--font-garden-grove);
+  font-weight: bold;
+  color: var(--color-black);
+  font-size: 24px;
+  margin: 0;
+}
+
+.Logo--white {
+  color: var(--color-white);
+}

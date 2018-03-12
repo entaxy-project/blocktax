@@ -12,17 +12,12 @@
   margin-bottom: 98px;
 }
 
-.Header__logo,
 .Header__user {
   font-family: var(--font-garden-grove);
   font-weight: bold;
   color: var(--color-white);
-  font-size: 24px;
-  margin: 0;
-}
-
-.Header__user {
   font-size: 16px;
+  margin: 0;
 }
 
 .Header__title {

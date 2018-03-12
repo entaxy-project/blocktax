@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
 import Container from 'components/container';
 import UserMenu from 'components/user-menu';
+import Logo from 'components/logo';
 import './header.css';
 
 const injector = stores => ({
@@ -14,7 +15,7 @@ const Header = ({name, title}) => (
   <div className="Header">
     <Container>
       <div className="Header__top-bar">
-        <p className="Header__logo">BlockTax</p>
+        <Logo white/>
         <div>
           <UserMenu/>
         </div>

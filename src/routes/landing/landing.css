@@ -4,6 +4,13 @@
   display: flex;
   flex-flow: row nowrap;
   align-items: stretch;
+  padding: 20px;
+}
+
+.Landing__logo {
+  position: absolute;
+  top: 75px;
+  width: 460px;
 }
 
 .Landing__content {
@@ -12,6 +19,7 @@
   flex-flow: column nowrap;
   align-items: center;
   justify-content: center;
+  background: #F9F9F9;
 }
 
 .Landing__text {
