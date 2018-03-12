@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
-import TaxEventList from '../components/tax-event-list';
 import Header from '../components/header';
 import Body from '../components/body';
 import ConnectExchange from '../components/connect-exchange';
+import TransactionList from '../components/transaction-list';
 import DashboardState from '../constants/dashboard-state';
 
 const injector = stores => ({
@@ -16,7 +16,7 @@ const Dashboard = ({state}) => (
     <Header/>
     <Body>
       {state === DashboardState.NoLinkedAccounts && <ConnectExchange/>}
-      {state !== DashboardState.NoLinkedAccounts && <TaxEventList/>}
+      {state !== DashboardState.NoLinkedAccounts && <TransactionList/>}
     </Body>
   </div>
 );

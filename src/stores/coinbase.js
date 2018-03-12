@@ -5,6 +5,7 @@ import {persist} from 'mobx-persist';
 import uuid from 'uuid/v4';
 import queryString from 'query-string';
 import flatten from 'arr-flatten';
+import getTime from 'date-fns/get_time';
 import createTaxEvents from '../utils/create-tax-events';
 
 const redirectUri = `${process.env.BASE_URL}/auth`;
@@ -39,6 +40,16 @@ export default class CoinbaseStore {
   @computed
   get taxEvents() {
     return createTaxEvents(toJS(this.transactions));
+  }
+
+  @computed
+  get buyAndSellTransactions() {
+    const types = ['buy', 'sell'];
+    const transactions = this.transactions.filter(t => types.includes(t.type)).sort((a, b) => {
+      return getTime(b.created_at) - getTime(a.created_at);
+    });
+    console.log(toJS(transactions));
+    return transactions;
   }
 
   @computed

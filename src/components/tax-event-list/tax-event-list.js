@@ -30,12 +30,9 @@ const injector = stores => ({
   events: toJS(stores.coinbase.taxEvents)
 });
 
-const TransactionList = ({events}) => (
+const TaxEventList = ({events}) => (
   <Card>
-    <CardHeader
-      title="Transaction History"
-      controls={<Button onClick={() => {}} small disabled>Add Transaction</Button>}
-    />
+    <CardHeader title="Transaction History"/>
     <table className="TaxEventList">
       <thead>
         <tr className="TaxEventList__header">
@@ -101,8 +98,8 @@ const TransactionList = ({events}) => (
   </Card>
 );
 
-TransactionList.propTypes = {
+TaxEventList.propTypes = {
   events: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
-export default inject(injector)(TransactionList);
+export default inject(injector)(TaxEventList);

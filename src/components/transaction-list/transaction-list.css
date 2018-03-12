@@ -1,0 +1,82 @@
+.TransactionList {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.TransactionList__header {
+  height: 48px;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: right;
+  background: #fcfcfc;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.TransactionList__header-cell {}
+
+  .TransactionList__header-cell:first-child {
+    padding-left: 70px;
+  }
+
+  .TransactionList__header-cell:nth-child(1),
+  .TransactionList__header-cell:nth-child(2) {
+    text-align: left;
+  }
+
+  .TransactionList__header-cell:last-child {
+    text-align: right;
+    padding-right: 50px;
+  }
+
+.TransactionList__row {
+  height: 96px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+  .TransactionList__row:nth-child(odd) {
+    background: #fcfcfc;
+  }
+
+.TransactionList__cell {
+  font-weight: bold;
+  font-size: 18px;
+  text-align: right;
+}
+
+  .TransactionList__cell:first-child {
+    padding-left: 70px;
+  }
+
+  .TransactionList__cell:nth-child(1),
+  .TransactionList__cell:nth-child(2) {
+    text-align: left;
+  }
+
+  .TransactionList__cell:last-child {
+    padding-right: 50px;
+    text-align: right;
+  }
+
+.TransactionList__date {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.TransactionList__time {
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.TransactionList__sub {
+  font-weight: normal;
+  font-size: 14px;
+  margin-top: 9px;
+}
+
+.TransactionList__gain {
+  color: var(--color-green);
+}
+
+.TransactionList__loss {
+  color: var(--color-red);
+}
