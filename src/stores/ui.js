@@ -19,4 +19,13 @@ export default class UIStore {
 
     return DashboardState.TransactionsReady;
   }
+
+  @computed
+  get dashboardText() {
+    return {
+      [DashboardState.NoLinkedAccounts]: 'Connect with your wallet to get started',
+      [DashboardState.TransactionsLoading]: 'Your data is being imported',
+      [DashboardState.TransactionsReady]: 'In 2017, you had a total loss of ($4,000) from 500 transactions in Coinbase using the FIFO method.'
+    }[this.dashboardState];
+  }
 }

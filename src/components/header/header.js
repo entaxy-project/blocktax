@@ -6,10 +6,11 @@ import UserMenu from 'components/user-menu';
 import './header.css';
 
 const injector = stores => ({
-  name: stores.blockstack.name
+  name: stores.blockstack.name,
+  title: stores.ui.dashboardText
 });
 
-const Header = ({name}) => (
+const Header = ({name, title}) => (
   <div className="Header">
     <Container>
       <div className="Header__top-bar">
@@ -20,14 +21,15 @@ const Header = ({name}) => (
       </div>
       <div className="Header__main">
         <p className="Header__title">Hello, {name}</p>
-        <p className="Header__body">Connect with your wallet to get started</p>
+        <p className="Header__body">{title}</p>
       </div>
     </Container>
   </div>
 );
 
 Header.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
 };
 
 export default inject(injector)(Header);

@@ -39,4 +39,5 @@
   color: var(--color-white);
   font-size: 32px;
   line-height: 1.4;
+  max-width: 760px;
 }
