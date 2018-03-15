@@ -29,7 +29,7 @@ const Pagination = ({currentPage, onChange, pageCount}) => (
     ))}
     <button
       className={cls('Pagination__button', {
-        'Pagination__button--disabled': currentPage === pageCount
+        'Pagination__button--disabled': currentPage === pageCount - 1
       })}
       onClick={() => onChange(currentPage + 1)}
       type="button"
