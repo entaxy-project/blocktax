@@ -20,10 +20,6 @@ const Header = ({name, title}) => (
           <UserMenu/>
         </div>
       </div>
-      <div className="Header__main">
-        <p className="Header__title">Hello, {name}</p>
-        <p className="Header__body">{title}</p>
-      </div>
     </Container>
   </div>
 );

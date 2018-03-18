@@ -1,47 +1,89 @@
 import uuid from 'uuid/v4';
 
-const exampleEvent = {
-  date: Date.now(),
-  amount: {
-    amount: 2,
-    currency: 'BTC'
-  },
-  proceeds: {
-    amount: {
-      amount: 24000,
-      currency: 'USD'
-    },
-    pricePer: {
-      amount: 12000,
-      currency: 'BTC'
-    }
-  },
-  cost: {
-    amount: {
-      amount: 16000,
-      currency: 'USD'
-    },
-    pricePer: {
-      amount: 8000,
-      currency: 'BTC'
-    }
-  },
-  gain: {
-    amount: 8000,
-    currency: 'USD'
-  },
-  shortTerm: true
-};
-
 /**
  * Convert a raw list of transactions from Coinbase into a series of tax events, including cost
  * basis and gain/loss.
  * @param {Object[]} transactions - Transaction list.
  * @returns {TaxEvent[]} List of tax events.
  */
-export default transactions => {
-  return new Array(10).fill(null).map(() => Object.assign({id: uuid()}, exampleEvent));
+export default (transactions) => {
+  return calculateGainsWithFIFO(transactions);
 };
+
+
+const calculateGainsWithFIFO = (transactions) => {
+  let taxEvents = []
+
+  Object.keys(transactions).map(currency => {
+    var buys = transactions[currency].buys
+    var sells = transactions[currency].sells
+
+    while(sells.length > 0) {
+      if(sells[0].amount > buys[0].amount) {
+        var buy = buys.shift()
+        sells[0].amount -= buy.amount
+        var created_at = sells[0].created_at
+        var sell_amount = sells[0].amount
+        var sell_native_amount = sells[0].native_amount
+        var fiat_currency = sells[0].native_currency
+        var sale_cost = sells[0].amount * buy.unit_price
+        var sell_price_per_unit = sell_native_amount / sells[0].amount
+      } else if(sells[0].amount < buys[0].amount) {
+        var sell = sells.shift()
+        buys[0].amount -= sell.amount
+        var created_at = sell.created_at
+        var sell_amount = sell.amount
+        var sell_native_amount = sell.native_amount
+        var fiat_currency = sell.native_currency
+        var sale_cost = sell.amount * buy.unit_price
+        var sell_price_per_unit = sell_native_amount / sell.amount
+      } else {
+        var buy = buys.shift()
+        var sell = sells.shift()
+        var created_at = sell.created_at
+        var sell_amount = sell.amount
+        var sell_native_amount = sell.native_amount
+        var fiat_currency = sell.native_currency
+        var sale_cost = sell_native_amount
+        var sell_price_per_unit = sell_native_amount / sell.amount
+      }
+      taxEvents.push({
+        id: uuid(),
+        date: created_at,
+        amount: {
+          amount: sell_amount,
+          currency: currency
+        },
+        cost: {
+          amount: {
+            amount: sale_cost,
+            currency: fiat_currency
+          },
+          pricePer: {
+            amount: buy.unit_price,
+            currency: currency
+          }
+        },
+        proceeds: {
+          amount: {
+            amount: sell_native_amount,
+            currency: fiat_currency
+          },
+          pricePer: {
+            amount: sell_price_per_unit,
+            currency: currency
+          }
+        },
+        gain: {
+          amount: sell_native_amount - sale_cost,
+          currency: fiat_currency
+        },
+        shortTerm: true
+      })
+    }
+  })
+  return taxEvents;
+}
 
 /**
  * @typedef {Object} TaxEvent

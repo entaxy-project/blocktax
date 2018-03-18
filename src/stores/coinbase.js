@@ -38,15 +38,42 @@ export default class CoinbaseStore {
 
   @computed
   get taxEvents() {
-    return createTaxEvents(toJS(this.transactions));
+    var groupedTransactions = {}
+
+    for(var t = 0; t < this.transactions.length; t++) {
+      var transaction = this.transactions[t]
+      var transactionType = transaction.type == 'buy' ? 'buys' : 'sells'
+
+      // Only calculate gains for completed transactions between buys and sells
+      if(transaction.status != 'completed' || !['buy', 'sell'].includes(transaction.type)) {
+        continue;
+      }
+
+      if(!(transaction.amount.currency in groupedTransactions)) {
+        groupedTransactions[transaction.amount.currency] = {buys: [], sells: []}
+      }
+
+      // Group the transactions by currency and by buy/sell type
+      groupedTransactions[transaction.amount.currency][transactionType].push({
+        created_at: transaction.created_at,
+        amount: parseFloat(transaction.amount.amount),
+        native_amount: parseFloat(transaction.native_amount.amount),
+        native_currency: transaction.native_amount.currency,
+        unit_price: parseFloat(transaction.native_amount.amount) / parseFloat(transaction.amount.amount),
+      })
+    }
+    return createTaxEvents(groupedTransactions);
+  }
+
+  filterTransactionsBy(types) {
+    return this.transactions.filter(t => types.includes(t.type)).sort((a, b) => {
+      return getTime(b.created_at) - getTime(a.created_at);
+    });
   }
 
   @computed
   get buyAndSellTransactions() {
-    const types = ['buy', 'sell'];
-    return this.transactions.filter(t => types.includes(t.type)).sort((a, b) => {
-      return getTime(b.created_at) - getTime(a.created_at);
-    });
+    return this.filterTransactionsBy(['buy', 'sell']);
   }
 
   @computed
