@@ -26,7 +26,8 @@ const calculateGainsWithFIFO = (transactions) => {
         var sell_amount = sells[0].amount
         var sell_native_amount = sells[0].native_amount
         var fiat_currency = sells[0].native_currency
-        var sale_cost = sells[0].amount * buy.unit_price
+        var buy_price_per_unit = buy.unit_price
+        var sale_cost = sells[0].amount * buy_price_per_unit
         var sell_price_per_unit = sell_native_amount / sells[0].amount
       } else if(sells[0].amount < buys[0].amount) {
         var sell = sells.shift()
@@ -35,7 +36,8 @@ const calculateGainsWithFIFO = (transactions) => {
         var sell_amount = sell.amount
         var sell_native_amount = sell.native_amount
         var fiat_currency = sell.native_currency
-        var sale_cost = sell.amount * buy.unit_price
+        var buy_price_per_unit = buys[0].unit_price
+        var sale_cost = sell.amount * buy_price_per_unit
         var sell_price_per_unit = sell_native_amount / sell.amount
       } else {
         var buy = buys.shift()
@@ -44,6 +46,7 @@ const calculateGainsWithFIFO = (transactions) => {
         var sell_amount = sell.amount
         var sell_native_amount = sell.native_amount
         var fiat_currency = sell.native_currency
+        var buy_price_per_unit = buy.unit_price
         var sale_cost = sell_native_amount
         var sell_price_per_unit = sell_native_amount / sell.amount
       }
@@ -60,7 +63,7 @@ const calculateGainsWithFIFO = (transactions) => {
             currency: fiat_currency
           },
           pricePer: {
-            amount: buy.unit_price,
+            amount: buy_price_per_unit,
             currency: currency
           }
         },
