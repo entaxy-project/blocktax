@@ -1,6 +1,6 @@
 .Header {
   background: linear-gradient(to bottom, var(--color-blue), var(--color-cyan));
-  padding-bottom: 284px;
+  padding-bottom: 184px;
 }
 
 .Header__top-bar {

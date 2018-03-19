@@ -37,14 +37,20 @@ const injector = stores => ({
   currentPage: stores.ui.dashboardPage,
   fetchTransactions: stores.coinbase.fetchTransactions,
   pageCount: stores.ui.dashboardPageCount,
-  transactions: toJS(stores.ui.dashboardTransactions)
+  transactions: toJS(stores.ui.dashboardTransactions),
+  toggleShowTaxes: stores.ui.toggleShowTaxes,
 });
 
-const TransactionList = ({changePage, currentPage, fetchTransactions, pageCount, transactions}) => (
+const TransactionList = ({changePage, currentPage, fetchTransactions, pageCount, transactions, toggleShowTaxes}) => (
   <Card>
     <CardHeader
       title="Transaction History"
-      controls={<Button small onClick={fetchTransactions}>Refresh</Button>}
+      controls={
+        <div>
+          <Button small onClick={fetchTransactions}>Refresh</Button>
+          <Button small onClick={toggleShowTaxes}>Capital Gains</Button>
+        </div>
+      }
     />
     <table className="TransactionList">
       <thead>
@@ -97,7 +103,8 @@ TransactionList.propTypes = {
   currentPage: PropTypes.number.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
   pageCount: PropTypes.number.isRequired,
-  transactions: PropTypes.arrayOf(PropTypes.object).isRequired
+  transactions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  toggleShowTaxes: PropTypes.func.isRequired,
 };
 
 export default inject(injector)(TransactionList);
