@@ -48,6 +48,7 @@
     "blockstack": "^0.15.0",
     "classnames": "^2.2.5",
     "date-fns": "^1.29.0",
+    "gh-pages": "^1.1.0",
     "history": "^4.7.2",
     "lodash": "^4.17.5",
     "mobx": "^3.6.1",

@@ -7,6 +7,51 @@ import uuid from 'uuid/v4';
  * @returns {TaxEvent[]} List of tax events.
  */
 export default (transactions) => {
+  console.log(transactions)
+
+  transactions = {
+    'BTC': {
+      buys: [
+        {
+          created_at: "2018-02-10T17:48:08Z",
+          amount: 1,
+          native_amount: 200,
+          native_currency: "CAD",
+          unit_price: 200
+        },
+        {
+          created_at: "2018-02-10T17:48:08Z",
+          amount: 2,
+          native_amount: 500,
+          native_currency: "CAD",
+          unit_price: 250
+        },
+        {
+          created_at: "2018-02-10T17:48:08Z",
+          amount: 3,
+          native_amount: 600,
+          native_currency: "CAD",
+          unit_price: 300
+        }
+      ],
+      sells: [
+        {
+          created_at: "2018-02-22T17:48:08Z",
+          amount: 4,
+          native_amount: 1000,
+          native_currency: "CAD",
+          unit_price: 500
+        },
+        {
+          created_at: "2018-02-22T17:48:08Z",
+          amount: 2,
+          native_amount: 2000,
+          native_currency: "CAD",
+          unit_price: 1000
+        }
+      ]
+    }
+  }
   return calculateGainsWithFIFO(transactions);
 };
 
@@ -23,32 +68,42 @@ const calculateGainsWithFIFO = (transactions) => {
         var buy = buys.shift()
         sells[0].amount -= buy.amount
         var created_at = sells[0].created_at
-        var sell_amount = sells[0].amount
-        var sell_native_amount = sells[0].native_amount
+        // Amount
+        var sell_amount = buy.amount
+        // Proceeds
+        var sell_price_per_unit = sells[0].unit_price
+        var sell_native_amount = sell_amount * sell_price_per_unit
         var fiat_currency = sells[0].native_currency
+        // Cost
         var buy_price_per_unit = buy.unit_price
-        var sale_cost = sells[0].amount * buy_price_per_unit
-        var sell_price_per_unit = sell_native_amount / sells[0].amount
+        var cost = buy.amount * buy_price_per_unit
+
       } else if(sells[0].amount < buys[0].amount) {
         var sell = sells.shift()
         buys[0].amount -= sell.amount
         var created_at = sell.created_at
+        // Amount
         var sell_amount = sell.amount
-        var sell_native_amount = sell.native_amount
+        // Proceeds
+        var sell_price_per_unit = sell.unit_price
+        var sell_native_amount = buys[0].amount * sell_price_per_unit
         var fiat_currency = sell.native_currency
+        // Cost
         var buy_price_per_unit = buys[0].unit_price
-        var sale_cost = sell.amount * buy_price_per_unit
-        var sell_price_per_unit = sell_native_amount / sell.amount
+        var cost = sell_amount * buy_price_per_unit
       } else {
         var buy = buys.shift()
         var sell = sells.shift()
         var created_at = sell.created_at
+        // Amount
         var sell_amount = sell.amount
+        // Proceeds
+        var sell_price_per_unit = sell.unit_price
         var sell_native_amount = sell.native_amount
         var fiat_currency = sell.native_currency
+        // Cost
         var buy_price_per_unit = buy.unit_price
-        var sale_cost = sell_native_amount
-        var sell_price_per_unit = sell_native_amount / sell.amount
+        var cost = sell_amount * buy_price_per_unit
       }
       taxEvents.push({
         id: uuid(),
@@ -59,7 +114,7 @@ const calculateGainsWithFIFO = (transactions) => {
         },
         cost: {
           amount: {
-            amount: sale_cost,
+            amount: cost,
             currency: fiat_currency
           },
           pricePer: {
@@ -78,7 +133,7 @@ const calculateGainsWithFIFO = (transactions) => {
           }
         },
         gain: {
-          amount: sell_native_amount - sale_cost,
+          amount: sell_native_amount - cost,
           currency: fiat_currency
         },
         shortTerm: true

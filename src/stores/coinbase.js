@@ -45,7 +45,7 @@ export default class CoinbaseStore {
       var transactionType = transaction.type == 'buy' ? 'buys' : 'sells'
 
       // Only calculate gains for completed transactions between buys and sells
-      if(transaction.status != 'completed' || !['buy', 'sell'].includes(transaction.type)) {
+      if(transaction.status != 'completed' || !['buy', 'sell'].includes(transaction.type) || transaction.amount.currency == 'USD') {
         continue;
       }
 
@@ -62,6 +62,7 @@ export default class CoinbaseStore {
         unit_price: parseFloat(transaction.native_amount.amount) / parseFloat(transaction.amount.amount),
       })
     }
+    // TODO order
     return createTaxEvents(groupedTransactions);
   }
 

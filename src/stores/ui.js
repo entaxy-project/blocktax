@@ -13,7 +13,7 @@ export default class UIStore {
   dashboardPageSize = 10
 
   @observable
-  showTaxes = false
+  showTaxes = true
 
   @action.bound
   toggleShowTaxes() {
