@@ -56,20 +56,23 @@ export default class CoinbaseStore {
       // Group the transactions by currency and by buy/sell type
       groupedTransactions[transaction.amount.currency][transactionType].push({
         created_at: transaction.created_at,
-        amount: parseFloat(transaction.amount.amount),
-        native_amount: parseFloat(transaction.native_amount.amount),
+        amount: Math.abs(parseFloat(transaction.amount.amount)),
+        native_amount: Math.abs(parseFloat(transaction.native_amount.amount)),
         native_currency: transaction.native_amount.currency,
-        unit_price: parseFloat(transaction.native_amount.amount) / parseFloat(transaction.amount.amount),
+        unit_price: Math.abs(parseFloat(transaction.native_amount.amount) / parseFloat(transaction.amount.amount)),
       })
     }
-    // TODO order
+
     return createTaxEvents(groupedTransactions);
   }
 
+
   filterTransactionsBy(types) {
-    return this.transactions.filter(t => types.includes(t.type)).sort((a, b) => {
-      return getTime(b.created_at) - getTime(a.created_at);
-    });
+    return this.transactions.filter(t => types.includes(t.type)).sort(this.sortTransactions);
+  }
+
+  sortTransactions(a,b) {
+    return getTime(b.created_at) - getTime(a.created_at);
   }
 
   @computed

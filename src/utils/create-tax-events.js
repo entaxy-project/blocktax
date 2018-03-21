@@ -7,51 +7,6 @@ import uuid from 'uuid/v4';
  * @returns {TaxEvent[]} List of tax events.
  */
 export default (transactions) => {
-  console.log(transactions)
-
-  transactions = {
-    'BTC': {
-      buys: [
-        {
-          created_at: "2018-02-10T17:48:08Z",
-          amount: 1,
-          native_amount: 200,
-          native_currency: "CAD",
-          unit_price: 200
-        },
-        {
-          created_at: "2018-02-10T17:48:08Z",
-          amount: 2,
-          native_amount: 500,
-          native_currency: "CAD",
-          unit_price: 250
-        },
-        {
-          created_at: "2018-02-10T17:48:08Z",
-          amount: 3,
-          native_amount: 600,
-          native_currency: "CAD",
-          unit_price: 300
-        }
-      ],
-      sells: [
-        {
-          created_at: "2018-02-22T17:48:08Z",
-          amount: 4,
-          native_amount: 1000,
-          native_currency: "CAD",
-          unit_price: 500
-        },
-        {
-          created_at: "2018-02-22T17:48:08Z",
-          amount: 2,
-          native_amount: 2000,
-          native_currency: "CAD",
-          unit_price: 1000
-        }
-      ]
-    }
-  }
   return calculateGainsWithFIFO(transactions);
 };
 
@@ -66,7 +21,7 @@ const calculateGainsWithFIFO = (transactions) => {
     while(sells.length > 0) {
       if(sells[0].amount > buys[0].amount) {
         var buy = buys.shift()
-        sells[0].amount -= buy.amount
+        sells[0].amount = buy.amount
         var created_at = sells[0].created_at
         // Amount
         var sell_amount = buy.amount
@@ -91,6 +46,7 @@ const calculateGainsWithFIFO = (transactions) => {
         // Cost
         var buy_price_per_unit = buys[0].unit_price
         var cost = sell_amount * buy_price_per_unit
+
       } else {
         var buy = buys.shift()
         var sell = sells.shift()
