@@ -28,7 +28,7 @@ const amount = a => {
 
 const injector = stores => ({
   events: toJS(stores.coinbase.taxEvents),
-  toggleShowTaxes: stores.ui.toggleShowTaxes,
+  toggleShowTaxes: stores.ui.toggleShowTaxes
 });
 
 const TaxEventList = ({events, toggleShowTaxes}) => (
@@ -36,7 +36,7 @@ const TaxEventList = ({events, toggleShowTaxes}) => (
     <CardHeader
       title="Capital Gains"
       controls={
-          <Button small onClick={toggleShowTaxes}>Transaction History</Button>
+        <Button small onClick={toggleShowTaxes}>Transaction History</Button>
       }
     />
 
@@ -107,7 +107,7 @@ const TaxEventList = ({events, toggleShowTaxes}) => (
 
 TaxEventList.propTypes = {
   events: PropTypes.arrayOf(PropTypes.object).isRequired,
-  toggleShowTaxes: PropTypes.func.isRequired,
+  toggleShowTaxes: PropTypes.func.isRequired
 };
 
 export default inject(injector)(TaxEventList);

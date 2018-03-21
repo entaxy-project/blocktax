@@ -17,7 +17,7 @@ export default class UIStore {
 
   @action.bound
   toggleShowTaxes() {
-    this.showTaxes = !this.showTaxes
+    this.showTaxes = !this.showTaxes;
   }
 
   @computed

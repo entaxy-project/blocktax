@@ -38,7 +38,7 @@ const injector = stores => ({
   fetchTransactions: stores.coinbase.fetchTransactions,
   pageCount: stores.ui.dashboardPageCount,
   transactions: toJS(stores.ui.dashboardTransactions),
-  toggleShowTaxes: stores.ui.toggleShowTaxes,
+  toggleShowTaxes: stores.ui.toggleShowTaxes
 });
 
 const TransactionList = ({changePage, currentPage, fetchTransactions, pageCount, transactions, toggleShowTaxes}) => (
@@ -104,7 +104,7 @@ TransactionList.propTypes = {
   fetchTransactions: PropTypes.func.isRequired,
   pageCount: PropTypes.number.isRequired,
   transactions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  toggleShowTaxes: PropTypes.func.isRequired,
+  toggleShowTaxes: PropTypes.func.isRequired
 };
 
 export default inject(injector)(TransactionList);

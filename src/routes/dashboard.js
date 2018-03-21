@@ -10,7 +10,7 @@ import DashboardState from '../constants/dashboard-state';
 
 const injector = stores => ({
   state: stores.ui.dashboardState,
-  showTaxes: stores.ui.showTaxes,
+  showTaxes: stores.ui.showTaxes
 });
 
 const Dashboard = ({state, showTaxes}) => (
@@ -26,7 +26,7 @@ const Dashboard = ({state, showTaxes}) => (
 
 Dashboard.propTypes = {
   state: PropTypes.oneOf(Object.values(DashboardState)).isRequired,
-  showTaxes: PropTypes.bool.isRequired,
+  showTaxes: PropTypes.bool.isRequired
 };
 
 export default inject(injector)(Dashboard);

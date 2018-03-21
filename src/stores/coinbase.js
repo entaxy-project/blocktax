@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-import {observable, computed, action, toJS} from 'mobx';
+import {observable, computed, action} from 'mobx';
 import {persist} from 'mobx-persist';
 import uuid from 'uuid/v4';
 import queryString from 'query-string';
@@ -38,19 +38,19 @@ export default class CoinbaseStore {
 
   @computed
   get taxEvents() {
-    var groupedTransactions = {}
+    const groupedTransactions = {};
 
-    for(var t = 0; t < this.transactions.length; t++) {
-      var transaction = this.transactions[t]
-      var transactionType = transaction.type == 'buy' ? 'buys' : 'sells'
+    for (let t = 0; t < this.transactions.length; t++) {
+      const transaction = this.transactions[t];
+      const transactionType = transaction.type === 'buy' ? 'buys' : 'sells';
 
       // Only calculate gains for completed transactions between buys and sells
-      if(transaction.status != 'completed' || !['buy', 'sell'].includes(transaction.type) || transaction.amount.currency == 'USD') {
+      if (transaction.status !== 'completed' || !['buy', 'sell'].includes(transaction.type) || transaction.amount.currency === 'USD') {
         continue;
       }
 
-      if(!(transaction.amount.currency in groupedTransactions)) {
-        groupedTransactions[transaction.amount.currency] = {buys: [], sells: []}
+      if (!(transaction.amount.currency in groupedTransactions)) {
+        groupedTransactions[transaction.amount.currency] = {buys: [], sells: []};
       }
 
       // Group the transactions by currency and by buy/sell type
@@ -59,19 +59,18 @@ export default class CoinbaseStore {
         amount: Math.abs(parseFloat(transaction.amount.amount)),
         native_amount: Math.abs(parseFloat(transaction.native_amount.amount)),
         native_currency: transaction.native_amount.currency,
-        unit_price: Math.abs(parseFloat(transaction.native_amount.amount) / parseFloat(transaction.amount.amount)),
-      })
+        unit_price: Math.abs(parseFloat(transaction.native_amount.amount) / parseFloat(transaction.amount.amount))
+      });
     }
 
     return createTaxEvents(groupedTransactions);
   }
 
-
   filterTransactionsBy(types) {
     return this.transactions.filter(t => types.includes(t.type)).sort(this.sortTransactions);
   }
 
-  sortTransactions(a,b) {
+  sortTransactions(a, b) {
     return getTime(b.created_at) - getTime(a.created_at);
   }
 
