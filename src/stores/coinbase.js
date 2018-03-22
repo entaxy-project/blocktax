@@ -11,13 +11,6 @@ import runtimeEnv from '@mars/heroku-js-runtime-env';
 const env = runtimeEnv();
 const redirectUri = `${window.location.origin}/auth`;
 
-console.log(process.env.NODE_ENV)
-console.log(env.REACT_APP_COINBASE_API_ID)
-console.log(env.BLOCKTAX_COINBASE_API_ID)
-console.log(process.env.REACT_APP_HELLO)
-console.log(process.env.REACT_APP_HELLO)
-console.log(env.REACT_APP_HELLO)
-
 export default class CoinbaseStore {
   static persist = true
 
@@ -98,7 +91,7 @@ export default class CoinbaseStore {
 
     const params = {
       response_type: 'code',
-      client_id: env.BLOCKTAX_COINBASE_API_ID,
+      client_id: env.REACT_APP_COINBASE_API_ID,
       redirect_uri: redirectUri,
       state: this.oauthState,
       scope: ['wallet:accounts:read', 'wallet:transactions:read'].join(','),
@@ -140,8 +133,8 @@ export default class CoinbaseStore {
       const params = {
         grant_type: 'authorization_code',
         code,
-        client_id: env.BLOCKTAX_COINBASE_API_ID,
-        client_secret: env.BLOCKTAX_COINBASE_API_SECRET,
+        client_id: env.REACT_APP_COINBASE_API_ID,
+        client_secret: env.REACT_APP_COINBASE_API_SECRET,
         redirect_uri: redirectUri
       };
       const response = await fetch('https://api.coinbase.com/oauth/token', {
