@@ -36,6 +36,7 @@
     "xo": "^0.20.3"
   },
   "dependencies": {
+    "@mars/heroku-js-runtime-env": "^3.0.2",
     "arr-flatten": "^1.1.0",
     "babel-polyfill": "^6.26.0",
     "blockstack": "^0.15.0",

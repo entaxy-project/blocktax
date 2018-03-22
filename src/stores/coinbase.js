@@ -6,11 +6,13 @@ import uuid from 'uuid/v4';
 import queryString from 'query-string';
 import getTime from 'date-fns/get_time';
 import createTaxEvents from '../utils/create-tax-events';
+import runtimeEnv from '@mars/heroku-js-runtime-env';
 
+const env = runtimeEnv();
 const redirectUri = `${window.location.origin}/auth`;
 
 console.log(window.location.origin)
-console.log(process.env.BLOCKTAX_COINBASE_API_ID)
+console.log(env.BLOCKTAX_COINBASE_API_ID)
 export default class CoinbaseStore {
   static persist = true
 
@@ -91,7 +93,7 @@ export default class CoinbaseStore {
 
     const params = {
       response_type: 'code',
-      client_id: process.env.BLOCKTAX_COINBASE_API_ID,
+      client_id: env.BLOCKTAX_COINBASE_API_ID,
       redirect_uri: redirectUri,
       state: this.oauthState,
       scope: ['wallet:accounts:read', 'wallet:transactions:read'].join(','),
@@ -133,8 +135,8 @@ export default class CoinbaseStore {
       const params = {
         grant_type: 'authorization_code',
         code,
-        client_id: process.env.BLOCKTAX_COINBASE_API_ID,
-        client_secret: process.env.BLOCKTAX_COINBASE_API_SECRET,
+        client_id: env.BLOCKTAX_COINBASE_API_ID,
+        client_secret: env.BLOCKTAX_COINBASE_API_SECRET,
         redirect_uri: redirectUri
       };
       const response = await fetch('https://api.coinbase.com/oauth/token', {
