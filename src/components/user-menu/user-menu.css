@@ -58,7 +58,7 @@
 
 .UserMenu__item {
   -webkit-appearance: none;
-  display: none;
+  display: block;
   border: 0;
   padding: 0;
   margin: 0;

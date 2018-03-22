@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Provider} from 'mobx-react';
 import {create} from 'mobx-persist';
 import {isSignInPending, handlePendingSignIn, isUserSignedIn} from 'blockstack';
-import BlockstackDriver from 'utils/blockstack-localforage-driver';
+import BlockstackDriver from '../utils/blockstack-localforage-driver';
 
 const hydrate = create({
   storage: BlockstackDriver

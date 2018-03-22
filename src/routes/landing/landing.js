@@ -23,7 +23,7 @@ export default class Landing extends Component {
             <Logo/>
           </div>
           <div className="Landing__text">
-            <h1 className="Landing__title">Your Crypto Taxes Simple & Private</h1>
+            <h1 className="Landing__title">Your Crypto Taxes Simple & Private{process.env.COINBASE_API_ID}</h1>
             <p className="Landing__body">Generate a tax report for Coinbase transactions with the push of a button, decentralized so your data stays yours.</p>
             <Button onClick={signIn}>Log In with Blockstack</Button>
           </div>

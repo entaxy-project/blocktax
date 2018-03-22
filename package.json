@@ -1,21 +1,14 @@
 {
-  "name": "hello-blockstack",
-  "version": "0.0.0",
-  "description": "A simple Blockstack app using ReactJS",
-  "main": "index.js",
+  "name": "blocktax",
+  "version": "0.1.0",
+  "description": "Your Crypto Taxes, Simple & Private",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack -p"
+    "start": "node scripts/start.js",
+    "build": "node scripts/build.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/blockstack/hello-blockstack.git"
-  },
-  "bugs": {
-    "url": "https://github.com/blockstack/hello-blockstack/issues"
-  },
-  "homepage": "https://github.com/blockstack/hello-blockstack#readme",
-  "author": "",
+  "homepage": "https://blockstackinc.github.io/blocktax",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -36,6 +29,7 @@
     "html-webpack-plugin": "^2.28.0",
     "json-loader": "^0.5.4",
     "path": "^0.12.7",
+    "react-dev-utils": "^5.0.0",
     "style-loader": "^0.16.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.3.3",
@@ -48,6 +42,7 @@
     "blockstack": "^0.15.0",
     "classnames": "^2.2.5",
     "date-fns": "^1.29.0",
+    "dotenv-expand": "^4.2.0",
     "gh-pages": "^1.1.0",
     "history": "^4.7.2",
     "lodash": "^4.17.5",
@@ -57,11 +52,13 @@
     "mobx-react-router": "^4.0.1",
     "prop-types": "^15.6.1",
     "query-string": "^5.1.0",
+    "raf": "^3.4.0",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-router-dom": "^4.2.2",
     "uuid": "^3.2.1",
-    "wait-then": "^0.1.2"
+    "wait-then": "^0.1.2",
+    "webpack-manifest-plugin": "^2.0.0-rc.2"
   },
   "xo": {
     "extends": "xo-react",
