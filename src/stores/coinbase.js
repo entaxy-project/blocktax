@@ -14,6 +14,9 @@ const redirectUri = `${window.location.origin}/auth`;
 console.log(process.env.NODE_ENV)
 console.log(env.REACT_APP_COINBASE_API_ID)
 console.log(env.BLOCKTAX_COINBASE_API_ID)
+console.log(process.env.REACT_APP_HELLO)
+console.log(process.env.REACT_APP_HELLO)
+console.log(env.REACT_APP_HELLO)
 
 export default class CoinbaseStore {
   static persist = true
