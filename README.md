@@ -18,4 +18,6 @@ npm i
 
 Copy `.env_example` to `.env` and fill in the ID and secret of a Coinbase app.
 
-To run the app, run `npm start`.
+To start the app run `yarn start`.
+
+To deploy the app to Github pages run `yarn start`.

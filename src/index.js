@@ -29,13 +29,13 @@ const ui = new UIStore(blockstack, coinbase);
 const history = syncHistoryWithStore(createBrowserHistory(), router);
 
 const App = () => (
-  <Router history={history}>
+  <Router history={history} basename={process.env.PUBLIC_URL}>
     <AsyncProvider stores={{blockstack, coinbase, ui, router}}>
       <AuthHandler>
         <div>
-          <Route exact path="/" render={signedOutOnly}/>
-          <Route exact path="/dashboard" render={signedInOnly(Dashboard)}/>
-          <Route exact path="/auth" render={signedInOnly(Auth)}/>
+          <Route exact path={process.env.SERVED_PATH} render={signedOutOnly}/>
+          <Route exact path={`${process.env.SERVED_PATH}dashboard`} render={signedInOnly(Dashboard)}/>
+          <Route exact path={`${process.env.SERVED_PATH}auth`} render={signedInOnly(Auth)}/>
         </div>
       </AuthHandler>
     </AsyncProvider>
