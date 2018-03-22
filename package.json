@@ -4,6 +4,7 @@
   "description": "Your Crypto Taxes, Simple & Private",
   "scripts": {
     "start": "node scripts/start.js",
+    "build": "node scripts/build.js",
     "deploy": "git push heroku master"
   },
   "homepage": "https://blocktax.herokuapp.com",
