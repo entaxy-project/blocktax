@@ -11,8 +11,10 @@ import runtimeEnv from '@mars/heroku-js-runtime-env';
 const env = runtimeEnv();
 const redirectUri = `${window.location.origin}/auth`;
 
-console.log(window.location.origin)
+console.log(process.env.NODE_ENV)
+console.log(env.REACT_APP_COINBASE_API_ID)
 console.log(env.BLOCKTAX_COINBASE_API_ID)
+
 export default class CoinbaseStore {
   static persist = true
 
