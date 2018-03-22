@@ -91,7 +91,6 @@ module.exports = {
       'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
       'process.env.COINBASE_API_ID': JSON.stringify(process.env.COINBASE_API_ID),
       'process.env.COINBASE_API_SECRET': JSON.stringify(process.env.COINBASE_API_SECRET)
-      'processs.env.SERVED_PATH': env.raw.SERVED_PATH
     })
   ],
   resolve: {
