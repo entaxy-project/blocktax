@@ -6,5 +6,8 @@
       "Access-Control-Allow-Origin": "*",
       "Strict-Transport-Security": "max-age=7776000"
     }
+  },
+	"routes": {
+    "/**": "index.html"
   }
 }
