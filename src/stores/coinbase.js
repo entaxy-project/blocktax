@@ -7,8 +7,10 @@ import queryString from 'query-string';
 import getTime from 'date-fns/get_time';
 import createTaxEvents from '../utils/create-tax-events';
 
-const redirectUri = `${process.env.BASE_URL}/auth`;
+const redirectUri = `${window.location.origin}/auth`;
 
+console.log(window.location.origin)
+console.log(process.env.BLOCKTAX_COINBASE_API_ID)
 export default class CoinbaseStore {
   static persist = true
 
@@ -89,7 +91,7 @@ export default class CoinbaseStore {
 
     const params = {
       response_type: 'code',
-      client_id: process.env.COINBASE_API_ID,
+      client_id: process.env.BLOCKTAX_COINBASE_API_ID,
       redirect_uri: redirectUri,
       state: this.oauthState,
       scope: ['wallet:accounts:read', 'wallet:transactions:read'].join(','),
@@ -131,8 +133,8 @@ export default class CoinbaseStore {
       const params = {
         grant_type: 'authorization_code',
         code,
-        client_id: process.env.COINBASE_API_ID,
-        client_secret: process.env.COINBASE_API_SECRET,
+        client_id: process.env.BLOCKTAX_COINBASE_API_ID,
+        client_secret: process.env.BLOCKTAX_COINBASE_API_SECRET,
         redirect_uri: redirectUri
       };
       const response = await fetch('https://api.coinbase.com/oauth/token', {

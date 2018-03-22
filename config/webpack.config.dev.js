@@ -67,11 +67,9 @@ module.exports = {
     HtmlWebpackPluginConfig,
     ManifestAssetPlugin,
     IconAssetPlugin,
-    new webpack.DefinePlugin({
-      'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
-      'process.env.COINBASE_API_ID': JSON.stringify(process.env.COINBASE_API_ID),
-      'process.env.COINBASE_API_SECRET': JSON.stringify(process.env.COINBASE_API_SECRET)
-    })
+    // Makes some environment variables available to the JS code, for example:
+    // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
+    new webpack.DefinePlugin(env.stringified)
   ],
   resolve: {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],

@@ -57,13 +57,13 @@ process.env.NODE_PATH = (process.env.NODE_PATH || '')
   .map(folder => path.resolve(appDirectory, folder))
   .join(path.delimiter)
 
-// Grab NODE_ENV and SPL_* environment variables and prepare them to be
+// Grab NODE_ENV and BLOCKTAX_* environment variables and prepare them to be
 // injected into the application via DefinePlugin in Webpack configuration.
-const SPL = /^SPL_/i
+const BLOCKTAX = /^BLOCKTAX_/i
 
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
-    .filter(key => SPL.test(key))
+    .filter(key => BLOCKTAX.test(key))
     .reduce(
       (env, key) => {
         env[key] = process.env[key]
@@ -77,8 +77,7 @@ function getClientEnvironment(publicUrl) {
         // For example, <img src={process.env.PUBLIC_URL + '/img/logo.png'} />.
         // This should only be used as an escape hatch. Normally you would put
         // images into the `src` and `import` them in code to get their paths.
-        PUBLIC_URL: publicUrl,
-        SERVED_PATH: paths.servedPath || '/'
+        PUBLIC_URL: publicUrl
       }
     )
   // Stringify all values so we can feed into Webpack DefinePlugin

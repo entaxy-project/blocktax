@@ -1,8 +1,10 @@
 {
   "root": "build/",
+  "https_only": true,
   "headers": {
     "/**": {
-      "Access-Control-Allow-Origin": "*"
+      "Access-Control-Allow-Origin": "*",
+      "Strict-Transport-Security": "max-age=7776000"
     }
   }
 }
