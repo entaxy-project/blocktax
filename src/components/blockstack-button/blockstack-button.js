@@ -9,12 +9,8 @@ const injector = stores => ({
 });
 
 const BlockstackButton = ({signIn}) => (
-  <button
-    onClick={signIn}
-    type="button"
-    className='Button BlockstackButton'
-  >
-    <img src={blockstackIcon} />
+  <button type="button" className="Button BlockstackButton" onClick={signIn}>
+    <img src={blockstackIcon}/>
     Log In with Blockstack
   </button>
 );

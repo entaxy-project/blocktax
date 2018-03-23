@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
 import './user-menu.css';
-import caretDown from 'images/caret-down.svg'
-
+import caretDown from 'images/caret-down.svg';
 
 const injector = stores => ({
   avatar: stores.blockstack.avatar,

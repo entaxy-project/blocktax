@@ -31,7 +31,7 @@ const calculateGainsWithFIFO = (buys, sells, currency) => {
       // Cost
       buy_price_per_unit = buy.unit_price;
       cost = buy.amount * buy_price_per_unit;
-      shortTerm = difference_in_days(sells[0].created_at, buy.created_at) <= ONE_YEAR
+      shortTerm = difference_in_days(sells[0].created_at, buy.created_at) <= ONE_YEAR;
     } else if (sells[0].amount < buys[0].amount) {
       sell = sells.shift();
       buys[0].amount -= sell.amount;
@@ -45,7 +45,7 @@ const calculateGainsWithFIFO = (buys, sells, currency) => {
       // Cost
       buy_price_per_unit = buys[0].unit_price;
       cost = sell_amount * buy_price_per_unit;
-      shortTerm = difference_in_days(sell.created_at, buys[0].created_at) <= ONE_YEAR
+      shortTerm = difference_in_days(sell.created_at, buys[0].created_at) <= ONE_YEAR;
     } else {
       buy = buys.shift();
       sell = sells.shift();
@@ -59,7 +59,7 @@ const calculateGainsWithFIFO = (buys, sells, currency) => {
       // Cost
       buy_price_per_unit = buy.unit_price;
       cost = sell_amount * buy_price_per_unit;
-      shortTerm = difference_in_days(sell.created_at, buy.created_at) <= ONE_YEAR
+      shortTerm = difference_in_days(sell.created_at, buy.created_at) <= ONE_YEAR;
     }
     taxEvents.push({
       id: uuid(),
@@ -107,6 +107,7 @@ const calculateGainsWithFIFO = (buys, sells, currency) => {
 export default transactions => {
   let taxEvents = [];
 
+  // Test transactions
   // transactions = {
   //   BTC: {
   //     buys: [

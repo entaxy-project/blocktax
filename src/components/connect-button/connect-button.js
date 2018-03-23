@@ -20,7 +20,8 @@ ConnectButton.propTypes = {
 
 ConnectButton.defaultProps = {
   onClick: () => {},
-  title: ' '
+  title: ' ',
+  isDisabled: false
 };
 
 export default ConnectButton;

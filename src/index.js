@@ -33,9 +33,9 @@ const App = () => (
     <AsyncProvider stores={{blockstack, coinbase, ui, router}}>
       <AuthHandler>
         <div>
-          <Route exact path='/' render={signedOutOnly}/>
-          <Route exact path='/dashboard' render={signedInOnly(Dashboard)}/>
-          <Route exact path='/auth' render={signedInOnly(Auth)}/>
+          <Route exact path="/" render={signedOutOnly}/>
+          <Route exact path="/dashboard" render={signedInOnly(Dashboard)}/>
+          <Route exact path="/auth" render={signedInOnly(Auth)}/>
         </div>
       </AuthHandler>
     </AsyncProvider>
