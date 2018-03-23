@@ -5,8 +5,8 @@ import {persist} from 'mobx-persist';
 import uuid from 'uuid/v4';
 import queryString from 'query-string';
 import getTime from 'date-fns/get_time';
-import createTaxEvents from '../utils/create-tax-events';
 import runtimeEnv from '@mars/heroku-js-runtime-env';
+import createTaxEvents from '../utils/create-tax-events';
 
 const env = runtimeEnv();
 const redirectUri = `${window.location.origin}/auth`;

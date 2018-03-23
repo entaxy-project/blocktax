@@ -20,6 +20,11 @@ const ConnectExchange = ({signIn}) => (
           image={require('images/coinbase-logo.svg')}
           onClick={signIn}
         />
+        <ConnectButton
+          title="Coming Soon"
+          image={require('images/csv-logo.svg')}
+          isDisabled={true}
+        />
       </div>
     </div>
   </Card>

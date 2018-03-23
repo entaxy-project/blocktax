@@ -1,0 +1,10 @@
+.BlockstackButton {
+  background-repeat: no-repeat;
+  background-position: center center;
+  padding: 0 30px;
+}
+
+.BlockstackButton img {
+	margin-right: 15px;
+	margin-bottom: -3px;
+}

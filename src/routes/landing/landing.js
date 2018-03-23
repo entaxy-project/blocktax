@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
-import Button from 'components/button';
+import BlockstackButton from 'components/blockstack-button';
 import Logo from 'components/logo';
-import './landing.css';
 import landingImage from 'images/landing.png'
+import './landing.css';
 
 @inject(stores => ({
   signIn: stores.blockstack.signIn
@@ -26,7 +26,7 @@ export default class Landing extends Component {
           <div className="Landing__text">
             <h1 className="Landing__title">Your Crypto Taxes Simple & Private</h1>
             <p className="Landing__body">Generate a tax report for Coinbase transactions with the push of a button, decentralized so your data stays yours.</p>
-            <Button onClick={signIn}>Log In with Blockstack</Button>
+            <BlockstackButton/>
           </div>
         </div>
         <div className="Landing__illustration" style={{backgroundImage: `url(${landingImage})`}}/>

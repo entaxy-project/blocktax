@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
 import './user-menu.css';
+import caretDown from 'images/caret-down.svg'
+
 
 const injector = stores => ({
   avatar: stores.blockstack.avatar,
@@ -16,7 +18,7 @@ const UserMenu = ({avatar, coinbaseConnected, name, signOutOfBlockstack, signOut
     <div className="UserMenu__hover">
       <img className="UserMenu__avatar" src={avatar} alt=""/>
       <p className="UserMenu__name">{name}</p>
-      <img className="UserMenu__caret" src={require('images/caret-down.svg')} alt=""/>
+      <img className="UserMenu__caret" src={caretDown} alt=""/>
     </div>
     <div className="UserMenu__dropdown">
       {coinbaseConnected && (

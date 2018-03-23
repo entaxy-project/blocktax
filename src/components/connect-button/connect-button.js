@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './connect-button.css';
 
-const ConnectButton = ({title, image, onClick}) => (
-  <button className="ConnectButton" type="button" onClick={onClick}>
-    <div className="ConnectButton__image">
-      <img src={image} alt=""/>
-    </div>
+const ConnectButton = ({title, image, onClick, isDisabled}) => (
+  <button className={`ConnectButton ${isDisabled ? 'ConnectButton--disabled' : ''}`} type="button" onClick={onClick}>
+    <div className="ConnectButton__image" style={{backgroundImage: `url(${image})`}}/>
     <div className="ConnectButton__title">
       {title}
     </div>
@@ -16,7 +14,8 @@ const ConnectButton = ({title, image, onClick}) => (
 ConnectButton.propTypes = {
   image: PropTypes.string.isRequired,
   onClick: PropTypes.func,
-  title: PropTypes.string
+  title: PropTypes.string,
+  isDisabled: PropTypes.bool
 };
 
 ConnectButton.defaultProps = {

@@ -1,0 +1,23 @@
+<svg width="18" height="18" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<title>icon_blockstack</title>
+<desc>Created using Figma</desc>
+<g id="Canvas" transform="translate(-778 -8514)">
+<g id="icon_blockstack">
+<g id="Ellipse">
+<use xlink:href="#path0_fill" transform="translate(778 8514)" fill="#FFFFFF"/>
+</g>
+<g id="Ellipse">
+<use xlink:href="#path0_fill" transform="translate(790 8514)" fill="#FFFFFF"/>
+</g>
+<g id="Ellipse">
+<use xlink:href="#path0_fill" transform="translate(778 8526)" fill="#FFFFFF"/>
+</g>
+<g id="Ellipse">
+<use xlink:href="#path0_fill" transform="translate(790 8526)" fill="#FFFFFF"/>
+</g>
+</g>
+</g>
+<defs>
+<path id="path0_fill" d="M 6 3C 6 4.65685 4.65685 6 3 6C 1.34315 6 0 4.65685 0 3C 0 1.34315 1.34315 0 3 0C 4.65685 0 6 1.34315 6 3Z"/>
+</defs>
+</svg>

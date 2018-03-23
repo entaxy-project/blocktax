@@ -11,6 +11,10 @@
   cursor: pointer;
 }
 
+.ConnectButton--disabled {
+  cursor: not-allowed;
+}
+
 .ConnectButton:not(:last-child) {
   margin-right: 25px;
 }
@@ -21,6 +25,8 @@
   flex-flow: row nowrap;
   align-items: center;
   justify-content: center;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .ConnectButton__title {
@@ -31,4 +37,8 @@
   font-size: 14px;
   text-align: center;
   color: var(--color-white);
+}
+
+.ConnectButton--disabled .ConnectButton__title {
+  background: var(--color-darkgray);
 }
