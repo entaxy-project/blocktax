@@ -1,9 +1,11 @@
 /* eslint-disable camelcase */
 
 import uuid from 'uuid/v4';
+import difference_in_days from 'date-fns/difference_in_days';
 
 const calculateGainsWithFIFO = (buys, sells, currency) => {
   const taxEvents = [];
+  const ONE_YEAR = 365; //days
   let buy;
   let sell;
   let created_at;
@@ -13,6 +15,7 @@ const calculateGainsWithFIFO = (buys, sells, currency) => {
   let fiat_currency;
   let buy_price_per_unit;
   let cost;
+  let shortTerm;
 
   while (sells.length > 0) {
     if (sells[0].amount > buys[0].amount) {
@@ -28,6 +31,7 @@ const calculateGainsWithFIFO = (buys, sells, currency) => {
       // Cost
       buy_price_per_unit = buy.unit_price;
       cost = buy.amount * buy_price_per_unit;
+      shortTerm = difference_in_days(sells[0].created_at, buy.created_at) <= ONE_YEAR
     } else if (sells[0].amount < buys[0].amount) {
       sell = sells.shift();
       buys[0].amount -= sell.amount;
@@ -41,6 +45,7 @@ const calculateGainsWithFIFO = (buys, sells, currency) => {
       // Cost
       buy_price_per_unit = buys[0].unit_price;
       cost = sell_amount * buy_price_per_unit;
+      shortTerm = difference_in_days(sell.created_at, buys[0].created_at) <= ONE_YEAR
     } else {
       buy = buys.shift();
       sell = sells.shift();
@@ -54,6 +59,7 @@ const calculateGainsWithFIFO = (buys, sells, currency) => {
       // Cost
       buy_price_per_unit = buy.unit_price;
       cost = sell_amount * buy_price_per_unit;
+      shortTerm = difference_in_days(sell.created_at, buy.created_at) <= ONE_YEAR
     }
     taxEvents.push({
       id: uuid(),
@@ -86,7 +92,7 @@ const calculateGainsWithFIFO = (buys, sells, currency) => {
         amount: sell_native_amount - cost,
         currency: fiat_currency
       },
-      shortTerm: true
+      shortTerm
     });
   }
   return taxEvents;
@@ -105,21 +111,35 @@ export default transactions => {
   //   BTC: {
   //     buys: [
   //       {
-  //         created_at: Date.parse('2018-02-10T17:48:08Z'),
+  //         created_at: Date.parse('01 Jan 2016 13:22:00 GMT'),
   //         amount: 1,
   //         native_amount: 200,
   //         native_currency: 'CAD',
   //         unit_price: 200
   //       },
   //       {
-  //         created_at: '2018-02-10T17:48:08Z',
+  //         created_at: Date.parse('02 Jan 2016 11:03:00 GMT'),
+  //         amount: 1,
+  //         native_amount: 210,
+  //         native_currency: 'CAD',
+  //         unit_price: 210
+  //       },
+  //       {
+  //         created_at: Date.parse('04 Feb 2016 10:21:00 GMT'),
+  //         amount: 1,
+  //         native_amount: 220,
+  //         native_currency: 'CAD',
+  //         unit_price: 220
+  //       },
+  //       {
+  //         created_at: Date.parse('05 Feb 2016 13:22:00 GMT'),
   //         amount: 2,
   //         native_amount: 500,
   //         native_currency: 'CAD',
   //         unit_price: 250
   //       },
   //       {
-  //         created_at: '2018-02-10T17:48:08Z',
+  //         created_at: Date.parse('06 Feb 2016 13:22:00 GMT'),
   //         amount: 3,
   //         native_amount: 600,
   //         native_currency: 'CAD',
@@ -128,14 +148,14 @@ export default transactions => {
   //     ],
   //     sells: [
   //       {
-  //         created_at: Date.parse('2018-02-23T17:48:08Z'),
+  //         created_at: Date.parse('02 Jan 2017 13:22:00 GMT'),
   //         amount: 4,
-  //         native_amount: 1000,
+  //         native_amount: 100,
   //         native_currency: 'CAD',
   //         unit_price: 500
   //       },
   //       {
-  //         created_at: '2018-02-22T17:48:08Z',
+  //         created_at: Date.parse('10 Feb 2017 13:22:00 GMT'),
   //         amount: 2,
   //         native_amount: 2000,
   //         native_currency: 'CAD',
