@@ -28,7 +28,10 @@
 
 .Landing__illustration {
   width: 50%;
-  background: var(--color-cyan)
+  background-color: var(--color-cyan);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 .Landing__title {

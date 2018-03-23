@@ -4,6 +4,7 @@ import {inject} from 'mobx-react';
 import Button from 'components/button';
 import Logo from 'components/logo';
 import './landing.css';
+import landingImage from 'images/landing.png'
 
 @inject(stores => ({
   signIn: stores.blockstack.signIn
@@ -28,7 +29,7 @@ export default class Landing extends Component {
             <Button onClick={signIn}>Log In with Blockstack</Button>
           </div>
         </div>
-        <div className="Landing__illustration"/>
+        <div className="Landing__illustration" style={{backgroundImage: `url(${landingImage})`}}/>
       </div>
     );
   }
