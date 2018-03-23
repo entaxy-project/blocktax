@@ -1,7 +1,7 @@
 {
   "name": "BlockTax",
-  "start_url": "localhost:8080",
-  "description": "Your Crypto Taxes",
+  "start_url": "https://blocktax.herokuapp.com",
+  "description": "Your Crypto Taxes, Simple & Private",
   "icons": [
     {
       "src": "favicon.ico",
