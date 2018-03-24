@@ -63,7 +63,7 @@ const calculateGainsWithFIFO = (buys, sells, currency) => {
     }
     taxEvents.push({
       id: uuid(),
-      date: created_at,
+      created_at,
       amount: {
         amount: sell_amount,
         currency
@@ -106,9 +106,41 @@ const calculateGainsWithFIFO = (buys, sells, currency) => {
  */
 export default transactions => {
   let taxEvents = [];
-
-  // Test transactions
   // transactions = {
+  //   ETH: {
+  //     buys: [
+  //       {
+  //         created_at: Date.parse('01 Jan 2016 14:24:00 GMT'),
+  //         amount: 0.1,
+  //         native_amount: 1,
+  //         native_currency: 'CAD',
+  //         unit_price: 10
+  //       },
+  //       {
+  //         created_at: Date.parse('02 Jan 2016 12:22:00 GMT'),
+  //         amount: 0.2,
+  //         native_amount: 2.4,
+  //         native_currency: 'CAD',
+  //         unit_price: 12
+  //       },
+  //       {
+  //         created_at: Date.parse('03 Jan 2016 13:22:00 GMT'),
+  //         amount: 0.1,
+  //         native_amount: 1.5,
+  //         native_currency: 'CAD',
+  //         unit_price: 15
+  //       }
+  //     ],
+  //     sells: [
+  //       {
+  //         created_at: Date.parse('03 Jan 2017 13:22:00 GMT'),
+  //         amount: 0.39,
+  //         native_amount: 8,
+  //         native_currency: 'CAD',
+  //         unit_price: 20
+  //       }
+  //     ],
+  //   },
   //   BTC: {
   //     buys: [
   //       {
@@ -165,7 +197,6 @@ export default transactions => {
   //     ]
   //   }
   // };
-
   for (const currency of Object.keys(transactions)) {
     const buys = transactions[currency].buys;
     const sells = transactions[currency].sells;

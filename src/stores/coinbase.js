@@ -65,7 +65,7 @@ export default class CoinbaseStore {
       });
     }
 
-    return createTaxEvents(groupedTransactions);
+    return createTaxEvents(groupedTransactions).sort(this.sortTransactions);
   }
 
   filterTransactionsBy(types) {

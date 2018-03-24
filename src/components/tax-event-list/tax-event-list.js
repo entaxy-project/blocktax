@@ -54,8 +54,8 @@ const TaxEventList = ({events, toggleShowTaxes}) => (
         {events.map(e => (
           <tr key={e.id} className="TaxEventList__row">
             <td className="TaxEventList__cell">
-              <div className="TaxEventList__date">{format(e.date, 'MM/DD/YY')}</div>
-              <div className="TaxEventList__time">{format(e.date, 'h:mma')}</div>
+              <div className="TaxEventList__date">{format(e.created_at, 'MM/DD/YY')}</div>
+              <div className="TaxEventList__time">{format(e.created_at, 'h:mma')}</div>
             </td>
             <td className="TaxEventList__cell">
               {amount(e.amount)}
