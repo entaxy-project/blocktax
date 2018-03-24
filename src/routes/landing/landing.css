@@ -29,9 +29,9 @@
 .Landing__illustration {
   width: 50%;
   background-color: var(--color-seablue);
-  background-size: cover;
+  background-size: 100%;
   background-repeat: no-repeat;
-  background-position: center center;
+  background-position: center;
 }
 
 .Landing__title {
