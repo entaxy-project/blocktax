@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
-import './auth.css';
+import './import-from-coinbase.css';
 
 @inject(stores => ({
   coinbaseAuthState: stores.coinbase.oauthState,
   getCoinbaseAuthToken: stores.coinbase.getAuthToken,
   signedInToCoinbase: stores.coinbase.signedIn
 }))
-export default class Auth extends Component {
+export default class ImportFromCoinbase extends Component {
   static propTypes = {
     coinbaseAuthState: PropTypes.string,
     getCoinbaseAuthToken: PropTypes.func.isRequired,
@@ -25,7 +25,7 @@ export default class Auth extends Component {
     const {coinbaseAuthState, signedInToCoinbase, getCoinbaseAuthToken, history, location} = this.props;
 
     if (signedInToCoinbase) {
-      history.push('/dashboard');
+      history.push('/transactions');
     } else if (typeof coinbaseAuthState === 'string') {
       getCoinbaseAuthToken(location.search);
     }
@@ -33,8 +33,8 @@ export default class Auth extends Component {
 
   render() {
     return (
-      <div className="Auth">
-        <h1 className="Auth__title">Authenticating...</h1>
+      <div className="ImportFromCoinbase">
+        <h1 className="ImportFromCoinbase__title">Authenticating...</h1>
       </div>
     );
   }

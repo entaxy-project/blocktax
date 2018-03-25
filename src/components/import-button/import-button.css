@@ -1,4 +1,4 @@
-.ConnectButton {
+.ImportButton {
   -webkit-appearance: none;
   outline: none;
   border: 0;
@@ -8,18 +8,16 @@
   background: var(--color-gray);
   border-radius: 6px;
   overflow: hidden;
-  cursor: pointer;
+  display: inline-block;
+  align-items: flex-start;
+  text-align: center;
 }
 
-.ConnectButton--disabled {
-  cursor: not-allowed;
-}
-
-.ConnectButton:not(:last-child) {
+.ImportButton:not(:last-child) {
   margin-right: 25px;
 }
 
-.ConnectButton__image {
+.ImportButton__image {
   height: 166px;
   display: flex;
   flex-flow: row nowrap;
@@ -29,7 +27,14 @@
   background-position: center center;
 }
 
-.ConnectButton__title {
+.ImportButton__disconnect {
+  position: absolute;
+  bottom: -0px;
+  text-decoration: none;
+  color: var(--color-darkgray);
+}
+
+.ImportButton__title {
   height: 40px;
   line-height: 40px;
   background: var(--color-seablue);
@@ -37,8 +42,11 @@
   font-size: 14px;
   text-align: center;
   color: var(--color-white);
+  cursor: pointer;
 }
 
-.ConnectButton--disabled .ConnectButton__title {
+.ImportButton--disabled .ImportButton__title {
   background: var(--color-darkgray);
+  cursor: not-allowed;
+
 }

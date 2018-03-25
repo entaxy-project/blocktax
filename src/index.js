@@ -7,20 +7,26 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import AuthHandler from './components/auth-handler';
 import AsyncProvider from './components/async-provider';
 import Landing from './routes/landing';
-import Dashboard from './routes/dashboard';
-import Auth from './routes/auth';
+import Import from './components/import';
+import ImportFromCoinbase from './components/import-from-coinbase';
+import TransactionList from './components/transaction-list';
+import TaxEventList from './components/tax-event-list';
 import BlockstackStore from './stores/blockstack';
 import CoinbaseStore from './stores/coinbase';
 import UIStore from './stores/ui';
 import './style.css';
 
 const signedOutOnly = props => (
-  isUserSignedIn() ? <Redirect to="/dashboard"/> : <Landing {...props}/>
+  isUserSignedIn() ? <Redirect to="/transactions"/> : <Landing {...props}/>
 );
 
-const signedInOnly = Screen => props => (
-  isUserSignedIn() ? <Screen {...props}/> : <Redirect to="/"/>
-);
+const loginRequired = Screen => props => {
+  if(isUserSignedIn()) {
+    return <Screen {...props}/>
+  } else {
+    return <Redirect to="/"/>
+  }
+};
 
 const router = new RouterStore();
 const blockstack = new BlockstackStore(router);
@@ -34,8 +40,10 @@ const App = () => (
       <AuthHandler>
         <div>
           <Route exact path="/" render={signedOutOnly}/>
-          <Route exact path="/dashboard" render={signedInOnly(Dashboard)}/>
-          <Route exact path="/auth" render={signedInOnly(Auth)}/>
+          <Route exact path="/auth" render={loginRequired(ImportFromCoinbase)}/>
+          <Route exact path="/transactions" render={loginRequired(TransactionList)}/>
+          <Route exact path="/capital-gains" render={loginRequired(TaxEventList)}/>
+          <Route exact path="/import" render={loginRequired(Import)}/>
         </div>
       </AuthHandler>
     </AsyncProvider>

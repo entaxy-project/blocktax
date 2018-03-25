@@ -12,14 +12,6 @@ export default class UIStore {
 
   dashboardPageSize = 10
 
-  @observable
-  showTaxes = false
-
-  @action.bound
-  toggleShowTaxes() {
-    this.showTaxes = !this.showTaxes;
-  }
-
   @computed
   get dashboardPageCount() {
     return Math.ceil(this.coinbase.buyAndSellTransactions.length / this.dashboardPageSize);
