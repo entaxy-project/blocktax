@@ -17,7 +17,10 @@ const Landing = () => (
         <BlockstackButton/>
       </div>
     </div>
-    <div className="Landing__illustration" style={{backgroundImage: `url(${landingImage})`}}/>
+    <div
+      className="Landing__illustration"
+      style={{backgroundImage: `url(${landingImage}), linear-gradient(to bottom, var(--color-blue), var(--color-cyan))`}}
+    />
   </div>
 )
 

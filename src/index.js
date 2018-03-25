@@ -6,7 +6,7 @@ import {RouterStore, syncHistoryWithStore} from 'mobx-react-router';
 import createBrowserHistory from 'history/createBrowserHistory';
 import AuthHandler from './components/auth-handler';
 import AsyncProvider from './components/async-provider';
-import Landing from './routes/landing';
+import Landing from './components/landing';
 import Import from './components/import';
 import ImportFromCoinbase from './components/import-from-coinbase';
 import TransactionList from './components/transaction-list';
