@@ -11,10 +11,10 @@ const injector = stores => ({
   signInToCoinbase: stores.coinbase.signIn,
   signedInToCoinbase: stores.coinbase.signedIn,
   importFromCoinbase: stores.coinbase.fetchTransactions,
-
+  signOutOfCoinbase: stores.coinbase.signOut
 });
 
-const Import = ({signInToCoinbase, signedInToCoinbase, importFromCoinbase}) => (
+const Import = ({signInToCoinbase, signedInToCoinbase, importFromCoinbase, signOutOfCoinbase}) => (
   <div>
     <Header/>
     <Body>
@@ -36,6 +36,7 @@ const Import = ({signInToCoinbase, signedInToCoinbase, importFromCoinbase}) => (
                 image={require('images/coinbase-logo.svg')}
                 onClick={importFromCoinbase}
                 confirmMsg="Are you sure? This will delete all existing transactions."
+                disconnectAction={signOutOfCoinbase}
               />
             )}
             <ImportButton
@@ -53,7 +54,8 @@ const Import = ({signInToCoinbase, signedInToCoinbase, importFromCoinbase}) => (
 Import.propTypes = {
   signInToCoinbase: PropTypes.func.isRequired,
   signedInToCoinbase: PropTypes.bool.isRequired,
-  importFromCoinbase: PropTypes.func.isRequired
+  importFromCoinbase: PropTypes.func.isRequired,
+  signOutOfCoinbase: PropTypes.func.isRequired
 };
 
 export default inject(injector)(Import);

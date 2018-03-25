@@ -7,7 +7,6 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import AuthHandler from './components/auth-handler';
 import AsyncProvider from './components/async-provider';
 import Landing from './routes/landing';
-import Dashboard from './routes/dashboard';
 import Import from './components/import';
 import ImportFromCoinbase from './components/import-from-coinbase';
 import TransactionList from './components/transaction-list';
@@ -20,10 +19,6 @@ import './style.css';
 const signedOutOnly = props => (
   isUserSignedIn() ? <Redirect to="/transactions"/> : <Landing {...props}/>
 );
-
-// const signedInOnly = Screen => props => (
-//   isUserSignedIn() ? <Screen {...props}/> : <Redirect to="/"/>
-// );
 
 const loginRequired = Screen => props => {
   if(isUserSignedIn()) {

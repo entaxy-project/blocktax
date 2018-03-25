@@ -8,11 +8,9 @@
   background: var(--color-gray);
   border-radius: 6px;
   overflow: hidden;
-  cursor: pointer;
-}
-
-.ImportButton--disabled {
-  cursor: not-allowed;
+  display: inline-block;
+  align-items: flex-start;
+  text-align: center;
 }
 
 .ImportButton:not(:last-child) {
@@ -29,6 +27,13 @@
   background-position: center center;
 }
 
+.ImportButton__disconnect {
+  position: absolute;
+  bottom: -0px;
+  text-decoration: none;
+  color: var(--color-darkgray);
+}
+
 .ImportButton__title {
   height: 40px;
   line-height: 40px;
@@ -37,8 +42,11 @@
   font-size: 14px;
   text-align: center;
   color: var(--color-white);
+  cursor: pointer;
 }
 
 .ImportButton--disabled .ImportButton__title {
   background: var(--color-darkgray);
+  cursor: not-allowed;
+
 }

@@ -6,13 +6,12 @@ import caretDown from 'images/caret-down.svg';
 
 const injector = stores => ({
   avatar: stores.blockstack.avatar,
-  coinbaseConnected: stores.coinbase.signedIn,
   name: stores.blockstack.name,
   signOutOfBlockstack: stores.blockstack.signOut,
   signOutOfCoinbase: stores.coinbase.signOut
 });
 
-const UserMenu = ({avatar, coinbaseConnected, name, signOutOfBlockstack, signOutOfCoinbase}) => (
+const UserMenu = ({avatar, name, signOutOfBlockstack, signOutOfCoinbase}) => (
   <div className="UserMenu">
     <div className="UserMenu__hover">
       <img className="UserMenu__avatar" src={avatar} alt=""/>
@@ -20,11 +19,6 @@ const UserMenu = ({avatar, coinbaseConnected, name, signOutOfBlockstack, signOut
       <img className="UserMenu__caret" src={caretDown} alt=""/>
     </div>
     <div className="UserMenu__dropdown">
-      {coinbaseConnected && (
-        <button className="UserMenu__item" type="button" onClick={signOutOfCoinbase}>Disconnect Coinbase</button>
-      )}
-      <a href="transactions" className="UserMenu__item">Transaction History</a>
-      <a href="capital-gains" className="UserMenu__item">Capital Gains</a>
       <a href="import" className="UserMenu__item">Import transactions</a>
       <button className="UserMenu__item" type="button" onClick={signOutOfBlockstack}>Log Out</button>
     </div>
@@ -33,7 +27,6 @@ const UserMenu = ({avatar, coinbaseConnected, name, signOutOfBlockstack, signOut
 
 UserMenu.propTypes = {
   avatar: PropTypes.string.isRequired,
-  coinbaseConnected: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   signOutOfBlockstack: PropTypes.func.isRequired,
   signOutOfCoinbase: PropTypes.func.isRequired

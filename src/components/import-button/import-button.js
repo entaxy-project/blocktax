@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './import-button.css';
 
-const ImportButton = ({title, image, onClick, isDisabled, confirmMsg}) => {
+const ImportButton = ({title, image, onClick, disconnectAction, isDisabled, confirmMsg}) => {
+
   const applyClick = () => {
-    console.log(confirmMsg)
     if(confirmMsg === undefined) {
       onClick();
     } else if(confirm(confirmMsg)) {
@@ -13,15 +13,16 @@ const ImportButton = ({title, image, onClick, isDisabled, confirmMsg}) => {
   }
 
   return(
-    <button
+    <div
       className={`ImportButton ${isDisabled ? 'ImportButton--disabled' : ''}`}
-      type="button"
-      onClick={applyClick}>
-      <div className="ImportButton__image" style={{backgroundImage: `url(${image})`}}/>
-      <div className="ImportButton__title">
+    >
+      <div className="ImportButton__image" style={{backgroundImage: `url(${image})`}}>
+        {disconnectAction && <a href='#' onClick={disconnectAction} className="ImportButton__disconnect">Disconnect</a>}
+      </div>
+      <div className="ImportButton__title" onClick={applyClick}>
         {title}
       </div>
-    </button>
+    </div>
   );
 }
 
