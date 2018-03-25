@@ -1,0 +1,91 @@
+{
+  ETH: {
+    buys: [
+      {
+        created_at: Date.parse('01 Jan 2016 14:24:00 GMT'),
+        amount: 0.1,
+        native_amount: 1,
+        native_currency: 'CAD',
+        unit_price: 10
+      },
+      {
+        created_at: Date.parse('02 Jan 2016 12:22:00 GMT'),
+        amount: 0.2,
+        native_amount: 2.4,
+        native_currency: 'CAD',
+        unit_price: 12
+      },
+      {
+        created_at: Date.parse('03 Jan 2016 13:22:00 GMT'),
+        amount: 0.1,
+        native_amount: 1.5,
+        native_currency: 'CAD',
+        unit_price: 15
+      }
+    ],
+    sells: [
+      {
+        created_at: Date.parse('03 Jan 2017 13:22:00 GMT'),
+        amount: 0.39,
+        native_amount: 8,
+        native_currency: 'CAD',
+        unit_price: 20
+      }
+    ],
+  },
+  BTC: {
+    buys: [
+      {
+        created_at: Date.parse('01 Jan 2016 13:22:00 GMT'),
+        amount: 1,
+        native_amount: 200,
+        native_currency: 'CAD',
+        unit_price: 200
+      },
+      {
+        created_at: Date.parse('02 Jan 2016 11:03:00 GMT'),
+        amount: 1,
+        native_amount: 210,
+        native_currency: 'CAD',
+        unit_price: 210
+      },
+      {
+        created_at: Date.parse('04 Feb 2016 10:21:00 GMT'),
+        amount: 1,
+        native_amount: 220,
+        native_currency: 'CAD',
+        unit_price: 220
+      },
+      {
+        created_at: Date.parse('05 Feb 2016 13:22:00 GMT'),
+        amount: 2,
+        native_amount: 500,
+        native_currency: 'CAD',
+        unit_price: 250
+      },
+      {
+        created_at: Date.parse('06 Feb 2016 13:22:00 GMT'),
+        amount: 3,
+        native_amount: 600,
+        native_currency: 'CAD',
+        unit_price: 300
+      }
+    ],
+    sells: [
+      {
+        created_at: Date.parse('02 Jan 2017 13:22:00 GMT'),
+        amount: 4,
+        native_amount: 100,
+        native_currency: 'CAD',
+        unit_price: 500
+      },
+      {
+        created_at: Date.parse('10 Feb 2017 13:22:00 GMT'),
+        amount: 2,
+        native_amount: 2000,
+        native_currency: 'CAD',
+        unit_price: 1000
+      }
+    ]
+  }
+}

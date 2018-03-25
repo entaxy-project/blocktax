@@ -12,6 +12,8 @@
   border-radius: 6px;
   font-weight: bold;
   cursor: pointer;
+  display: block;
+  text-decoration: none;
 }
 
 .Button--disabled {

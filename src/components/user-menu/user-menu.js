@@ -23,6 +23,9 @@ const UserMenu = ({avatar, coinbaseConnected, name, signOutOfBlockstack, signOut
       {coinbaseConnected && (
         <button className="UserMenu__item" type="button" onClick={signOutOfCoinbase}>Disconnect Coinbase</button>
       )}
+      <a href="transactions" className="UserMenu__item">Transaction History</a>
+      <a href="capital-gains" className="UserMenu__item">Capital Gains</a>
+      <a href="import" className="UserMenu__item">Import transactions</a>
       <button className="UserMenu__item" type="button" onClick={signOutOfBlockstack}>Log Out</button>
     </div>
   </div>

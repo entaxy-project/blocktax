@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
 import Header from '../components/header';
 import Body from '../components/body';
-import ConnectExchange from '../components/connect-exchange';
+import Import from '../components/import';
 import TransactionList from '../components/transaction-list';
 import TaxEventList from '../components/tax-event-list';
 import DashboardState from '../constants/dashboard-state';
@@ -17,7 +17,7 @@ const Dashboard = ({state, showTaxes}) => (
   <div className="panel-welcome" id="section-2">
     <Header/>
     <Body>
-      {state === DashboardState.NoLinkedAccounts && <ConnectExchange/>}
+      {state === DashboardState.NoLinkedAccounts && <Import/>}
       {state !== DashboardState.NoLinkedAccounts && !showTaxes && <TransactionList/>}
       {state !== DashboardState.NoLinkedAccounts && showTaxes && <TaxEventList/>}
     </Body>

@@ -6,6 +6,8 @@ import {toJS} from 'mobx';
 import {inject} from 'mobx-react';
 import formatDate from 'date-fns/format';
 import parseDate from 'date-fns/parse';
+import Header from 'components/header';
+import Body from 'components/body';
 import Card from 'components/card';
 import CardHeader from 'components/card-header';
 import Button from 'components/button';
@@ -42,60 +44,64 @@ const injector = stores => ({
 });
 
 const TransactionList = ({changePage, currentPage, fetchTransactions, pageCount, transactions, toggleShowTaxes}) => (
-  <Card>
-    <CardHeader
-      title="Transaction History"
-      controls={
-        <div>
-          <Button small onClick={fetchTransactions}>Refresh</Button>
-          <Button small onClick={toggleShowTaxes}>Capital Gains</Button>
+  <div>
+    <Header/>
+    <Body>
+      <Card>
+        <CardHeader
+          title="Transaction History"
+          controls={
+            <div>
+              <Button small href='capital-gains'>Capital Gains</Button>
+            </div>
+          }
+        />
+        <table className="TransactionList">
+          <thead>
+            <tr className="TransactionList__header">
+              <th className="TransactionList__header-cell">Date</th>
+              <th className="TransactionList__header-cell">Type</th>
+              <th className="TransactionList__header-cell">Amount</th>
+              <th className="TransactionList__header-cell">Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactions.map(e => (
+              <tr key={e.id} className="TransactionList__row">
+                <td className="TransactionList__cell">
+                  <div className="TransactionList__date">{formatDate(parseDate(e.created_at), 'MM/DD/YY')}</div>
+                  <div className="TransactionList__time">{formatDate(parseDate(e.created_at), 'h:mma')}</div>
+                </td>
+                <td className="TransactionList__cell">
+                  {e.details.title}
+                  <div className="TransactionList__sub">{e.details.subtitle}</div>
+                </td>
+                <td className="TransactionList__cell">
+                  {amount(e.amount)}
+                </td>
+                <td className="TransactionList__cell">
+                  {amount(e.native_amount)}
+                  <div className="TransactionList__sub">
+                    {amount({
+                      amount: pricePer(e.amount, e.native_amount),
+                      currency: e.native_amount.currency
+                    })}/{e.amount.currency}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="TransactionList__pagination">
+          <Pagination
+            currentPage={currentPage}
+            pageCount={pageCount}
+            onChange={changePage}
+          />
         </div>
-      }
-    />
-    <table className="TransactionList">
-      <thead>
-        <tr className="TransactionList__header">
-          <th className="TransactionList__header-cell">Date</th>
-          <th className="TransactionList__header-cell">Type</th>
-          <th className="TransactionList__header-cell">Amount</th>
-          <th className="TransactionList__header-cell">Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        {transactions.map(e => (
-          <tr key={e.id} className="TransactionList__row">
-            <td className="TransactionList__cell">
-              <div className="TransactionList__date">{formatDate(parseDate(e.created_at), 'MM/DD/YY')}</div>
-              <div className="TransactionList__time">{formatDate(parseDate(e.created_at), 'h:mma')}</div>
-            </td>
-            <td className="TransactionList__cell">
-              {e.details.title}
-              <div className="TransactionList__sub">{e.details.subtitle}</div>
-            </td>
-            <td className="TransactionList__cell">
-              {amount(e.amount)}
-            </td>
-            <td className="TransactionList__cell">
-              {amount(e.native_amount)}
-              <div className="TransactionList__sub">
-                {amount({
-                  amount: pricePer(e.amount, e.native_amount),
-                  currency: e.native_amount.currency
-                })}/{e.amount.currency}
-              </div>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    <div className="TransactionList__pagination">
-      <Pagination
-        currentPage={currentPage}
-        pageCount={pageCount}
-        onChange={changePage}
-      />
-    </div>
-  </Card>
+      </Card>
+    </Body>
+  </div>
 );
 
 TransactionList.propTypes = {
