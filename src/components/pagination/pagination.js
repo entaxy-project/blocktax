@@ -34,7 +34,7 @@ const Pagination = ({currentPage, onChange, pageCount}) => (
       onClick={() => onChange(currentPage + 1)}
       type="button"
     >
-      Next
+      Next {currentPage}-{pageCount}
     </button>
   </div>
 );

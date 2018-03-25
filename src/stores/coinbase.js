@@ -104,6 +104,12 @@ export default class CoinbaseStore {
   }
 
   @action.bound
+  clearTransactions() {
+    this.transactions.clear();
+  }
+
+
+  @action.bound
   async signOut() {
     const params = {
       token: this.accessToken,
@@ -119,11 +125,11 @@ export default class CoinbaseStore {
   }
 
   resetState() {
+    this.transactions.clear();
     this.accessToken = null;
     this.refreshToken = null;
     this.userId = null;
     this.accounts.clear();
-    this.transactions.clear();
   }
 
   getAuthToken = async input => {

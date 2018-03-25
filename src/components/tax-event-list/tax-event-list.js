@@ -11,6 +11,7 @@ import Body from 'components/body';
 import Card from 'components/card';
 import CardHeader from 'components/card-header';
 import Button from 'components/button';
+import Disclaimer from 'components/disclaimer';
 import getLocale from 'utils/get-locale';
 
 import './tax-event-list.css';
@@ -29,11 +30,10 @@ const amount = a => {
 };
 
 const injector = stores => ({
-  events: toJS(stores.coinbase.taxEvents),
-  toggleShowTaxes: stores.ui.toggleShowTaxes
+  events: toJS(stores.coinbase.taxEvents)
 });
 
-const TaxEventList = ({events, toggleShowTaxes}) => (
+const TaxEventList = ({events}) => (
   <div>
     <Header/>
     <Body>
@@ -109,12 +109,12 @@ const TaxEventList = ({events, toggleShowTaxes}) => (
         </table>
       </Card>
     </Body>
+    <Disclaimer/>
   </div>
 );
 
 TaxEventList.propTypes = {
-  events: PropTypes.arrayOf(PropTypes.object).isRequired,
-  toggleShowTaxes: PropTypes.func.isRequired
+  events: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default inject(injector)(TaxEventList);

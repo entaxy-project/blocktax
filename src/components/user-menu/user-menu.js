@@ -8,10 +8,11 @@ const injector = stores => ({
   avatar: stores.blockstack.avatar,
   name: stores.blockstack.name,
   signOutOfBlockstack: stores.blockstack.signOut,
-  signOutOfCoinbase: stores.coinbase.signOut
+  signOutOfCoinbase: stores.coinbase.signOut,
+  clearTransactions: stores.coinbase.clearTransactions
 });
 
-const UserMenu = ({avatar, name, signOutOfBlockstack, signOutOfCoinbase}) => (
+const UserMenu = ({avatar, name, signOutOfBlockstack, signOutOfCoinbase, clearTransactions}) => (
   <div className="UserMenu">
     <div className="UserMenu__hover">
       <img className="UserMenu__avatar" src={avatar} alt=""/>
@@ -20,6 +21,7 @@ const UserMenu = ({avatar, name, signOutOfBlockstack, signOutOfCoinbase}) => (
     </div>
     <div className="UserMenu__dropdown">
       <a href="import" className="UserMenu__item">Import transactions</a>
+      <button className="UserMenu__item" type="button" onClick={clearTransactions}>Reset</button>
       <button className="UserMenu__item" type="button" onClick={signOutOfBlockstack}>Log Out</button>
     </div>
   </div>
@@ -29,7 +31,8 @@ UserMenu.propTypes = {
   avatar: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   signOutOfBlockstack: PropTypes.func.isRequired,
-  signOutOfCoinbase: PropTypes.func.isRequired
+  signOutOfCoinbase: PropTypes.func.isRequired,
+  clearTransactions: PropTypes.func.isRequired
 };
 
 export default inject(injector)(UserMenu);

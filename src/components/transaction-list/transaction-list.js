@@ -11,6 +11,7 @@ import Body from 'components/body';
 import Card from 'components/card';
 import CardHeader from 'components/card-header';
 import Button from 'components/button';
+import Disclaimer from 'components/disclaimer';
 import Pagination from 'components/pagination';
 import getLocale from 'utils/get-locale';
 import './transaction-list.css';
@@ -39,11 +40,10 @@ const injector = stores => ({
   currentPage: stores.ui.dashboardPage,
   fetchTransactions: stores.coinbase.fetchTransactions,
   pageCount: stores.ui.dashboardPageCount,
-  transactions: toJS(stores.ui.dashboardTransactions),
-  toggleShowTaxes: stores.ui.toggleShowTaxes
+  transactions: toJS(stores.ui.dashboardTransactions)
 });
 
-const TransactionList = ({changePage, currentPage, fetchTransactions, pageCount, transactions, toggleShowTaxes}) => (
+const TransactionList = ({changePage, currentPage, fetchTransactions, pageCount, transactions}) => (
   <div>
     <Header/>
     <Body>
@@ -92,15 +92,18 @@ const TransactionList = ({changePage, currentPage, fetchTransactions, pageCount,
             ))}
           </tbody>
         </table>
-        <div className="TransactionList__pagination">
-          <Pagination
-            currentPage={currentPage}
-            pageCount={pageCount}
-            onChange={changePage}
-          />
-        </div>
+        {transactions.length > 0 && (
+          <div className="TransactionList__pagination">
+            <Pagination
+              currentPage={currentPage}
+              pageCount={pageCount}
+              onChange={changePage}
+            />
+          </div>
+        )}
       </Card>
     </Body>
+    <Disclaimer/>
   </div>
 );
 
@@ -109,8 +112,7 @@ TransactionList.propTypes = {
   currentPage: PropTypes.number.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
   pageCount: PropTypes.number.isRequired,
-  transactions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  toggleShowTaxes: PropTypes.func.isRequired
+  transactions: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 export default inject(injector)(TransactionList);

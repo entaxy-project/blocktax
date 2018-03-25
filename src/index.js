@@ -24,7 +24,7 @@ const loginRequired = Screen => props => {
   if(isUserSignedIn()) {
     return <Screen {...props}/>
   } else {
-    <Redirect to="/"/>
+    return <Redirect to="/"/>
   }
 };
 
