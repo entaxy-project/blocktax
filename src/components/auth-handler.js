@@ -14,7 +14,6 @@ export default class Container extends Component {
 
   componentWillMount() {
     if (isSignInPending()) {
-      console.log('is this happening?');
       handlePendingSignIn().then(_ => {
         window.location = window.location.origin;
       });

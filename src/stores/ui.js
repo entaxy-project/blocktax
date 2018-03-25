@@ -1,7 +1,10 @@
 import {observable, computed, action} from 'mobx';
+import {persist} from 'mobx-persist';
 import DashboardState from '../constants/dashboard-state';
 
 export default class UIStore {
+  static persist = true
+
   constructor(blockstack, coinbase) {
     this.blockstack = blockstack;
     this.coinbase = coinbase;
@@ -11,6 +14,15 @@ export default class UIStore {
   dashboardPage = 0
 
   dashboardPageSize = 10
+
+  @persist
+  @observable
+  disclaimerIsVisible = true
+
+  @action.bound
+  hideDisclaimer() {
+    this.disclaimerIsVisible = false;
+  }
 
   @computed
   get dashboardPageCount() {
