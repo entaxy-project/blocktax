@@ -42,6 +42,7 @@
     "blockstack": "^0.15.0",
     "chalk": "^2.3.2",
     "classnames": "^2.2.5",
+    "crypto": "^1.0.1",
     "date-fns": "^1.29.0",
     "dotenv-expand": "^4.2.0",
     "gh-pages": "^1.1.0",

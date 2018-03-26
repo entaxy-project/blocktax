@@ -30,7 +30,7 @@ const amount = a => {
 };
 
 const injector = stores => ({
-  events: toJS(stores.coinbase.taxEvents)
+  events: toJS(stores.transactions.taxEvents)
 });
 
 const TaxEventList = ({events}) => (

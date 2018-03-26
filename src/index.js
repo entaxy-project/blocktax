@@ -12,9 +12,15 @@ import ImportFromCoinbase from './components/import-from-coinbase';
 import TransactionList from './components/transaction-list';
 import TaxEventList from './components/tax-event-list';
 import BlockstackStore from './stores/blockstack';
-import CoinbaseStore from './stores/coinbase';
 import UIStore from './stores/ui';
+import TransactionsStore from './stores/transactions';
 import './style.css';
+
+const router = new RouterStore();
+const blockstack = new BlockstackStore(router);
+const transactions = new TransactionsStore();
+const ui = new UIStore(blockstack, transactions);
+const history = syncHistoryWithStore(createBrowserHistory(), router);
 
 const signedOutOnly = props => (
   isUserSignedIn() ? <Redirect to="/transactions"/> : <Landing {...props}/>
@@ -28,15 +34,19 @@ const loginRequired = Screen => props => {
   }
 };
 
-const router = new RouterStore();
-const blockstack = new BlockstackStore(router);
-const coinbase = new CoinbaseStore();
-const ui = new UIStore(blockstack, coinbase);
-const history = syncHistoryWithStore(createBrowserHistory(), router);
+
+// const tranasactionsRequired = Screen => props => {
+//   console.log(blockstack.transactions)
+//   if(isUserSignedIn()) {
+//     return <Screen {...props}/>
+//   } else {
+//     return <Redirect to="/"/>
+//   }
+// };
 
 const App = () => (
   <Router history={history} basename={process.env.PUBLIC_URL}>
-    <AsyncProvider stores={{blockstack, coinbase, ui, router}}>
+    <AsyncProvider stores={{blockstack, ui, transactions, router}}>
       <AuthHandler>
         <div>
           <Route exact path="/" render={signedOutOnly}/>
