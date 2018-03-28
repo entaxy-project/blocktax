@@ -202,7 +202,6 @@ export default class CoinbaseStore {
     const json = await this.makeApiCall('accounts');
 
     this.accounts.replace(json.data.map(account => [account.id, {currency: account.currency}]));
-    console.log(this.accounts)
   }
 
   @action.bound

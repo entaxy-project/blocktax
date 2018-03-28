@@ -49,11 +49,6 @@ const TransactionList = ({changePage, currentPage, pageCount, transactions}) => 
       <Card>
         <CardHeader
           title="Transaction History"
-          controls={
-            <div>
-              <Button small href='capital-gains'>Capital Gains</Button>
-            </div>
-          }
         />
         <table className="TransactionList">
           <thead>

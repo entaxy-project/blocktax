@@ -40,9 +40,6 @@ const TaxEventList = ({events}) => (
       <Card>
         <CardHeader
           title="Capital Gains"
-          controls={
-            <Button small href='transactions'>Transaction History</Button>
-          }
         />
 
         <table className="TaxEventList">

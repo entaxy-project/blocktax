@@ -1,4 +1,4 @@
-import {observable, computed, action} from 'mobx';
+import {observable, computed, action, toJS} from 'mobx';
 import {persist} from 'mobx-persist';
 import getTime from 'date-fns/get_time';
 import importTransactionsFromCoinbase from 'utils/import/coinbase'
@@ -13,7 +13,7 @@ export default class TransactionsStore {
 
   // @persist
   @observable
-	apiKey = '';
+  apiKey = '';
 
   // @persist
   @observable
@@ -21,16 +21,26 @@ export default class TransactionsStore {
 
   @action.bound
   clearTransactions() {
-    this.transactions.clear();
+    return this.transactions.clear();
   }
 
   @action.bound
-  async importTransactionsFrom(source) {
-	  const importSources = {
-	  	coinbase: importTransactionsFromCoinbase
-	  }
-  	this.clearTransactions()
-    this.transactions = await importSources[source](this.apiKey, this.apiSecret)
+  async importTransactionsFrom(source, apiKey, apiSecret) {
+    const importSources = {
+      coinbase: importTransactionsFromCoinbase
+    }
+    this.clearTransactions()
+    this.transactions = toJS(await importSources[source](apiKey, apiSecret))
+  }
+
+  @computed
+  get exist() {
+    return this.buyAndSellTransactions.length > 0;
+  }
+
+  @computed
+  get buyAndSellTransactions() {
+    return this.filterTransactionsBy(['buy', 'sell']);
   }
 
   @computed
@@ -70,10 +80,4 @@ export default class TransactionsStore {
   sortTransactions(a, b) {
     return getTime(b.created_at) - getTime(a.created_at);
   }
-
-  @computed
-  get buyAndSellTransactions() {
-    return this.filterTransactionsBy(['buy', 'sell']);
-  }
-
 }

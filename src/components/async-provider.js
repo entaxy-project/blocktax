@@ -22,15 +22,15 @@ export default class AsyncProvider extends Component {
   async componentDidMount() {
     if (isSignInPending()) {
       await handlePendingSignIn();
-      this.hydrate();
+      this.loadData();
     }
 
     if (isUserSignedIn()) {
-      this.hydrate();
+      this.loadData();
     }
   }
 
-  hydrate() {
+  loadData() {
     const {stores} = this.props;
 
     Promise.all(Object.entries(stores).map(([id, store]) => {

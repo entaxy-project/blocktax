@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import cls from 'classnames';
 import './button.css';
 
-const Button = ({children, disabled, href, onClick, small, to}) => {
+const Button = ({children, disabled, href, onClick, small, to, type}) => {
   const className = cls('Button', {
     'Button--disabled': disabled,
     'Button--small': small
@@ -19,7 +19,7 @@ const Button = ({children, disabled, href, onClick, small, to}) => {
   }
 
   if (onClick) {
-    return <button onClick={onClick} className={className} type="button">{children}</button>;
+    return <button onClick={onClick} className={className} type={type}>{children}</button>;
   }
 };
 
@@ -29,7 +29,12 @@ Button.propTypes = {
   href: PropTypes.string,
   onClick: PropTypes.func,
   small: PropTypes.bool,
-  to: PropTypes.string
+  to: PropTypes.string,
+  type: PropTypes.string
+};
+
+Button.defaultProps = {
+  type: 'button'
 };
 
 export default Button;

@@ -23,7 +23,6 @@ export default async (apiKey, apiSecret) => {
     await getPaginatedDataFrom(apiKey, apiSecret, `accounts/${account.id}/transactions`, {limit: 100}, transactions);
   }));
 
-console.log(transactions)
   return transactions;
 }
 
