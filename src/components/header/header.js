@@ -8,11 +8,10 @@ import Logo from 'components/logo';
 import './header.css';
 
 const injector = stores => ({
-  name: stores.blockstack.name,
-  title: stores.ui.dashboardText
+  name: stores.blockstack.name
 });
 
-const Header = ({name, title}) => (
+const Header = ({name}) => (
   <div className="Header">
     <Container>
       <div className="Header__top-bar">
@@ -26,7 +25,6 @@ const Header = ({name, title}) => (
 
 Header.propTypes = {
   name: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired
 };
 
 export default inject(injector)(Header);

@@ -1,0 +1,71 @@
+.CoinbaseModalContent h2 {
+  padding-bottom: 25px;
+}
+
+.CoinbaseModalContent p {
+  padding-bottom: 15px;
+  line-height: 20px;
+  color: var(--color-offblack);
+  font-size: 14px;
+}
+
+.CoinbaseModalContent a {
+  text-decoration: none;
+  color: var(--color-seablue);
+  font-size: 14px;
+}
+
+.CoinbaseModalContent a:hover {
+  color: var(--color-offblack);
+}
+
+.CoinbaseModalContent__form-control {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  margin-bottom: 10px;
+}
+
+.CoinbaseModalContent__form-control label {
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+  min-width: 100px;
+}
+
+.CoinbaseModalContent__form-control input {
+  width: 100%;
+  margin: 0px;
+  padding: .375rem .75rem;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.CoinbaseModalContent__form-control .CoinbaseModalContent__field-error {
+  font-size: 12px;
+  color: var(--color-red);
+}
+
+.GlobalError {
+  font-size: 14px;
+  color: var(--color-red);
+}
+
+.CoinbaseModalContent__actions {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 40px;
+}
+
+.Spinner {
+  text-align: center;
+}
+.Spinner .lds-dual-ring {
+  display: block;
+  margin: auto;
+}

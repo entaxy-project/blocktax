@@ -18,3 +18,18 @@
   line-height: 1.4;
   margin-bottom: 58px;
 }
+
+.Import__modal-overlay {
+  background: rgba(36, 123, 160, 0.7) !important;
+}
+
+.Import__modal-content {
+  max-width: 500px !important;
+  width: 100%;
+  padding: 40px !important;
+}
+
+.ClearTransactions {
+  color: var(--color-red);
+  text-decoration: none
+}

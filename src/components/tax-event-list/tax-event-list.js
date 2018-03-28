@@ -30,7 +30,7 @@ const amount = a => {
 };
 
 const injector = stores => ({
-  events: toJS(stores.coinbase.taxEvents)
+  events: toJS(stores.transactions.taxEvents)
 });
 
 const TaxEventList = ({events}) => (
@@ -40,9 +40,6 @@ const TaxEventList = ({events}) => (
       <Card>
         <CardHeader
           title="Capital Gains"
-          controls={
-            <Button small href='transactions'>Transaction History</Button>
-          }
         />
 
         <table className="TaxEventList">

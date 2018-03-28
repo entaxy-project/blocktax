@@ -38,23 +38,17 @@ const pricePer = (crypto, fiat) => {
 const injector = stores => ({
   changePage: stores.ui.changeDashboardPage,
   currentPage: stores.ui.dashboardPage,
-  fetchTransactions: stores.coinbase.fetchTransactions,
   pageCount: stores.ui.dashboardPageCount,
   transactions: toJS(stores.ui.dashboardTransactions)
 });
 
-const TransactionList = ({changePage, currentPage, fetchTransactions, pageCount, transactions}) => (
+const TransactionList = ({changePage, currentPage, pageCount, transactions}) => (
   <div>
     <Header/>
     <Body>
       <Card>
         <CardHeader
           title="Transaction History"
-          controls={
-            <div>
-              <Button small href='capital-gains'>Capital Gains</Button>
-            </div>
-          }
         />
         <table className="TransactionList">
           <thead>
@@ -110,7 +104,6 @@ const TransactionList = ({changePage, currentPage, fetchTransactions, pageCount,
 TransactionList.propTypes = {
   changePage: PropTypes.func.isRequired,
   currentPage: PropTypes.number.isRequired,
-  fetchTransactions: PropTypes.func.isRequired,
   pageCount: PropTypes.number.isRequired,
   transactions: PropTypes.arrayOf(PropTypes.object).isRequired
 };
