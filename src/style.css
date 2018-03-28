@@ -43,6 +43,11 @@ body {
        url('./fonts/garden-grove/garden-grove-semibold.woff') format('woff');
 }
 
+p {
+  line-height: 20px;
+  margin-bottom: 10px;
+}
+
 a {
   text-decoration: none;
   color: var(--color-seablue);

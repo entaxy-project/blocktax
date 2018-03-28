@@ -60,7 +60,6 @@
     "react-dom": "^15.5.4",
     "react-responsive-modal": "^2.0.1",
     "react-router-dom": "^4.2.2",
-    "recompose": "^0.26.0",
     "uuid": "^3.2.1",
     "wait-then": "^0.1.2",
     "webpack-manifest-plugin": "^2.0.0-rc.2"

@@ -6,6 +6,7 @@ import Landing from './components/landing';
 import Import from './components/import';
 import TransactionList from './components/transaction-list';
 import TaxEventList from './components/tax-event-list';
+import CoinbaseHelp from './components/coinbase-help';
 
 
 const signedOutOnly = props => (
@@ -39,6 +40,7 @@ const Routes = ({history, transactionsExist}) => (
       <Route exact path="/transactions" render={loginRequired(transactionsRequired(TransactionList, transactionsExist))}/>
       <Route exact path="/capital-gains" render={loginRequired(transactionsRequired(TaxEventList, transactionsExist))}/>
       <Route exact path="/import" render={loginRequired(Import)}/>
+      <Route exact path="/coinbase-help" render={CoinbaseHelp}/>
     </Switch>
   </Router>
 )

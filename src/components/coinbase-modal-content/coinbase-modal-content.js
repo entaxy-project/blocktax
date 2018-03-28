@@ -53,7 +53,7 @@ const CoinbaseModalContent = ({
       </div>
 
       <p>
-        <a href="/coinbase-help">How do I get an API key?</a> (opens a new tab)
+        <a href="/coinbase-help">How do I get a Coinbase API key?</a> (opens a new tab)
       </p>
       {isSubmitting && (
         <div className="Spinner">
