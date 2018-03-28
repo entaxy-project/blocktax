@@ -14,7 +14,7 @@ const UserMenu = ({avatar, name, signOutOfBlockstack}) => (
   <div className="UserMenu">
     <div className="UserMenu__hover">
       <img className="UserMenu__avatar" src={avatar} alt=""/>
-      <p className="UserMenu__name">{name}</p>
+      <div className="UserMenu__name">{name}</div>
       <img className="UserMenu__caret" src={caretDown} alt=""/>
     </div>
     <div className="UserMenu__dropdown">
