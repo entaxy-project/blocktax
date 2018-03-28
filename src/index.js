@@ -19,9 +19,9 @@ const history = syncHistoryWithStore(createBrowserHistory(), router);
 
 const App = () => (
   <AsyncProvider stores={{blockstack, ui, transactions, router}}>
-	  <AuthHandler>
-	    <Routes history={history}/>
-	  </AuthHandler>
+    <AuthHandler>
+      <Routes history={history}/>
+    </AuthHandler>
   </AsyncProvider>
 );
 
