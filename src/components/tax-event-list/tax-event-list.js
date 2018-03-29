@@ -18,15 +18,15 @@ import './tax-event-list.css';
 
 const locale = getLocale();
 const currencies = ['BTC', 'BCC', 'ETH', 'LTC'];
-const amount = a => {
-  if (currencies.includes(a.currency)) {
-    return `${a.amount.toFixed(4)} ${a.currency}`;
+const formattedAmount = (amount, currency) => {
+  if (currencies.includes(currency)) {
+    return `${amount.toFixed()} ${currency}`;
+  } else {
+    return parseFloat(amount).toLocaleString(locale, {
+      style: 'currency',
+      currency: currency
+    });
   }
-
-  return a.amount.toLocaleString(locale, {
-    style: 'currency',
-    currency: a.currency
-  });
 };
 
 const injector = stores => ({
@@ -40,13 +40,20 @@ const TaxEventList = ({events}) => (
       <Card>
         <CardHeader
           title="Capital Gains"
-          //controls={<ExportCsv/>}
+          controls={
+            //<ExportCsv/>
+            <div className="CostBasis">
+              <p>Cost Basis Method</p>
+              <h3>FIFO</h3>
+            </div>
+          }
         />
 
         <table className="TaxEventList">
           <thead>
             <tr className="TaxEventList__header">
-              <th className="TaxEventList__header-cell">Date</th>
+              <th className="TaxEventList__header-cell">Sell Date</th>
+              <th className="TaxEventList__header-cell">Buy Date</th>
               <th className="TaxEventList__header-cell">Amount</th>
               <th className="TaxEventList__header-cell">Proceeds</th>
               <th className="TaxEventList__header-cell">Cost</th>
@@ -57,45 +64,43 @@ const TaxEventList = ({events}) => (
             {events.map(e => (
               <tr key={e.id} className="TaxEventList__row">
                 <td className="TaxEventList__cell">
-                  <div className="TaxEventList__date">{format(e.created_at, 'MM/DD/YY')}</div>
-                  <div className="TaxEventList__time">{format(e.created_at, 'h:mma')}</div>
+                  <div className="TaxEventList__date">{format(e.sell_date, 'MM/DD/YY')}</div>
+                  <div className="TaxEventList__time">{format(e.sell_date, 'h:mma')}</div>
                 </td>
                 <td className="TaxEventList__cell">
-                  {amount(e.amount)}
+                  <div className="TaxEventList__date">{format(e.buy_date, 'MM/DD/YY')}</div>
+                  <div className="TaxEventList__time">{format(e.buy_date, 'h:mma')}</div>
                 </td>
                 <td className="TaxEventList__cell">
-                  {amount(e.proceeds.amount)}
+                  {formattedAmount(e.units_transacted, e.source_currency)}
+                </td>
+                <td className="TaxEventList__cell">
+                  {formattedAmount(e.sell_total_price, e.destination_currency)}
                   <div className="TaxEventList__sub">
-                    {amount({
-                      amount: e.proceeds.pricePer.amount,
-                      currency: e.proceeds.amount.currency
-                    })}/{e.proceeds.pricePer.currency}
+                    {formattedAmount(e.sell_price_per_unit, e.destination_currency)}/{e.source_currency}
                   </div>
                 </td>
                 <td className="TaxEventList__cell">
-                  {amount(e.cost.amount)}
+                  {formattedAmount(e.buy_total_price, e.destination_currency)}
                   <div className="TaxEventList__sub">
-                    {amount({
-                      amount: e.cost.pricePer.amount,
-                      currency: e.cost.amount.currency
-                    })}/{e.cost.pricePer.currency}
+                    {formattedAmount(e.buy_price_per_unit, e.destination_currency)}/{e.source_currency}
                   </div>
                 </td>
                 <td className="TaxEventList__cell">
                   <span
                     className={cls({
-                      TaxEventList__gain: e.gain.amount > 0,
-                      TaxEventList__loss: e.gain.amount < 0
+                      TaxEventList__gain: e.gain > 0,
+                      TaxEventList__loss: e.gain < 0
                     })}
                   >
                     {e.gain < 0 && '('}
-                    {amount(e.gain)}
+                    {formattedAmount(e.gain, e.destination_currency)}
                     {e.gain < 0 && ')'}
                   </span>
                   <span
                     className={cls('TaxEventList__badge', {
-                      'TaxEventList__badge--gain': e.gain.amount > 0,
-                      'TaxEventList__badge--loss': e.gain.amount < 0
+                      'TaxEventList__badge--gain': e.gain > 0,
+                      'TaxEventList__badge--loss': e.gain < 0
                     })}
                   >
                     {e.shortTerm ? 'S' : 'L'}

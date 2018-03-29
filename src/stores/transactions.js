@@ -3,6 +3,7 @@ import {persist} from 'mobx-persist';
 import getTime from 'date-fns/get_time';
 import importTransactionsFromCoinbase from 'utils/import/coinbase'
 import createTaxEvents from '../utils/create-tax-events';
+import Big  from 'big.js';
 
 export default class TransactionsStore {
   static persist = true
@@ -61,12 +62,14 @@ export default class TransactionsStore {
       }
 
       // Group the transactions by currency and by buy/sell type
+      const amount = Big(Math.abs(parseFloat(transaction.amount.amount)));
+      const native_amount = Big(Math.abs(parseFloat(transaction.native_amount.amount)));
       groupedTransactions[transaction.amount.currency][transactionType].push({
         created_at: transaction.created_at,
-        amount: Math.abs(parseFloat(transaction.amount.amount)),
-        native_amount: Math.abs(parseFloat(transaction.native_amount.amount)),
+        amount: amount,
+        native_amount: native_amount,
         native_currency: transaction.native_amount.currency,
-        unit_price: Math.abs(parseFloat(transaction.native_amount.amount) / parseFloat(transaction.amount.amount))
+        unit_price: native_amount.div(amount)
       });
     }
 

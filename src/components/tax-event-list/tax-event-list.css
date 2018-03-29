@@ -1,3 +1,9 @@
+.CardHeader__controls .CostBasis p {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: var(--color-offblack);
+}
+
 .TaxEventList {
   width: 100%;
   border-collapse: collapse;
