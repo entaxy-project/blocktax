@@ -11,7 +11,6 @@ const TopNav = ({transactionsExist}) => (
   <div className="TopNav">
     {transactionsExist && <NavLink to="/transactions" className="TopNav__item" activeClassName="active">Transaction History</NavLink>}
     {transactionsExist && <NavLink to="/capital-gains" className="TopNav__item" activeClassName="active">Capital Gains</NavLink>}
-    <NavLink to="/import" className="TopNav__item" activeClassName="active">Import Transactions</NavLink>
   </div>
 );
 

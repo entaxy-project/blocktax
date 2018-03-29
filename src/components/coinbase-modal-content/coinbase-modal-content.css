@@ -57,15 +57,12 @@
 .CoinbaseModalContent__actions {
   display: flex;
   flex-flow: row nowrap;
-  align-items: center;
-  justify-content: space-around;
+  align-items: right;
+  justify-content: flex-end;
   margin-top: 40px;
 }
 
-.Spinner {
-  text-align: center;
+.CoinbaseModalContent__actions button .lds-dual-ring {
+  margin: 0px 15px -7px 0;
 }
-.Spinner .lds-dual-ring {
-  display: block;
-  margin: auto;
-}
+

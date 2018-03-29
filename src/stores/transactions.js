@@ -73,6 +73,11 @@ export default class TransactionsStore {
     return createTaxEvents(groupedTransactions).sort(this.sortTransactions);
   }
 
+  @computed
+  get taxEventsForCsv() {
+    return this.taxEvents;
+  }
+
   filterTransactionsBy(types) {
     return this.transactions.filter(t => types.includes(t.type)).sort(this.sortTransactions);
   }

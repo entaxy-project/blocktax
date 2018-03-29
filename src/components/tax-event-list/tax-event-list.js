@@ -12,8 +12,8 @@ import Card from 'components/card';
 import CardHeader from 'components/card-header';
 import Button from 'components/button';
 import Disclaimer from 'components/disclaimer';
+import ExportCsv from 'components/export-csv';
 import getLocale from 'utils/get-locale';
-
 import './tax-event-list.css';
 
 const locale = getLocale();
@@ -40,6 +40,7 @@ const TaxEventList = ({events}) => (
       <Card>
         <CardHeader
           title="Capital Gains"
+          //controls={<ExportCsv/>}
         />
 
         <table className="TaxEventList">

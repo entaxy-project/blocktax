@@ -9,7 +9,7 @@ const Logo = ({white}) => (
       'Logo--white': white
     })}
   >
-    BlockTax
+    Entaxy
   </p>
 );
 

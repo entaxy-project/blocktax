@@ -47,12 +47,12 @@ class Import extends React.Component {
           <Card>
             <div className="Import">
               <h1 className="Import__title">Import transactions</h1>
-              <p className="Import__body">
+              <div className="Import__body">
                 To generate your tax report, you'll need to import some transactions first.
                 {transactionsExist && (
                   <p><a href="#" onClick={this.onResetTransactions}>Clear transactions</a></p>
                 )}
-              </p>
+              </div>
               <div className="Import__buttons">
                 <ImportButton
                   title="Import"

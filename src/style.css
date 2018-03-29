@@ -60,18 +60,18 @@ a:hover {
 /* --- Loader --- */
 .lds-dual-ring {
   display: inline-block;
-  width: 64px;
-  height: 64px;
+  width: 25px;
+  height: 25px;
 }
 .lds-dual-ring:after {
   content: " ";
   display: block;
-  width: 46px;
-  height: 46px;
+  width: 25px;
+  height: 25px;
   margin: 1px;
   border-radius: 50%;
-  border: 5px solid var(--color-seablue);
-  border-color: var(--color-seablue) transparent var(--color-seablue) transparent;
+  border: 3px solid var(--color-white);
+  border-color: var(--color-white) transparent var(--color-white) transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
 @keyframes lds-dual-ring {

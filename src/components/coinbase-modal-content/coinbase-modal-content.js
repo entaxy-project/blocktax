@@ -27,6 +27,13 @@ const CoinbaseModalContent = ({
       Your browser will be connecting directly to
       coinbase using the API key you enter bellow. So you're really importing your own data.
     </p>
+    <p>
+      <a href="https://www.coinbase.com/settings/api" target="_blank">Create an API key on Coinbase</a> (opens Coinbase in a new tab)
+    </p>
+    <p>
+      <a href="/coinbase-help" target="_blank">How do I get a Coinbase API key?</a> (opens a new tab)
+    </p>
+
     <p>Please enter your Coinbase API key bellow:</p>
     <form onSubmit={handleSubmit} className="CoinbaseModalContent__form">
       <div className="CoinbaseModalContent__form-control">
@@ -52,20 +59,20 @@ const CoinbaseModalContent = ({
         {touched.apiSecret && errors.apiSecret && <div className="CoinbaseModalContent__field-error">{errors.apiSecret}</div>}
       </div>
 
-      <p>
-        <a href="/coinbase-help">How do I get a Coinbase API key?</a> (opens a new tab)
-      </p>
-      {isSubmitting && (
-        <div className="Spinner">
-          <div className="lds-dual-ring"></div>
-          Importing transactions ...
-        </div>
-      )}
       {errors.global && <div className="GlobalError">{errors.global}</div>}
-      <div className="CoinbaseModalContent__actions">
-        <button type="submit" className="Button Button--small">Import</button>
-        <a href="#" onClick={onCloseModal}>Not right now</a>
-      </div>
+        {isSubmitting ? (
+          <div className="CoinbaseModalContent__actions">
+
+            <button type="submit" className="Button Button--small Button--disabled">
+              <div className="lds-dual-ring"></div>
+              Importing ...
+            </button>
+          </div>
+        ) : (
+          <div className="CoinbaseModalContent__actions">
+            <button type="submit" className="Button Button--small">Import</button>
+          </div>
+        )}
     </form>
   </div>
 );
@@ -99,7 +106,7 @@ export default inject(injector)(withFormik({
     props.importTransactionsFrom('coinbase', values.apiKey, values.apiSecret)
     .then(() => {
       setSubmitting(false)
-      props.history.push('/transactions');
+      props.history.push('/capital-gains');
     }).catch((e) => {
       setSubmitting(false)
       setErrors({global: 'Sorry, something went wrong.'})

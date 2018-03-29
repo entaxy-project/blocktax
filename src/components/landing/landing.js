@@ -10,6 +10,7 @@ const Landing = () => (
     <div className="Landing__content">
       <div className="Landing__logo">
         <Logo/>
+        <p className="Tagline">Order from chaos</p>
       </div>
       <div className="Landing__text">
         <h1 className="Landing__title">Your Crypto Taxes Simple & Private</h1>

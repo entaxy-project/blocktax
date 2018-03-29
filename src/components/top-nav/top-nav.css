@@ -12,6 +12,7 @@
   opacity: 0.7;
 }
 
-.TopNav__item.active {
+.TopNav__item.active, .TopNav__item:hover {
+  color: var(--color-white);
   opacity: 1;
 }
