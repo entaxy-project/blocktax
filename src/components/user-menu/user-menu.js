@@ -7,10 +7,11 @@ import caretDown from 'images/caret-down.svg';
 const injector = stores => ({
   avatar: stores.blockstack.avatar,
   name: stores.blockstack.name,
-  signOutOfBlockstack: stores.blockstack.signOut
+  signOutOfBlockstack: stores.blockstack.signOut,
+  resetState: stores.ui.resetState
 });
 
-const UserMenu = ({avatar, name, signOutOfBlockstack}) => (
+const UserMenu = ({avatar, name, signOutOfBlockstack, resetState}) => (
   <div className="UserMenu">
     <div className="UserMenu__hover">
       <img className="UserMenu__avatar" src={avatar} alt=""/>
@@ -18,7 +19,8 @@ const UserMenu = ({avatar, name, signOutOfBlockstack}) => (
       <img className="UserMenu__caret" src={caretDown} alt=""/>
     </div>
     <div className="UserMenu__dropdown">
-      <a className="UserMenu__item"  href="/import">Manage Transactions</a>
+      <a className="UserMenu__item" href="/import">Manage Transactions</a>
+      <button className="UserMenu__item" type="button" onClick={resetState}>Reset</button>
       <button className="UserMenu__item" type="button" onClick={signOutOfBlockstack}>Log Out</button>
     </div>
   </div>
@@ -27,7 +29,8 @@ const UserMenu = ({avatar, name, signOutOfBlockstack}) => (
 UserMenu.propTypes = {
   avatar: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  signOutOfBlockstack: PropTypes.func.isRequired
+  signOutOfBlockstack: PropTypes.func.isRequired,
+  resetState: PropTypes.func.isRequired
 };
 
 export default inject(injector)(UserMenu);

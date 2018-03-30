@@ -10,7 +10,6 @@ import Header from 'components/header';
 import Body from 'components/body';
 import Card from 'components/card';
 import CardHeader from 'components/card-header';
-import Button from 'components/button';
 import Disclaimer from 'components/disclaimer';
 import ExportCsv from 'components/export-csv';
 import getLocale from 'utils/get-locale';
@@ -21,12 +20,11 @@ const currencies = ['BTC', 'BCC', 'ETH', 'LTC'];
 const formattedAmount = (amount, currency) => {
   if (currencies.includes(currency)) {
     return `${amount.toFixed()} ${currency}`;
-  } else {
-    return parseFloat(amount).toLocaleString(locale, {
-      style: 'currency',
-      currency: currency
-    });
   }
+  return parseFloat(amount).toLocaleString(locale, {
+    style: 'currency',
+    currency
+  });
 };
 
 const injector = stores => ({
@@ -39,9 +37,7 @@ const TaxEventList = ({events, totalGainsMessage}) => (
     <Header body={
       <span>
         <ExportCsv/>
-        In 2017, you had a <strong>{totalGainsMessage}</strong>
-        <br/>
-        In <strong>Coinbase</strong> using the <strong>FIFO method</strong>.
+        In 2017, you had <strong>{totalGainsMessage}</strong><br/>In <strong>Coinbase</strong> using the <strong>FIFO method</strong>.
       </span>
     }/>
     <Body>
@@ -124,7 +120,8 @@ const TaxEventList = ({events, totalGainsMessage}) => (
 );
 
 TaxEventList.propTypes = {
-  events: PropTypes.arrayOf(PropTypes.object).isRequired
+  events: PropTypes.arrayOf(PropTypes.object).isRequired,
+  totalGainsMessage: PropTypes.string.isRequired
 };
 
 export default inject(injector)(TaxEventList);

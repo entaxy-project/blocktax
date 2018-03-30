@@ -1,11 +1,13 @@
+/* eslint-disable camelcase */
+
 import {observable, computed, action, toJS} from 'mobx';
 import {persist} from 'mobx-persist';
 import getTime from 'date-fns/get_time';
-import importTransactionsFromCoinbase from 'utils/import/coinbase'
-import createTaxEvents from '../utils/create-tax-events';
-import Big  from 'big.js';
-import getLocale from 'utils/get-locale';
+import importTransactionsFromCoinbase from 'utils/import/coinbase';
 import format from 'date-fns/format';
+import createTaxEvents from '../utils/create-tax-events';
+import Big from 'big.js';
+import getLocale from 'utils/get-locale';
 
 export default class TransactionsStore {
   static persist = true
@@ -13,14 +15,6 @@ export default class TransactionsStore {
   @persist('list')
   @observable
   transactions = []
-
-  // @persist
-  @observable
-  apiKey = '';
-
-  // @persist
-  @observable
-  apiSecret = '';
 
   @action.bound
   clearTransactions() {
@@ -31,9 +25,9 @@ export default class TransactionsStore {
   async importTransactionsFrom(source, apiKey, apiSecret) {
     const importSources = {
       coinbase: importTransactionsFromCoinbase
-    }
-    this.clearTransactions()
-    this.transactions = toJS(await importSources[source](apiKey, apiSecret))
+    };
+    this.clearTransactions();
+    this.transactions = toJS(await importSources[source](apiKey, apiSecret));
   }
 
   @computed
@@ -64,51 +58,47 @@ export default class TransactionsStore {
       }
 
       // Group the transactions by currency and by buy/sell type
-      const amount = Big(Math.abs(parseFloat(transaction.amount.amount)));
-      const native_amount = Big(Math.abs(parseFloat(transaction.native_amount.amount)));
+      const amount = new Big(Math.abs(parseFloat(transaction.amount.amount)));
+      const native_amount = new Big(Math.abs(parseFloat(transaction.native_amount.amount)));
       groupedTransactions[transaction.amount.currency][transactionType].push({
         created_at: transaction.created_at,
-        amount: amount,
-        native_amount: native_amount,
+        amount,
+        native_amount,
         native_currency: transaction.native_amount.currency,
         unit_price: native_amount.div(amount)
       });
     }
 
-    return createTaxEvents(groupedTransactions).sort((a, b)=>{
-      if(getTime(b.created_at) === getTime(a.created_at)) {
+    return createTaxEvents(groupedTransactions).sort((a, b) => {
+      if (getTime(b.created_at) === getTime(a.created_at)) {
         return getTime(b.sell_date) - getTime(a.sell_date);
-      } else {
-        return getTime(b.buy_date) - getTime(a.buy_date);
       }
-
+      return getTime(b.buy_date) - getTime(a.buy_date);
     });
   }
-
 
   formattedAmount(amount, currency) {
     if (['BTC', 'BCC', 'ETH', 'LTC'].includes(currency)) {
       return `${amount.toFixed()} ${currency}`;
-    } else {
-      return parseFloat(amount).toLocaleString(getLocale(), {
-        style: 'currency',
-        currency: currency
-      });
     }
+    return parseFloat(amount).toLocaleString(getLocale(), {
+      style: 'currency',
+      currency
+    });
   }
 
   @computed
   get totalGainsMessage() {
     const reducer = (sum, event) => sum.add(event.gain);
-    const totalGains = this.taxEvents.reduce(reducer, Big(0));
+    const totalGains = this.taxEvents.reduce(reducer, new Big(0));
 
     if (totalGains.gt(0)) {
-      return `total gain of ${this.formattedAmount(totalGains, 'USD')}`;
-    } else if (totalGains.lt(0)) {
-      return `total loss of (${this.formattedAmount(Math.abs(totalGains), 'USD')})`;
-    } else {
-      return `no gains`;
+      return `a total gain of ${this.formattedAmount(totalGains, 'USD')}`;
     }
+    if (totalGains.lt(0)) {
+      return `a total loss of (${this.formattedAmount(Math.abs(totalGains), 'USD')})`;
+    }
+    return `no gains`;
   }
 
   @computed

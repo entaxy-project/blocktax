@@ -1,30 +1,10 @@
 import crypto from 'crypto';
 import queryString from 'query-string';
 
-const baseUrl = 'https://api.coinbase.com'
-const apiVersion = 'v2'
-const apiVersionDate = '2015-07-22'
+const baseUrl = 'https://api.coinbase.com';
+const apiVersion = 'v2';
+const apiVersionDate = '2015-07-22';
 
-/**
- * Import the full list of transactions from coinbase
- * @param {string} apiKey - The users coinbase api key
- * @param {string} apiSecret - The users coinbase api secret
- * @returns {transactions[]} List of transactions.
- */
-export default async (apiKey, apiSecret) => {
-  let transactions = [];
-
-  // Grab all the accounts
-  // [{id: "bf999c72-b2d7-5158-a449-3aa46755f49d", name: "BCT Wallet", currency: "BCH", ...}, {...}]
-  const accounts = await getDataFrom(apiKey, apiSecret, 'accounts');
-
-  // Grab the transactions from each of the accounts
-  await Promise.all(accounts.data.map(async (account) => {
-    await getPaginatedDataFrom(apiKey, apiSecret, `accounts/${account.id}/transactions`, {limit: 100}, transactions);
-  }));
-
-  return transactions;
-}
 
 /**
  * Signs the request used to retreive data from an API endpoint
@@ -39,8 +19,8 @@ const getSignature = (apiSecret, resource, timestamp) => {
 
   // Create a hexedecimal encoded SHA256 signature of the message
   const message = timestamp + req.method + req.path + req.body;
-  return crypto.createHmac("sha256", apiSecret).update(message).digest("hex");
-}
+  return crypto.createHmac('sha256', apiSecret).update(message).digest('hex');
+};
 
 /**
  * Imports data from the provided API resource
@@ -60,10 +40,10 @@ const getDataFrom = async (apiKey, apiSecret, resource, params = null) => {
     const response = await fetch(url, {
       method: 'GET',
       headers: {
-          'CB-ACCESS-SIGN': getSignature(apiSecret, resource, timestamp),
-          'CB-ACCESS-TIMESTAMP': timestamp,
-          'CB-ACCESS-KEY': apiKey,
-          'CB-VERSION': apiVersionDate
+        'CB-ACCESS-SIGN': getSignature(apiSecret, resource, timestamp),
+        'CB-ACCESS-TIMESTAMP': timestamp,
+        'CB-ACCESS-KEY': apiKey,
+        'CB-VERSION': apiVersionDate
       }
     });
 
@@ -76,7 +56,7 @@ const getDataFrom = async (apiKey, apiSecret, resource, params = null) => {
     console.log(err);
     throw new Error(`Could not fetch resource /${resource} from Coinbase.`);
   }
-}
+};
 
 /**
  * Imports data from the provided API resource
@@ -95,5 +75,25 @@ const getPaginatedDataFrom = async (apiKey, apiSecret, url, params, transactions
   if (response.pagination.next_uri) {
     return getPaginatedDataFrom(apiKey, apiSecret, response.pagination.next_uri.replace(/^\/v2\//, ''), null, transactions);
   }
-}
+};
 
+/**
+ * Import the full list of transactions from coinbase
+ * @param {string} apiKey - The users coinbase api key
+ * @param {string} apiSecret - The users coinbase api secret
+ * @returns {transactions[]} List of transactions.
+ */
+export default async (apiKey, apiSecret) => {
+  const transactions = [];
+
+  // Grab all the accounts
+  // [{id: "bf999c72-b2d7-5158-a449-3aa46755f49d", name: "BCT Wallet", currency: "BCH", ...}, {...}]
+  const accounts = await getDataFrom(apiKey, apiSecret, 'accounts');
+
+  // Grab the transactions from each of the accounts
+  await Promise.all(accounts.data.map(async account => {
+    await getPaginatedDataFrom(apiKey, apiSecret, `accounts/${account.id}/transactions`, {limit: 100}, transactions);
+  }));
+
+  return transactions;
+};

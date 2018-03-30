@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {inject} from 'mobx-react';
+import PropTypes from 'prop-types';
 import './top-nav.css';
 
 const injector = stores => ({
@@ -13,5 +14,9 @@ const TopNav = ({transactionsExist}) => (
     {transactionsExist && <NavLink to="/capital-gains" className="TopNav__item" activeClassName="active">Capital Gains</NavLink>}
   </div>
 );
+
+TopNav.propTypes = {
+  transactionsExist: PropTypes.bool.isRequired
+};
 
 export default inject(injector)(TopNav);

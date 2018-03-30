@@ -1,6 +1,5 @@
 import {observable, computed, action} from 'mobx';
 import {persist} from 'mobx-persist';
-import DashboardState from '../constants/dashboard-state';
 
 export default class UIStore {
   static persist = true
@@ -40,5 +39,11 @@ export default class UIStore {
   @action.bound
   changeDashboardPage(n) {
     this.dashboardPage = n;
+  }
+
+  @action.bound
+  resetState() {
+    this.disclaimerIsVisible = true;
+    this.transactions.transactions.clear();
   }
 }

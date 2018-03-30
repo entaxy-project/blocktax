@@ -108,7 +108,6 @@ export default class CoinbaseStore {
     this.transactions.clear();
   }
 
-
   @action.bound
   async signOut() {
     const params = {

@@ -2,18 +2,16 @@
 
 import uuid from 'uuid/v4';
 import difference_in_days from 'date-fns/difference_in_days';
-import Big  from 'big.js';
 
 const calculateGainsWithFIFO = (buys, sells, source_currency) => {
   const taxEvents = [];
-  const ONE_YEAR = 365; //days
+  const ONE_YEAR = 365; // Days
   let buy;
   let sell;
   let buy_date;
   let sell_date;
   let units_transacted;
   let sell_price_per_unit;
-  let sell_total_price;
   let destination_currency;
   let buy_price_per_unit;
 
@@ -55,8 +53,8 @@ const calculateGainsWithFIFO = (buys, sells, source_currency) => {
       // Cost
       buy_price_per_unit = buy.unit_price;
     }
-    let buy_total_price = units_transacted.times(buy_price_per_unit);
-    let sell_total_price = units_transacted.times(sell_price_per_unit);
+    const buy_total_price = units_transacted.times(buy_price_per_unit);
+    const sell_total_price = units_transacted.times(sell_price_per_unit);
 
     taxEvents.push({
       id: uuid(),
@@ -84,6 +82,7 @@ const calculateGainsWithFIFO = (buys, sells, source_currency) => {
  */
 export default transactions => {
   let taxEvents = [];
+  // import Big  from 'big.js';
   // transactions = {
   //   ETH: {
   //     buys: [

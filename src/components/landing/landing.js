@@ -1,5 +1,4 @@
-import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import BlockstackButton from 'components/blockstack-button';
 import Logo from 'components/logo';
 import landingImage from 'images/landing.png';
@@ -23,6 +22,6 @@ const Landing = () => (
       style={{backgroundImage: `url(${landingImage}), linear-gradient(to bottom, var(--color-blue), var(--color-cyan))`}}
     />
   </div>
-)
+);
 
 export default Landing;

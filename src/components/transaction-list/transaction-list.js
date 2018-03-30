@@ -10,7 +10,6 @@ import Header from 'components/header';
 import Body from 'components/body';
 import Card from 'components/card';
 import CardHeader from 'components/card-header';
-import Button from 'components/button';
 import Disclaimer from 'components/disclaimer';
 import Pagination from 'components/pagination';
 import getLocale from 'utils/get-locale';

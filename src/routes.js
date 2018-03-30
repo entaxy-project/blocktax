@@ -1,5 +1,6 @@
 import React from 'react';
-import {Router, Switch , Route, Redirect} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {Router, Switch, Route, Redirect} from 'react-router-dom';
 import {inject} from 'mobx-react';
 import {isUserSignedIn} from 'blockstack';
 import Landing from './components/landing';
@@ -8,25 +9,22 @@ import TransactionList from './components/transaction-list';
 import TaxEventList from './components/tax-event-list';
 import CoinbaseHelp from './components/coinbase-help';
 
-
 const signedOutOnly = props => (
   isUserSignedIn() ? <Redirect to="/transactions"/> : <Landing {...props}/>
 );
 
 const loginRequired = Screen => props => {
-  if(isUserSignedIn()) {
-    return <Screen {...props}/>
-  } else {
-    return <Redirect to="/"/>
+  if (isUserSignedIn()) {
+    return <Screen {...props}/>;
   }
+  return <Redirect to="/"/>;
 };
 
 const transactionsRequired = (Screen, transactionsExist) => props => {
-  if(transactionsExist) {
-    return <Screen {...props}/>
-  } else {
-    return <Redirect to="/import"/>
+  if (transactionsExist) {
+    return <Screen {...props}/>;
   }
+  return <Redirect to="/import"/>;
 };
 
 const injector = stores => ({
@@ -43,6 +41,11 @@ const Routes = ({history, transactionsExist}) => (
       <Route exact path="/coinbase-help" render={CoinbaseHelp}/>
     </Switch>
   </Router>
-)
+);
+
+Routes.propTypes = {
+  history: PropTypes.object.isRequired,
+  transactionsExist: PropTypes.bool.isRequired
+};
 
 export default inject(injector)(Routes);
