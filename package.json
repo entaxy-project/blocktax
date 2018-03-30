@@ -7,7 +7,7 @@
     "build": "node scripts/build.js",
     "deploy": "git push heroku master"
   },
-  "homepage": "https://entaxy.herokuapp.com",
+  "homepage": "http://entaxy.io",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.24.1",

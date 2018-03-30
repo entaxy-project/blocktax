@@ -1,0 +1,6 @@
+.ExportCsv__button {
+  float: right;
+  background: var(--color-white);
+  color: var(--color-darkgreen);
+  font-size: 14px;
+}

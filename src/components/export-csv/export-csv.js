@@ -10,7 +10,7 @@ const injector = stores => ({
 });
 
 const ExportCsv = ({events}) => (
-  <CSVLink data={events} filename="capital-gains.csv">Download</CSVLink>
+  <CSVLink data={events} filename="capital-gains.csv" className="ExportCsv__button Button Button--small">Download Report</CSVLink>
 );
 
 ExportCsv.propTypes = {

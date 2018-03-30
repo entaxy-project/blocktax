@@ -30,18 +30,25 @@ const formattedAmount = (amount, currency) => {
 };
 
 const injector = stores => ({
-  events: toJS(stores.transactions.taxEvents)
+  events: toJS(stores.transactions.taxEvents),
+  totalGainsMessage: stores.transactions.totalGainsMessage
 });
 
-const TaxEventList = ({events}) => (
+const TaxEventList = ({events, totalGainsMessage}) => (
   <div>
-    <Header/>
+    <Header body={
+      <span>
+        <ExportCsv/>
+        In 2017, you had a <strong>{totalGainsMessage}</strong>
+        <br/>
+        In <strong>Coinbase</strong> using the <strong>FIFO method</strong>.
+      </span>
+    }/>
     <Body>
       <Card>
         <CardHeader
           title="Capital Gains"
           controls={
-            //<ExportCsv/>
             <div className="CostBasis">
               <p>Cost Basis Method</p>
               <h3>FIFO</h3>
