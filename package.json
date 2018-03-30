@@ -5,9 +5,10 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "deploy": "git push heroku master"
+    "predeploy": "npm run build",
+    "deploy": "firebase deploy"
   },
-  "homepage": "http://entaxy.io",
+  "homepage": "https://entaxy.io",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.24.1",
@@ -40,7 +41,7 @@
     "arr-flatten": "^1.1.0",
     "babel-polyfill": "^6.26.0",
     "big.js": "^5.0.3",
-    "blockstack": "^0.15.0",
+    "blockstack": "^0.17.1",
     "chalk": "^2.3.2",
     "classnames": "^2.2.5",
     "crypto": "^1.0.1",
