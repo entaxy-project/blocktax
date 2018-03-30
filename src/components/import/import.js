@@ -46,7 +46,7 @@ class Import extends React.Component {
         <Body>
           <Card>
             <div className="Import">
-              <h1 className="Import__title">Import transactions</h1>
+              <h1 className="Import__title">Manage transactions</h1>
               <div className="Import__body">
                 To generate your tax report, you'll need to import some transactions first.
                 {transactionsExist && (

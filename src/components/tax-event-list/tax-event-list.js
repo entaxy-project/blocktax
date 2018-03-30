@@ -53,10 +53,10 @@ const TaxEventList = ({events}) => (
           <thead>
             <tr className="TaxEventList__header">
               <th className="TaxEventList__header-cell">Sell Date</th>
-              <th className="TaxEventList__header-cell">Buy Date</th>
               <th className="TaxEventList__header-cell">Amount</th>
               <th className="TaxEventList__header-cell">Proceeds</th>
               <th className="TaxEventList__header-cell">Cost</th>
+              <th className="TaxEventList__header-cell-left">Buy Date</th>
               <th className="TaxEventList__header-cell">Gain/Loss</th>
             </tr>
           </thead>
@@ -66,10 +66,6 @@ const TaxEventList = ({events}) => (
                 <td className="TaxEventList__cell">
                   <div className="TaxEventList__date">{format(e.sell_date, 'MM/DD/YY')}</div>
                   <div className="TaxEventList__time">{format(e.sell_date, 'h:mma')}</div>
-                </td>
-                <td className="TaxEventList__cell">
-                  <div className="TaxEventList__date">{format(e.buy_date, 'MM/DD/YY')}</div>
-                  <div className="TaxEventList__time">{format(e.buy_date, 'h:mma')}</div>
                 </td>
                 <td className="TaxEventList__cell">
                   {formattedAmount(e.units_transacted, e.source_currency)}
@@ -85,6 +81,10 @@ const TaxEventList = ({events}) => (
                   <div className="TaxEventList__sub">
                     {formattedAmount(e.buy_price_per_unit, e.destination_currency)}/{e.source_currency}
                   </div>
+                </td>
+                <td className="TaxEventList__cell-left">
+                  <div className="TaxEventList__date">{format(e.buy_date, 'MM/DD/YY')}</div>
+                  <div className="TaxEventList__time">{format(e.buy_date, 'h:mma')}</div>
                 </td>
                 <td className="TaxEventList__cell">
                   <span

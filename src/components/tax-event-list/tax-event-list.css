@@ -30,6 +30,11 @@
     padding-right: 50px;
   }
 
+  .TaxEventList__header-cell-left {
+    text-align: left;
+    padding-left: 50px;
+  }
+
 .TaxEventList__row {
   height: 96px;
   border-bottom: 1px solid #e6e6e6;
@@ -53,6 +58,13 @@
   .TaxEventList__cell:last-child {
     padding-right: 50px;
     text-align: right;
+  }
+
+  .TaxEventList__cell-left {
+    font-weight: bold;
+    font-size: 18px;
+    text-align: left;
+    padding-left: 50px;
   }
 
 .TaxEventList__date {

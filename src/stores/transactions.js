@@ -73,7 +73,14 @@ export default class TransactionsStore {
       });
     }
 
-    return createTaxEvents(groupedTransactions).sort(this.sortTransactions);
+    return createTaxEvents(groupedTransactions).sort((a, b)=>{
+      if(getTime(b.created_at) === getTime(a.created_at)) {
+        return getTime(b.sell_date) - getTime(a.sell_date);
+      } else {
+        return getTime(b.buy_date) - getTime(a.buy_date);
+      }
+
+    });
   }
 
   @computed
