@@ -6,7 +6,7 @@ import {CSVLink} from 'react-csv';
 import './export-csv.css';
 
 const injector = stores => ({
-  events: toJS(stores.transactions.taxEventsForCsv)
+  events: toJS(stores.transactions.gainsForCsv)
 });
 
 const ExportCsv = ({events}) => (

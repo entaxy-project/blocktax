@@ -16,7 +16,7 @@ import formatCurrency from 'utils/format-currency';
 import './tax-event-list.css';
 
 const injector = stores => ({
-  events: toJS(stores.transactions.taxEvents),
+  events: toJS(stores.transactions.gains),
   totalGainsMessage: stores.transactions.totalGainsMessage
 });
 

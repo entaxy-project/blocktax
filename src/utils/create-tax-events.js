@@ -2,11 +2,11 @@
 
 import uuid from 'uuid/v4';
 import difference_in_days from 'date-fns/difference_in_days';
-// import Big from 'big.js';
+import Big from 'big.js';
 import getTime from 'date-fns/get_time';
 
 const calculateGainsWithFIFO = (buys, sells, source_currency) => {
-  const taxEvents = [];
+  const gains = [];
   const ONE_YEAR = 365; // Days
   let buy;
   let sell;
@@ -58,7 +58,7 @@ const calculateGainsWithFIFO = (buys, sells, source_currency) => {
     const buy_total_price = units_transacted.times(buy_price_per_unit);
     const sell_total_price = units_transacted.times(sell_price_per_unit);
 
-    taxEvents.push({
+    gains.push({
       id: uuid(),
       units_transacted,
       source_currency,
@@ -73,115 +73,115 @@ const calculateGainsWithFIFO = (buys, sells, source_currency) => {
       shortTerm: difference_in_days(sell_date, buy_date) <= ONE_YEAR
     });
   }
-  return taxEvents;
+  return gains;
 };
 
 /**
- * Convert a raw list of transactions from Coinbase into a series of tax events, including cost
+ * Convert a raw list of transactions from Coinbase into a series of capital gains, including cost
  * basis and gain/loss.
  * @param {Object[]} transactions - Transaction list.
- * @returns {TaxEvent[]} List of tax events.
+ * @returns {gains[]} List of capital gains.
  */
 export default transactions => {
-  let taxEvents = [];
-  // transactions = {
-  //   ETH: {
-  //     buys: [
-  //       {
-  //         created_at: Date.parse('01 Jan 2016 14:24:00 GMT'),
-  //         amount: Big(0.1),
-  //         native_amount: Big(1),
-  //         native_currency: 'CAD',
-  //         unit_price: Big(10)
-  //       },
-  //       {
-  //         created_at: Date.parse('02 Jan 2016 12:22:00 GMT'),
-  //         amount: Big(0.2),
-  //         native_amount: Big(2.4),
-  //         native_currency: 'CAD',
-  //         unit_price: Big(12)
-  //       },
-  //       {
-  //         created_at: Date.parse('03 Jan 2016 13:22:00 GMT'),
-  //         amount: Big(0.1),
-  //         native_amount: Big(1.5),
-  //         native_currency: 'CAD',
-  //         unit_price: Big(15)
-  //       }
-  //     ],
-  //     sells: [
-  //       {
-  //         created_at: Date.parse('03 Jan 2017 13:22:00 GMT'),
-  //         amount: Big(0.39),
-  //         native_amount: Big(8),
-  //         native_currency: 'CAD',
-  //         unit_price: Big(20)
-  //       }
-  //     ],
-  //   },
-  //   BTC: {
-  //     buys: [
-  //       {
-  //         created_at: Date.parse('01 Jan 2016 13:22:00'),
-  //         amount: Big(0.0034),
-  //         native_amount: Big(25.448898),
-  //         native_currency: 'CAD',
-  //         unit_price: Big(7484.97)
-  //       },
-  //       {
-  //         created_at: Date.parse('02 Jan 2016 11:03:00'),
-  //         amount: Big(0.00154),
-  //         native_amount: Big(11.5268538),
-  //         native_currency: 'CAD',
-  //         unit_price: Big(7484.97)
-  //       },
-  //       {
-  //         created_at: Date.parse('04 Feb 2016 10:21:00'),
-  //         amount: Big(1),
-  //         native_amount: Big(220),
-  //         native_currency: 'CAD',
-  //         unit_price: Big(7484.97)
-  //       },
-  //       {
-  //         created_at: Date.parse('05 Feb 2016 13:43:00'),
-  //         amount: Big(2),
-  //         native_amount: Big(500),
-  //         native_currency: 'CAD',
-  //         unit_price: Big(7484.97)
-  //       },
-  //       {
-  //         created_at: Date.parse('06 Feb 2016 4:26:00'),
-  //         amount: Big(13),
-  //         native_amount: Big(600),
-  //         native_currency: 'CAD',
-  //         unit_price: Big(7484.97)
-  //       }
-  //     ],
-  //     sells: [
-  //       {
-  //         created_at: Date.parse('02 Jan 2017 3:02:00'),
-  //         amount: Big(0.004),
-  //         native_amount: Big(60),
-  //         native_currency: 'CAD',
-  //         unit_price: Big(15000)
-  //       },
-  //       {
-  //         created_at: Date.parse('10 Feb 2017 15:33:00'),
-  //         amount: Big(2),
-  //         native_amount: Big(2000),
-  //         native_currency: 'CAD',
-  //         unit_price: Big(1000)
-  //       }
-  //     ]
-  //   }
-  // };
+  let gains = [];
+  transactions = {
+    ETH: {
+      buys: [
+        {
+          created_at: Date.parse('01 Jan 2016 14:24:00 GMT'),
+          amount: Big(0.1),
+          native_amount: Big(1),
+          native_currency: 'CAD',
+          unit_price: Big(10)
+        },
+        {
+          created_at: Date.parse('02 Jan 2016 12:22:00 GMT'),
+          amount: Big(0.2),
+          native_amount: Big(2.4),
+          native_currency: 'CAD',
+          unit_price: Big(12)
+        },
+        {
+          created_at: Date.parse('03 Jan 2016 13:22:00 GMT'),
+          amount: Big(0.1),
+          native_amount: Big(1.5),
+          native_currency: 'CAD',
+          unit_price: Big(15)
+        }
+      ],
+      sells: [
+        {
+          created_at: Date.parse('03 Jan 2017 13:22:00 GMT'),
+          amount: Big(0.39),
+          native_amount: Big(8),
+          native_currency: 'CAD',
+          unit_price: Big(20)
+        }
+      ],
+    },
+    BTC: {
+      buys: [
+        {
+          created_at: Date.parse('01 Jan 2016 13:22:00'),
+          amount: Big(0.0034),
+          native_amount: Big(25.448898),
+          native_currency: 'CAD',
+          unit_price: Big(7484.97)
+        },
+        {
+          created_at: Date.parse('02 Jan 2016 11:03:00'),
+          amount: Big(0.00154),
+          native_amount: Big(11.5268538),
+          native_currency: 'CAD',
+          unit_price: Big(7484.97)
+        },
+        {
+          created_at: Date.parse('04 Feb 2016 10:21:00'),
+          amount: Big(1),
+          native_amount: Big(220),
+          native_currency: 'CAD',
+          unit_price: Big(7484.97)
+        },
+        {
+          created_at: Date.parse('05 Feb 2016 13:43:00'),
+          amount: Big(2),
+          native_amount: Big(500),
+          native_currency: 'CAD',
+          unit_price: Big(7484.97)
+        },
+        {
+          created_at: Date.parse('06 Feb 2016 4:26:00'),
+          amount: Big(13),
+          native_amount: Big(600),
+          native_currency: 'CAD',
+          unit_price: Big(7484.97)
+        }
+      ],
+      sells: [
+        {
+          created_at: Date.parse('02 Jan 2017 3:02:00'),
+          amount: Big(0.004),
+          native_amount: Big(60),
+          native_currency: 'CAD',
+          unit_price: Big(15000)
+        },
+        {
+          created_at: Date.parse('10 Feb 2017 15:33:00'),
+          amount: Big(2),
+          native_amount: Big(2000),
+          native_currency: 'CAD',
+          unit_price: Big(1000)
+        }
+      ]
+    }
+  };
   for (const currency of Object.keys(transactions)) {
     const buys = transactions[currency].buys;
     const sells = transactions[currency].sells;
 
-    taxEvents = taxEvents.concat(calculateGainsWithFIFO(buys, sells, currency));
+    gains = gains.concat(calculateGainsWithFIFO(buys, sells, currency));
   }
-  return taxEvents.sort((a, b) => {
+  return gains.sort((a, b) => {
     if (getTime(b.sell_date) === getTime(a.sell_date)) {
       return getTime(b.buy_date) - getTime(a.buy_date);
     }
@@ -190,7 +190,7 @@ export default transactions => {
 };
 
 /**
- * @typedef {Object} TaxEvent
+ * @typedef {Object} gains
  * @prop {String} id - Unique ID for event.
  * @prop {String} date - Date of event.
  * @prop {Amount} amount - Amount sold.

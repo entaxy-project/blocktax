@@ -16,9 +16,14 @@ export default class TransactionsStore {
   @observable
   transactions = []
 
+  @persist('list')
+  @observable
+  gains = []
+
   @action.bound
   clearTransactions() {
-    return this.transactions.clear();
+    this.gains.clear();
+    this.transactions.clear();
   }
 
   @action.bound
@@ -40,6 +45,7 @@ export default class TransactionsStore {
     };
     this.clearTransactions();
     this.transactions = await importFromSource[source](apiKey, apiSecret);
+    this.gains = this.calculateCapitalGains();
   }
 
   @computed
@@ -62,8 +68,9 @@ export default class TransactionsStore {
     return this.filterBy('sells').sort(this.sortTransactions);
   }
 
-  @computed
-  get taxEvents() {
+  // Group the transactions by currency + buys and sells
+  // Returns an array of capital gains
+  calculateCapitalGains() {
     const groupedTransactions = {};
 
     for (let t = 0; t < this.transactions.length; t++) {
@@ -90,7 +97,7 @@ export default class TransactionsStore {
   @computed
   get totalGainsMessage() {
     const reducer = (sum, event) => sum.add(event.gain);
-    const totalGains = this.taxEvents.reduce(reducer, new Big(0));
+    const totalGains = this.gains.reduce(reducer, new Big(0));
 
     if (totalGains.gt(0)) {
       return `a total gain of ${formatCurrency(totalGains, 'USD')}`;
@@ -102,8 +109,8 @@ export default class TransactionsStore {
   }
 
   @computed
-  get taxEventsForCsv() {
-    return this.taxEvents.map(event => (
+  get gainsForCsv() {
+    return this.gains.map(event => (
       {
         units_transacted: event.units_transacted,
         source_currency: event.source_currency,
