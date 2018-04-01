@@ -11,27 +11,8 @@ import Body from 'components/body';
 import Card from 'components/card';
 import CardHeader from 'components/card-header';
 import Pagination from 'components/pagination';
-import getLocale from 'utils/get-locale';
+import formatCurrency from 'utils/format-currency';
 import './transaction-list.css';
-
-const locale = getLocale();
-const currencies = ['BTC', 'BCC', 'ETH', 'LTC'];
-const amount = a => {
-  if (currencies.includes(a.currency)) {
-    return `${parseFloat(a.amount).toFixed(4)} ${a.currency}`;
-  }
-
-  return parseFloat(a.amount).toLocaleString(locale, {
-    style: 'currency',
-    currency: a.currency
-  });
-};
-const pricePer = (crypto, fiat) => {
-  const moneySpent = parseFloat(fiat.amount);
-  const coinsBought = parseFloat(crypto.amount);
-
-  return moneySpent / coinsBought;
-};
 
 const injector = stores => ({
   changePage: stores.ui.changeDashboardPage,
@@ -58,26 +39,23 @@ const TransactionList = ({changePage, currentPage, pageCount, transactions}) => 
             </tr>
           </thead>
           <tbody>
-            {transactions.map(transaction => (
-              <tr key={transaction.id} className="TransactionList__row">
+            {transactions.map(t => (
+              <tr key={t.id} className="TransactionList__row">
                 <td className="TransactionList__cell">
-                  <div className="TransactionList__date">{formatDate(parseDate(transaction.created_at), 'MM/DD/YY')}</div>
-                  <div className="TransactionList__time">{formatDate(parseDate(transaction.created_at), 'h:mma')}</div>
+                  <div className="TransactionList__date">{formatDate(parseDate(t.date), 'MM/DD/YY')}</div>
+                  <div className="TransactionList__time">{formatDate(parseDate(t.date), 'h:mma')}</div>
                 </td>
                 <td className="TransactionList__cell">
-                  {transaction.details.title}
-                  <div className="TransactionList__sub">{transaction.details.subtitle}</div>
+                  {t.title}
+                  <div className="TransactionList__sub">{t.description}</div>
                 </td>
                 <td className="TransactionList__cell">
-                  {amount(transaction.amount)}
+                  {formatCurrency(t.units, t.unitCurrency)}
                 </td>
                 <td className="TransactionList__cell">
-                  {amount(transaction.native_amount)}
+                  {formatCurrency(t.fiatAmount, t.fiatCurrency)}
                   <div className="TransactionList__sub">
-                    {amount({
-                      amount: pricePer(transaction.amount, transaction.native_amount),
-                      currency: transaction.native_amount.currency
-                    })}/{transaction.amount.currency}
+                    {formatCurrency(t.pricePerUnit, t.fiatCurrency)}/{t.unitCurrency}
                   </div>
                 </td>
               </tr>

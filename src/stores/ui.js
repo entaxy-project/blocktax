@@ -33,15 +33,17 @@ export default class UIStore {
 
   @computed
   get dashboardPageCount() {
-    return Math.ceil(this.transactions.buyAndSellTransactions.length / this.dashboardPageSize);
+    console.log('dashboardPageCount: ', this.transactions.all)
+    return Math.ceil(this.transactions.all.length / this.dashboardPageSize);
   }
 
   @computed
   get dashboardTransactions() {
+    console.log('dashboardTransactions: ', this.transactions.all)
     const start = this.dashboardPage * this.dashboardPageSize;
     const end = start + this.dashboardPageSize;
 
-    return this.transactions.buyAndSellTransactions.slice(start, end);
+    return this.transactions.all.slice(start, end);
   }
 
   @action.bound

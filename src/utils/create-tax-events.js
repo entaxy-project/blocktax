@@ -2,6 +2,8 @@
 
 import uuid from 'uuid/v4';
 import difference_in_days from 'date-fns/difference_in_days';
+// import Big from 'big.js';
+import getTime from 'date-fns/get_time';
 
 const calculateGainsWithFIFO = (buys, sells, source_currency) => {
   const taxEvents = [];
@@ -82,7 +84,6 @@ const calculateGainsWithFIFO = (buys, sells, source_currency) => {
  */
 export default transactions => {
   let taxEvents = [];
-  // import Big  from 'big.js';
   // transactions = {
   //   ETH: {
   //     buys: [
@@ -180,7 +181,12 @@ export default transactions => {
 
     taxEvents = taxEvents.concat(calculateGainsWithFIFO(buys, sells, currency));
   }
-  return taxEvents;
+  return taxEvents.sort((a, b) => {
+    if (getTime(b.sell_date) === getTime(a.sell_date)) {
+      return getTime(b.buy_date) - getTime(a.buy_date);
+    }
+    return getTime(b.sell_date) - getTime(a.sell_date);
+  });
 };
 
 /**
