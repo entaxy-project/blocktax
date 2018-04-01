@@ -10,7 +10,6 @@ import Header from 'components/header';
 import Body from 'components/body';
 import Card from 'components/card';
 import CardHeader from 'components/card-header';
-import Disclaimer from 'components/disclaimer';
 import Pagination from 'components/pagination';
 import getLocale from 'utils/get-locale';
 import './transaction-list.css';
@@ -59,26 +58,26 @@ const TransactionList = ({changePage, currentPage, pageCount, transactions}) => 
             </tr>
           </thead>
           <tbody>
-            {transactions.map(e => (
-              <tr key={e.id} className="TransactionList__row">
+            {transactions.map(transaction => (
+              <tr key={transaction.id} className="TransactionList__row">
                 <td className="TransactionList__cell">
-                  <div className="TransactionList__date">{formatDate(parseDate(e.created_at), 'MM/DD/YY')}</div>
-                  <div className="TransactionList__time">{formatDate(parseDate(e.created_at), 'h:mma')}</div>
+                  <div className="TransactionList__date">{formatDate(parseDate(transaction.created_at), 'MM/DD/YY')}</div>
+                  <div className="TransactionList__time">{formatDate(parseDate(transaction.created_at), 'h:mma')}</div>
                 </td>
                 <td className="TransactionList__cell">
-                  {e.details.title}
-                  <div className="TransactionList__sub">{e.details.subtitle}</div>
+                  {transaction.details.title}
+                  <div className="TransactionList__sub">{transaction.details.subtitle}</div>
                 </td>
                 <td className="TransactionList__cell">
-                  {amount(e.amount)}
+                  {amount(transaction.amount)}
                 </td>
                 <td className="TransactionList__cell">
-                  {amount(e.native_amount)}
+                  {amount(transaction.native_amount)}
                   <div className="TransactionList__sub">
                     {amount({
-                      amount: pricePer(e.amount, e.native_amount),
-                      currency: e.native_amount.currency
-                    })}/{e.amount.currency}
+                      amount: pricePer(transaction.amount, transaction.native_amount),
+                      currency: transaction.native_amount.currency
+                    })}/{transaction.amount.currency}
                   </div>
                 </td>
               </tr>
@@ -96,7 +95,6 @@ const TransactionList = ({changePage, currentPage, pageCount, transactions}) => 
         )}
       </Card>
     </Body>
-    <Disclaimer/>
   </div>
 );
 

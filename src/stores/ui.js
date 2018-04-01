@@ -10,9 +10,12 @@ export default class UIStore {
   }
 
   @observable
-  dashboardPage = 0
+  dataIsLoading = true
 
-  dashboardPageSize = 10
+  @action.bound
+  dataFinishedLoading() {
+    this.dataIsLoading = false;
+  }
 
   @persist
   @observable
@@ -22,6 +25,11 @@ export default class UIStore {
   hideDisclaimer() {
     this.disclaimerIsVisible = false;
   }
+  @observable
+  dashboardPage = 0
+
+  dashboardPageSize = 10
+
 
   @computed
   get dashboardPageCount() {
