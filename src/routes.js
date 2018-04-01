@@ -8,6 +8,8 @@ import Import from './components/import';
 import TransactionList from './components/transaction-list';
 import TaxEventList from './components/tax-event-list';
 import CoinbaseHelp from './components/coinbase-help';
+import LoadingOverlay from './components/loading-overlay';
+
 
 const signedOutOnly = props => (
   isUserSignedIn() ? <Redirect to="/transactions"/> : <Landing {...props}/>
@@ -28,24 +30,43 @@ const transactionsRequired = (Screen, transactionsExist) => props => {
 };
 
 const injector = stores => ({
-  transactionsExist: stores.transactions.exist
+  transactionsExist: stores.transactions.exist,
+  dataIsLoading: stores.ui.dataIsLoading
 });
 
-const Routes = ({history, transactionsExist}) => (
-  <Router history={history} basename={process.env.PUBLIC_URL}>
-    <Switch>
-      <Route exact path="/" render={signedOutOnly}/>
-      <Route exact path="/transactions" render={loginRequired(transactionsRequired(TransactionList, transactionsExist))}/>
-      <Route exact path="/capital-gains" render={loginRequired(transactionsRequired(TaxEventList, transactionsExist))}/>
-      <Route exact path="/import" render={loginRequired(Import)}/>
-      <Route exact path="/coinbase-help" render={CoinbaseHelp}/>
-    </Switch>
-  </Router>
-);
+class Routes extends React.Component {
+  constructor({history, transactionsExist, dataIsLoading}) {
+    super();
+  };
+
+  render() {
+    const {history, transactionsExist, dataIsLoading} = this.props;
+    if (dataIsLoading) {
+      return(
+        <div>
+          <Landing/>
+          <LoadingOverlay/>
+        </div>
+      );
+    }
+    return(
+      <Router history={history} basename={process.env.PUBLIC_URL}>
+        <Switch>
+          <Route exact path="/" render={signedOutOnly}/>
+          <Route exact path="/transactions" render={loginRequired(transactionsRequired(TransactionList, transactionsExist))}/>
+          <Route exact path="/capital-gains" render={loginRequired(transactionsRequired(TaxEventList, transactionsExist))}/>
+          <Route exact path="/import" render={loginRequired(Import)}/>
+          <Route exact path="/coinbase-help" render={CoinbaseHelp}/>
+        </Switch>
+      </Router>
+    )
+  }
+};
 
 Routes.propTypes = {
   history: PropTypes.object.isRequired,
-  transactionsExist: PropTypes.bool.isRequired
+  transactionsExist: PropTypes.bool.isRequired,
+  dataIsLoading: PropTypes.bool.isRequired
 };
 
 export default inject(injector)(Routes);

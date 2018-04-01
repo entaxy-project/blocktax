@@ -7,6 +7,7 @@ import Card from 'components/card';
 import ImportButton from 'components/import-button';
 import Modal from 'react-responsive-modal';
 import CoinbaseModalContent from 'components/coinbase-modal-content';
+import Disclaimer from 'components/disclaimer';
 import './import.css';
 
 const injector = stores => ({
@@ -31,7 +32,7 @@ class Import extends React.Component {
     this.setState({showCoinbaseModal: false});
   };
 
-  onResetTransactions =() => {
+  onResetTransactions = () => {
     if (confirm('This will delete all the transactions you imported so far. Are you sure?')) {
       this.clearTransactions();
       alert('Done!');

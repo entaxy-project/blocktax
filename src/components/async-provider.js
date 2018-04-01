@@ -39,7 +39,9 @@ export default class AsyncProvider extends Component {
       }
 
       return null;
-    }));
+    })).then(() => {
+      this.props.stores.ui.dataFinishedLoading();
+    })
   }
 
   render() {
