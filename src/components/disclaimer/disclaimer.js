@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {inject} from 'mobx-react';
-import {Redirect} from 'react-router-dom';
 import Button from 'components/button';
 import Modal from 'react-responsive-modal';
 import {withFormik} from 'formik';
@@ -22,7 +21,7 @@ class Disclaimer extends React.Component {
   }) {
     super();
     this.hideDisclaimer = hideDisclaimer;
-  };
+  }
 
   handleChange = () => {
     this.values.disclaimerAccepted = !this.values.disclaimerAccepted;
@@ -37,7 +36,7 @@ class Disclaimer extends React.Component {
   };
 
   render() {
-    const { values, handleChange, disclaimerIsVisible } = this.props;
+    const {values, handleChange, disclaimerIsVisible} = this.props;
     return (
       <Modal
         open={disclaimerIsVisible}
@@ -67,22 +66,23 @@ class Disclaimer extends React.Component {
                 name="disclaimerAccepted"
                 value={values.disclaimerAccepted}
                 onChange={handleChange}
-              />
-              I understand that this report may not be accurate
+              /> I understand that this report may not be accurate
             </label>
           </div>
           <Button small disabled={!values.disclaimerAccepted} onClick={this.onAcceptDisclaimer}>Show me the report</Button>
         </form>
       </Modal>
     );
-  };
-};
+  }
+}
 
 Disclaimer.propTypes = {
+  values: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired,
   disclaimerIsVisible: PropTypes.bool.isRequired,
   hideDisclaimer: PropTypes.func.isRequired
 };
 
 export default inject(injector)(withFormik({
-  mapPropsToValues: () => ({disclaimerAccepted: false}),
+  mapPropsToValues: () => ({disclaimerAccepted: false})
 })(Disclaimer));
