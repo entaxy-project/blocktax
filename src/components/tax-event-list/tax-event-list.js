@@ -17,7 +17,7 @@ import formatCurrency from 'utils/format-currency';
 import './tax-event-list.css';
 
 const injector = stores => ({
-  events: toJS(stores.transactions.gains),
+  events: toJS(stores.transactions.gainsList),
   totalGainsMessage: stores.transactions.totalGainsMessage
 });
 
@@ -33,9 +33,9 @@ const TaxEventList = ({events, totalGainsMessage}) => (
       <Card>
         <CardHeader
           title="Capital Gains"
+          filters={<Filters/>}
           controls={
             <div className="CostBasis">
-              <Filters/>
               <p>Cost Basis Method</p>
               <h3>FIFO</h3>
             </div>

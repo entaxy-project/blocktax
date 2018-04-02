@@ -24,10 +24,11 @@ export default class TransactionsStore {
   // An empty query returns all items
   @persist('object')
   @observable
-  query = {
-    transactions: {},
-    gains: {}
-  }
+  transactionsQuery = {}
+
+  @persist('object')
+  @observable
+  gainsQuery = {}
 
   @persist('object')
   @observable
@@ -40,8 +41,22 @@ export default class TransactionsStore {
   }
 
   @action.bound
-  setQuery(type, query) {
-    this.query[type] = query;
+  setTransactionsQuery(query) {
+    this.transactionsQuery = query;
+  }
+
+  @action.bound
+  setGainsQuery(query) {
+    this.gainsQuery = query;
+  }
+
+  @action.bound
+  resetState() {
+    this.transactions.clear();
+    this.gains.clear();
+    this.transactionsQuery = {};
+    this.gainsQuery = {};
+    this.searcheableAttributes = {};
   }
 
   @action.bound
@@ -64,8 +79,8 @@ export default class TransactionsStore {
     this.transactions = await importFromSource[source](apiKey, apiSecret);
     this.gains = this.calculateCapitalGains();
 
-    // Collect attributes for gains
-    this.searcheableAttributes = {
+    // Collect attributes for dropdowns
+    const attributes = {
       transactions: {
         years: new Set(),
         currencies: new Set()
@@ -73,18 +88,18 @@ export default class TransactionsStore {
       gains: {
         years: new Set(),
         currencies: new Set(),
-        term: ['short', 'long']
+        terms: ['short', 'long']
       }
+    };
+    for (let i = 0; i < this.transactions.length; i++) {
+      attributes.transactions.years.add(parseDate(this.transactions[i].date).getFullYear());
+      attributes.transactions.currencies.add(this.transactions[i].unitCurrency);
     }
-    for (let i = 0; i< this.transactions.length; i++) {
-      this.searcheableAttributes.transactions.years.add(parseDate(this.transactions[i].date).getFullYear());
-      this.searcheableAttributes.transactions.currencies.add(this.transactions[i].unitCurrency);
+    for (let i = 0; i < this.gains.length; i++) {
+      attributes.gains.years.add(parseDate(this.gains[i].sell_date).getFullYear());
+      attributes.gains.currencies.add(this.gains[i].source_currency);
     }
-    for (let i = 0; i< this.gains.length; i++) {
-      this.searcheableAttributes.gains.years.add(parseDate(this.gains[i].sell_date).getFullYear());
-      this.searcheableAttributes.gains.currencies.add(this.gains[i].source_currency);
-    }
-    console.log('searcheableAttributes: ', this.searcheableAttributes)
+    this.searcheableAttributes = attributes;
   }
 
   @computed
@@ -129,16 +144,6 @@ export default class TransactionsStore {
   }
 
   @computed
-  get gainsYears() {
-    let years = new Set();
-    for (let i = 0; i< this.gains.length; i++) {
-      years.add(parseDate(this.gains[i].sell_date).getFullYear());
-    }
-    return years;
-  }
-
-
-  @computed
   get totalGainsMessage() {
     const reducer = (sum, event) => sum.add(event.gain);
     const totalGains = this.gains.reduce(reducer, new Big(0));
@@ -154,7 +159,7 @@ export default class TransactionsStore {
 
   @computed
   get gainsForCsv() {
-    return this.gains.map(event => (
+    return this.gainsList.map(event => (
       {
         units_transacted: event.units_transacted,
         source_currency: event.source_currency,
@@ -181,19 +186,21 @@ export default class TransactionsStore {
 
   filterTransactions() {
     const filters = {
-      year: (year, item) => parseDate(item.date).getFullYear() === year,
-      type: (types, item) => types.includes(item.type),
-      currency: (currencies, item) => currencies.includes(item.unitCurrency)
+      year: (year, item) => parseDate(item.date).getFullYear() === parseInt(year, 10),
+      type: (type, item) => type === item.type,
+      currency: (currency, item) => currency === item.unitCurrency
     };
-    return this.transactions.filter(transaction => this.filterBy(transaction, this.query.transactions, filters));
+    return this.transactions.filter(transaction => this.filterBy(transaction, this.transactionsQuery, filters));
   }
 
   filterGains() {
     const filters = {
-      year: (year, item) => parseDate(item.sell_date).getFullYear() === year,
-      term: (terms, item) => terms.include(item.shortTerm ? 'short' : 'long')
+      year: (year, item) => parseDate(item.sell_date).getFullYear() === parseInt(year, 10),
+      currency: (currency, item) => currency === item.source_currency,
+      term: (term, item) => term === (item.shortTerm ? 'short' : 'long')
     };
-    return this.gains.filter(gain => this.filterBy(gain, this.query.gains, filters));
+    const res = this.gains.filter(gain => this.filterBy(gain, this.gainsQuery, filters));
+    return res;
   }
 
   sortTransactions(a, b) {

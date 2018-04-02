@@ -52,6 +52,6 @@ export default class UIStore {
   @action.bound
   resetState() {
     this.disclaimerIsVisible = true;
-    this.transactions.transactions.clear();
+    this.transactions.resetState();
   }
 }
