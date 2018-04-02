@@ -117,7 +117,7 @@ export default transactions => {
           native_currency: 'CAD',
           unit_price: Big(20)
         }
-      ],
+      ]
     },
     BTC: {
       buys: [
@@ -181,12 +181,7 @@ export default transactions => {
 
     gains = gains.concat(calculateGainsWithFIFO(buys, sells, currency));
   }
-  return gains.sort((a, b) => {
-    if (getTime(b.sell_date) === getTime(a.sell_date)) {
-      return getTime(b.buy_date) - getTime(a.buy_date);
-    }
-    return getTime(b.sell_date) - getTime(a.sell_date);
-  });
+  return gains;
 };
 
 /**

@@ -10,6 +10,7 @@ import Header from 'components/header';
 import Body from 'components/body';
 import Card from 'components/card';
 import CardHeader from 'components/card-header';
+import Filters from './filters';
 import Disclaimer from 'components/disclaimer';
 import ExportCsv from 'components/export-csv';
 import formatCurrency from 'utils/format-currency';
@@ -34,6 +35,7 @@ const TaxEventList = ({events, totalGainsMessage}) => (
           title="Capital Gains"
           controls={
             <div className="CostBasis">
+              <Filters/>
               <p>Cost Basis Method</p>
               <h3>FIFO</h3>
             </div>
