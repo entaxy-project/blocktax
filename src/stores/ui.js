@@ -33,7 +33,7 @@ export default class UIStore {
 
   @computed
   get dashboardPageCount() {
-    return Math.ceil(this.transactions.buyAndSellTransactions.length / this.dashboardPageSize);
+    return Math.ceil(this.transactions.transactionList.length / this.dashboardPageSize);
   }
 
   @computed
@@ -41,7 +41,7 @@ export default class UIStore {
     const start = this.dashboardPage * this.dashboardPageSize;
     const end = start + this.dashboardPageSize;
 
-    return this.transactions.buyAndSellTransactions.slice(start, end);
+    return this.transactions.transactionList.slice(start, end);
   }
 
   @action.bound
@@ -52,6 +52,6 @@ export default class UIStore {
   @action.bound
   resetState() {
     this.disclaimerIsVisible = true;
-    this.transactions.transactions.clear();
+    this.transactions.resetState();
   }
 }

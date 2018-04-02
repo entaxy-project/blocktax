@@ -10,7 +10,6 @@ import TaxEventList from './components/tax-event-list';
 import CoinbaseHelp from './components/coinbase-help';
 import LoadingOverlay from './components/loading-overlay';
 
-
 const signedOutOnly = props => (
   isUserSignedIn() ? <Redirect to="/transactions"/> : <Landing {...props}/>
 );
@@ -37,7 +36,7 @@ const injector = stores => ({
 class Routes extends React.Component {
   constructor({history, transactionsExist, dataIsLoading}) {
     super();
-  };
+  }
 
   render() {
     const {history, transactionsExist, dataIsLoading} = this.props;
@@ -59,9 +58,9 @@ class Routes extends React.Component {
           <Route exact path="/coinbase-help" render={CoinbaseHelp}/>
         </Switch>
       </Router>
-    )
+    );
   }
-};
+}
 
 Routes.propTypes = {
   history: PropTypes.object.isRequired,

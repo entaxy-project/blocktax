@@ -108,9 +108,9 @@ export default inject(injector)(withFormik({
       .then(() => {
         setSubmitting(false);
         props.history.push('/capital-gains');
-      }).catch(() => {
+      }).catch((errorMessage) => {
         setSubmitting(false);
-        setErrors({global: 'Sorry, something went wrong.'});
+        setErrors({global: `Sorry, something went wrong.${errorMessage}`});
       });
   }
 })(CoinbaseModalContent));

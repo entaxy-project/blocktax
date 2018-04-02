@@ -10,25 +10,14 @@ import Header from 'components/header';
 import Body from 'components/body';
 import Card from 'components/card';
 import CardHeader from 'components/card-header';
+import Filters from './filters';
 import Disclaimer from 'components/disclaimer';
 import ExportCsv from 'components/export-csv';
-import getLocale from 'utils/get-locale';
+import formatCurrency from 'utils/format-currency';
 import './tax-event-list.css';
 
-const locale = getLocale();
-const currencies = ['BTC', 'BCC', 'ETH', 'LTC'];
-const formattedAmount = (amount, currency) => {
-  if (currencies.includes(currency)) {
-    return `${amount.toFixed()} ${currency}`;
-  }
-  return parseFloat(amount).toLocaleString(locale, {
-    style: 'currency',
-    currency
-  });
-};
-
 const injector = stores => ({
-  events: toJS(stores.transactions.taxEvents),
+  events: toJS(stores.transactions.gainsList),
   totalGainsMessage: stores.transactions.totalGainsMessage
 });
 
@@ -44,6 +33,7 @@ const TaxEventList = ({events, totalGainsMessage}) => (
       <Card>
         <CardHeader
           title="Capital Gains"
+          filters={<Filters/>}
           controls={
             <div className="CostBasis">
               <p>Cost Basis Method</p>
@@ -71,18 +61,18 @@ const TaxEventList = ({events, totalGainsMessage}) => (
                   <div className="TaxEventList__time">{format(e.sell_date, 'h:mma')}</div>
                 </td>
                 <td className="TaxEventList__cell">
-                  {formattedAmount(e.units_transacted, e.source_currency)}
+                  {formatCurrency(e.units_transacted, e.source_currency)}
                 </td>
                 <td className="TaxEventList__cell">
-                  {formattedAmount(e.sell_total_price, e.destination_currency)}
+                  {formatCurrency(e.sell_total_price, e.destination_currency)}
                   <div className="TaxEventList__sub">
-                    {formattedAmount(e.sell_price_per_unit, e.destination_currency)}/{e.source_currency}
+                    {formatCurrency(e.sell_price_per_unit, e.destination_currency)}/{e.source_currency}
                   </div>
                 </td>
                 <td className="TaxEventList__cell">
-                  {formattedAmount(e.buy_total_price, e.destination_currency)}
+                  {formatCurrency(e.buy_total_price, e.destination_currency)}
                   <div className="TaxEventList__sub">
-                    {formattedAmount(e.buy_price_per_unit, e.destination_currency)}/{e.source_currency}
+                    {formatCurrency(e.buy_price_per_unit, e.destination_currency)}/{e.source_currency}
                   </div>
                 </td>
                 <td className="TaxEventList__cell-left">
@@ -97,7 +87,7 @@ const TaxEventList = ({events, totalGainsMessage}) => (
                     })}
                   >
                     {e.gain < 0 && '('}
-                    {formattedAmount(e.gain, e.destination_currency)}
+                    {formatCurrency(e.gain, e.destination_currency)}
                     {e.gain < 0 && ')'}
                   </span>
                   <span

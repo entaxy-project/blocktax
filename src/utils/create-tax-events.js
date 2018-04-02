@@ -2,9 +2,11 @@
 
 import uuid from 'uuid/v4';
 import difference_in_days from 'date-fns/difference_in_days';
+// import Big from 'big.js';
+import getTime from 'date-fns/get_time';
 
 const calculateGainsWithFIFO = (buys, sells, source_currency) => {
-  const taxEvents = [];
+  const gains = [];
   const ONE_YEAR = 365; // Days
   let buy;
   let sell;
@@ -56,7 +58,7 @@ const calculateGainsWithFIFO = (buys, sells, source_currency) => {
     const buy_total_price = units_transacted.times(buy_price_per_unit);
     const sell_total_price = units_transacted.times(sell_price_per_unit);
 
-    taxEvents.push({
+    gains.push({
       id: uuid(),
       units_transacted,
       source_currency,
@@ -71,18 +73,17 @@ const calculateGainsWithFIFO = (buys, sells, source_currency) => {
       shortTerm: difference_in_days(sell_date, buy_date) <= ONE_YEAR
     });
   }
-  return taxEvents;
+  return gains;
 };
 
 /**
- * Convert a raw list of transactions from Coinbase into a series of tax events, including cost
+ * Convert a raw list of transactions from Coinbase into a series of capital gains, including cost
  * basis and gain/loss.
  * @param {Object[]} transactions - Transaction list.
- * @returns {TaxEvent[]} List of tax events.
+ * @returns {gains[]} List of capital gains.
  */
 export default transactions => {
-  let taxEvents = [];
-  // import Big  from 'big.js';
+  let gains = [];
   // transactions = {
   //   ETH: {
   //     buys: [
@@ -116,7 +117,7 @@ export default transactions => {
   //         native_currency: 'CAD',
   //         unit_price: Big(20)
   //       }
-  //     ],
+  //     ]
   //   },
   //   BTC: {
   //     buys: [
@@ -158,7 +159,7 @@ export default transactions => {
   //     ],
   //     sells: [
   //       {
-  //         created_at: Date.parse('02 Jan 2017 3:02:00'),
+  //         created_at: Date.parse('02 Mar 2016 3:02:00'),
   //         amount: Big(0.004),
   //         native_amount: Big(60),
   //         native_currency: 'CAD',
@@ -178,13 +179,13 @@ export default transactions => {
     const buys = transactions[currency].buys;
     const sells = transactions[currency].sells;
 
-    taxEvents = taxEvents.concat(calculateGainsWithFIFO(buys, sells, currency));
+    gains = gains.concat(calculateGainsWithFIFO(buys, sells, currency));
   }
-  return taxEvents;
+  return gains;
 };
 
 /**
- * @typedef {Object} TaxEvent
+ * @typedef {Object} gains
  * @prop {String} id - Unique ID for event.
  * @prop {String} date - Date of event.
  * @prop {Amount} amount - Amount sold.

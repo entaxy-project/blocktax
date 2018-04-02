@@ -1,5 +1,7 @@
 import crypto from 'crypto';
 import queryString from 'query-string';
+import Big from 'big.js';
+import uuid from 'uuid/v4';
 
 const baseUrl = 'https://api.coinbase.com';
 const apiVersion = 'v2';
@@ -36,26 +38,25 @@ const getDataFrom = async (apiKey, apiSecret, resource, params = null) => {
   resource += params ? `?${queryString.stringify(params)}` : '';
   const url = `${baseUrl}/${apiVersion}/${resource}`;
 
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'CB-ACCESS-SIGN': getSignature(apiSecret, resource, timestamp),
-        'CB-ACCESS-TIMESTAMP': timestamp,
-        'CB-ACCESS-KEY': apiKey,
-        'CB-VERSION': apiVersionDate
-      }
-    });
-
-    if (!response.ok) {
-      throw new Error(response.status);
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'CB-ACCESS-SIGN': getSignature(apiSecret, resource, timestamp),
+      'CB-ACCESS-TIMESTAMP': timestamp,
+      'CB-ACCESS-KEY': apiKey,
+      'CB-VERSION': apiVersionDate
     }
+  });
 
-    return response.json();
-  } catch (err) {
-    console.log(err);
-    throw new Error(`Could not fetch resource /${resource} from Coinbase.`);
+  if (!response.ok) {
+    const message = {
+      401: '401 Unauthorized. Please make sure you entered the API key correctly and that it has the right permissions',
+    }[response.status];
+    console.log(response);
+    throw new Error(message);
   }
+
+  return response.json();
 };
 
 /**
@@ -77,6 +78,39 @@ const getPaginatedDataFrom = async (apiKey, apiSecret, url, params, transactions
   }
 };
 
+const normalizeData = transactions => {
+  let normalizedTransactions = [];
+
+  for (let t = 0; t < transactions.length; t++) {
+    const transaction = transactions[t];
+
+    // Only care about completed transactions that were bought or sold
+    if (transaction.status !== 'completed' || !['buy', 'sell'].includes(transaction.type) || transaction.amount.currency === 'USD') {
+      continue;
+    }
+
+    // Group the transactions by currency and by buy/sell type
+    const units = new Big(Math.abs(parseFloat(transaction.amount.amount)));
+    const fiatAmount = new Big(Math.abs(parseFloat(transaction.native_amount.amount)));
+
+    normalizedTransactions.push({
+      id: uuid(),
+      source: 'coinbase',
+      date: transaction.created_at,
+      type: transaction.type,
+      title: transaction.details.title,
+      description: transaction.details.subtitle,
+      units,
+      unitCurrency: transaction.amount.currency,
+      fiatAmount,
+      fiatCurrency: transaction.native_amount.currency,
+      pricePerUnit: Math.abs(fiatAmount.div(units))
+    });
+  }
+
+  return normalizedTransactions;
+}
+
 /**
  * Import the full list of transactions from coinbase
  * @param {string} apiKey - The users coinbase api key
@@ -95,5 +129,5 @@ export default async (apiKey, apiSecret) => {
     await getPaginatedDataFrom(apiKey, apiSecret, `accounts/${account.id}/transactions`, {limit: 100}, transactions);
   }));
 
-  return transactions;
+  return normalizeData(transactions);
 };

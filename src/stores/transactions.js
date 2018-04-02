@@ -1,13 +1,14 @@
 /* eslint-disable camelcase */
 
-import {observable, computed, action, toJS} from 'mobx';
+import {observable, computed, action} from 'mobx';
 import {persist} from 'mobx-persist';
 import getTime from 'date-fns/get_time';
 import importTransactionsFromCoinbase from 'utils/import/coinbase';
-import format from 'date-fns/format';
+import parseDate from 'date-fns/parse';
+import formatDate from 'date-fns/format';
 import createTaxEvents from '../utils/create-tax-events';
 import Big from 'big.js';
-import getLocale from 'utils/get-locale';
+import formatCurrency from 'utils/format-currency';
 
 export default class TransactionsStore {
   static persist = true
@@ -16,102 +17,157 @@ export default class TransactionsStore {
   @observable
   transactions = []
 
+  @persist('list')
+  @observable
+  gains = []
+
+  // An empty query returns all items
+  @persist('object')
+  @observable
+  transactionsQuery = {}
+
+  @persist('object')
+  @observable
+  gainsQuery = {}
+
+  @persist('object')
+  @observable
+  searcheableAttributes = {}
+
   @action.bound
   clearTransactions() {
-    return this.transactions.clear();
+    this.gains.clear();
+    this.transactions.clear();
+  }
+
+  @action.bound
+  setTransactionsQuery(query) {
+    this.transactionsQuery = query;
+  }
+
+  @action.bound
+  setGainsQuery(query) {
+    this.gainsQuery = query;
+  }
+
+  @action.bound
+  resetState() {
+    this.transactions.clear();
+    this.gains.clear();
+    this.transactionsQuery = {};
+    this.gainsQuery = {};
+    this.searcheableAttributes = {};
   }
 
   @action.bound
   async importTransactionsFrom(source, apiKey, apiSecret) {
-    const importSources = {
+    // Each import function should return a hash with the following keys:
+    // {string} source - where the transaction was imported from
+    // {string} date
+    // {string} type
+    // {string} title
+    // {string} description
+    // {Big}    units
+    // {string} unitCurrency
+    // {Big}    fiatAmount
+    // {string} fiatCurrency
+    // {Big}    pricePerUnit
+    const importFromSource = {
       coinbase: importTransactionsFromCoinbase
     };
     this.clearTransactions();
-    this.transactions = toJS(await importSources[source](apiKey, apiSecret));
+    this.transactions = await importFromSource[source](apiKey, apiSecret);
+    this.gains = this.calculateCapitalGains();
+
+    // Collect attributes for dropdowns
+    const attributes = {
+      transactions: {
+        years: new Set(),
+        currencies: new Set()
+      },
+      gains: {
+        years: new Set(),
+        currencies: new Set(),
+        terms: ['short', 'long']
+      }
+    };
+    for (let i = 0; i < this.transactions.length; i++) {
+      attributes.transactions.years.add(parseDate(this.transactions[i].date).getFullYear());
+      attributes.transactions.currencies.add(this.transactions[i].unitCurrency);
+    }
+    for (let i = 0; i < this.gains.length; i++) {
+      attributes.gains.years.add(parseDate(this.gains[i].sell_date).getFullYear());
+      attributes.gains.currencies.add(this.gains[i].source_currency);
+    }
+    this.searcheableAttributes = attributes;
   }
 
   @computed
   get exist() {
-    return this.buyAndSellTransactions.length > 0;
+    return this.transactions.length > 0;
   }
 
   @computed
-  get buyAndSellTransactions() {
-    return this.filterTransactionsBy(['buy', 'sell']);
+  get transactionList() {
+    return this.filterTransactions().sort(this.sortTransactions);
   }
 
   @computed
-  get taxEvents() {
+  get gainsList() {
+    return this.filterGains().sort(this.sortGains);
+  }
+
+  // Group the transactions by currency + buys and sells
+  // Returns an array of capital gains
+  calculateCapitalGains() {
     const groupedTransactions = {};
 
     for (let t = 0; t < this.transactions.length; t++) {
       const transaction = this.transactions[t];
       const transactionType = transaction.type === 'buy' ? 'buys' : 'sells';
 
-      // Only calculate gains for completed transactions between buys and sells
-      if (transaction.status !== 'completed' || !['buy', 'sell'].includes(transaction.type) || transaction.amount.currency === 'USD') {
-        continue;
-      }
-
-      if (!(transaction.amount.currency in groupedTransactions)) {
-        groupedTransactions[transaction.amount.currency] = {buys: [], sells: []};
+      if (!(transaction.unitCurrency in groupedTransactions)) {
+        groupedTransactions[transaction.unitCurrency] = {buys: [], sells: []};
       }
 
       // Group the transactions by currency and by buy/sell type
-      const amount = new Big(Math.abs(parseFloat(transaction.amount.amount)));
-      const native_amount = new Big(Math.abs(parseFloat(transaction.native_amount.amount)));
-      groupedTransactions[transaction.amount.currency][transactionType].push({
+      groupedTransactions[transaction.unitCurrency][transactionType].push({
         created_at: transaction.created_at,
-        amount,
-        native_amount,
-        native_currency: transaction.native_amount.currency,
-        unit_price: native_amount.div(amount)
+        amount: new Big(Math.abs(parseFloat(transaction.units))),
+        native_amount: new Big(Math.abs(parseFloat(transaction.fiatAmount))),
+        native_currency: transaction.fiatCurrency,
+        unit_price: new Big(transaction.pricePerUnit)
       });
     }
 
-    return createTaxEvents(groupedTransactions).sort((a, b) => {
-      if (getTime(b.created_at) === getTime(a.created_at)) {
-        return getTime(b.sell_date) - getTime(a.sell_date);
-      }
-      return getTime(b.buy_date) - getTime(a.buy_date);
-    });
-  }
-
-  formattedAmount(amount, currency) {
-    if (['BTC', 'BCC', 'ETH', 'LTC'].includes(currency)) {
-      return `${amount.toFixed()} ${currency}`;
-    }
-    return parseFloat(amount).toLocaleString(getLocale(), {
-      style: 'currency',
-      currency
-    });
+    return createTaxEvents(groupedTransactions);
   }
 
   @computed
   get totalGainsMessage() {
     const reducer = (sum, event) => sum.add(event.gain);
-    const totalGains = this.taxEvents.reduce(reducer, new Big(0));
+    const totalGains = this.gains.reduce(reducer, new Big(0));
 
     if (totalGains.gt(0)) {
-      return `a total gain of ${this.formattedAmount(totalGains, 'USD')}`;
+      return `a total gain of ${formatCurrency(totalGains, 'USD')}`;
     }
     if (totalGains.lt(0)) {
-      return `a total loss of (${this.formattedAmount(Math.abs(totalGains), 'USD')})`;
+      return `a total loss of (${formatCurrency(Math.abs(totalGains), 'USD')})`;
     }
     return `no gains`;
   }
 
   @computed
-  get taxEventsForCsv() {
-    return this.taxEvents.map(event => (
+  get gainsForCsv() {
+    return this.gainsList.map(event => (
       {
         units_transacted: event.units_transacted,
         source_currency: event.source_currency,
         destination_currency: event.destination_currency,
-        sell_date: format(event.sell_date, 'MM/DD/YYYY h:mma'),
+        sell_date: formatDate(event.sell_date, 'MM/DD/YYYY h:mma'),
         sell_total_price: event.sell_total_price,
         sell_price_per_unit: event.sell_price_per_unit,
-        buy_date: format(event.buy_date, 'MM/DD/YYYY h:mma'),
+        buy_date: formatDate(event.buy_date, 'MM/DD/YYYY h:mma'),
         buy_total_price: event.buy_total_price,
         buy_price_per_unit: event.buy_price_per_unit,
         gain: event.gain,
@@ -120,11 +176,41 @@ export default class TransactionsStore {
     );
   }
 
-  filterTransactionsBy(types) {
-    return this.transactions.filter(t => types.includes(t.type)).sort(this.sortTransactions);
+  filterBy(item, query, filters) {
+    let result = true;
+    for (const key of Object.keys(query)) {
+      result &= filters[key](query[key], item);
+    }
+    return result;
+  }
+
+  filterTransactions() {
+    const filters = {
+      year: (year, item) => parseDate(item.date).getFullYear() === parseInt(year, 10),
+      type: (type, item) => type === item.type,
+      currency: (currency, item) => currency === item.unitCurrency
+    };
+    return this.transactions.filter(transaction => this.filterBy(transaction, this.transactionsQuery, filters));
+  }
+
+  filterGains() {
+    const filters = {
+      year: (year, item) => parseDate(item.sell_date).getFullYear() === parseInt(year, 10),
+      currency: (currency, item) => currency === item.source_currency,
+      term: (term, item) => term === (item.shortTerm ? 'short' : 'long')
+    };
+    const res = this.gains.filter(gain => this.filterBy(gain, this.gainsQuery, filters));
+    return res;
   }
 
   sortTransactions(a, b) {
-    return getTime(b.created_at) - getTime(a.created_at);
+    return getTime(b.date) - getTime(a.date);
+  }
+
+  sortGains(a, b) {
+    if (getTime(b.sell_date) === getTime(a.sell_date)) {
+      return getTime(b.buy_date) - getTime(a.buy_date);
+    }
+    return getTime(b.sell_date) - getTime(a.sell_date);
   }
 }
