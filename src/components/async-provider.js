@@ -22,12 +22,14 @@ export default class AsyncProvider extends Component {
   async componentDidMount() {
     if (isSignInPending()) {
       await handlePendingSignIn();
-      this.loadData();
+      return this.loadData();
     }
 
     if (isUserSignedIn()) {
-      this.loadData();
+      return this.loadData();
     }
+
+    this.props.stores.ui.dataFinishedLoading();
   }
 
   loadData() {
