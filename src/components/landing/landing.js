@@ -15,6 +15,9 @@ const Landing = () => (
         <h1 className="Landing__title">Your Crypto Taxes Simple & Private</h1>
         <p className="Landing__body">Generate a tax report for Coinbase transactions with the push of a button, decentralized so your data stays yours.</p>
         <BlockstackButton/>
+        <div className="Landing__install-link">
+          Don&quot;t have Blockstack? <a href="https://blockstack.org/install" target="_blank" rel="noopener noreferrer">Install here</a>
+        </div>
       </div>
     </div>
     <div

@@ -52,8 +52,7 @@ export default class TransactionsStore {
 
   @action.bound
   resetState() {
-    this.transactions.clear();
-    this.gains.clear();
+    this.clearTransactions();
     this.transactionsQuery = {};
     this.gainsQuery = {};
     this.searcheableAttributes = {};

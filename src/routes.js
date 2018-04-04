@@ -9,6 +9,7 @@ import TransactionList from './components/transaction-list';
 import TaxEventList from './components/tax-event-list';
 import CoinbaseHelp from './components/coinbase-help';
 import LoadingOverlay from './components/loading-overlay';
+import Reset from './components/reset';
 
 const signedOutOnly = props => (
   isUserSignedIn() ? <Redirect to="/transactions"/> : <Landing {...props}/>
@@ -56,6 +57,7 @@ class Routes extends React.Component {
           <Route exact path="/capital-gains" render={loginRequired(transactionsRequired(TaxEventList, transactionsExist))}/>
           <Route exact path="/import" render={loginRequired(Import)}/>
           <Route exact path="/coinbase-help" render={CoinbaseHelp}/>
+          <Route exact path="/reset" render={loginRequired(Reset)}/>
         </Switch>
       </Router>
     );

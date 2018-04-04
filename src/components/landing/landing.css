@@ -32,13 +32,6 @@
   max-width: 460px;
 }
 
-.Landing__illustration {
-  width: 50%;
-  background-size: 100%;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 .Landing__title {
   font-family: var(--font-garden-grove);
   font-weight: bold;
@@ -54,4 +47,16 @@
   line-height: 1.6;
   color: var(--color-offblack);
   margin-bottom: 60px;
+}
+
+.Landing__install-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.Landing__illustration {
+  width: 50%;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
 }
