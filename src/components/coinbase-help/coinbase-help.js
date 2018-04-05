@@ -18,7 +18,7 @@ const CoinbaseHelp = () => (
           <img src={require('images/coinbase-help-1.png')} style={{width: '100%'}}/>
           <p>On the popup that shows up first select <strong>all</strong> on the accounts.</p>
           <p>Then select only <strong>wallet:accounts:read</strong> and <strong>wallet:transactions:read</strong>. This will allow you to read your accounts and transactions.</p>
-          <p>Leave everything unselectd and press &quot;Create&quot;.</p>
+          <p>Leave everything unselected and press &quot;Create&quot;.</p>
           <img src={require('images/coinbase-help-2.png')} style={{width: '600px'}}/>
           <p>Now copy the <strong>API key</strong> and the <strong>API Secret</strong> into the import form.</p>
           <img src={require('images/coinbase-help-3.png')} style={{width: '600px'}}/>
