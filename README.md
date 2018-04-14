@@ -1,3 +1,5 @@
+# === This repo wil eventually be merged with the main entaxy repo ===
+
 # Blocktax
 
 Cryptocurrency finance app designed for the Blockstack browser.
