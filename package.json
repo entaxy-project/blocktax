@@ -41,7 +41,7 @@
     "arr-flatten": "^1.1.0",
     "babel-polyfill": "^6.26.0",
     "big.js": "^5.0.3",
-    "blockstack": "^0.17.1",
+    "blockstack": "^18.2.1",
     "chalk": "^2.3.2",
     "classnames": "^2.2.5",
     "crypto": "^1.0.1",
